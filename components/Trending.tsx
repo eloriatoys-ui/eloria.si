@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import ProductScroller from "./ProductScroller";
 import Reveal from "./Reveal";
 import { products as staticProducts, type Product } from "@/lib/data";
+import { useLang } from "./LangProvider";
 
 type Props = { products?: Product[]; manual?: Product[] };
 
@@ -12,6 +13,7 @@ export default function Trending({
   manual,
 }: Props = {}) {
   const all = productsProp ?? staticProducts;
+  const { t } = useLang();
 
   const visible = useMemo(() => {
     if (manual && manual.length > 0) return manual.slice(0, 12);
@@ -31,23 +33,23 @@ export default function Trending({
             <div>
               <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                 <span aria-hidden>🔥</span>
-                Trending now
+                {t("trend.eyebrow")}
               </p>
               <h2
                 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
                 style={{ letterSpacing: "-0.025em" }}
               >
-                What everyone&apos;s loving
+                {t("trend.title")}
               </h2>
               <p className="mt-2 text-sm text-slate md:text-base">
-                The picks parents and kids can&apos;t get enough of.
+                {t("trend.subtitle")}
               </p>
             </div>
             <a
               href="/shop?onSale=1"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
-              View all sale →
+              {t("trend.viewall")}
             </a>
           </div>
         </Reveal>

@@ -1,37 +1,37 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 type Review = {
-  quote: string;
+  quoteKey: string;
   name: string;
-  meta: string;
-  date: string;
+  metaKey: string;
+  dateKey: string;
   initial?: string;
   bg: string;
 };
 
 const reviews: Review[] = [
   {
-    quote:
-      "My daughter loves the Garden Queen set! The fabric is so soft and the stitching feels really sturdy. We've washed it a dozen times and it still looks brand new.",
+    quoteKey: "rev.r1.quote",
     name: "Sarah M.",
-    meta: "Dubai · 5 reviews",
-    date: "2 weeks ago",
+    metaKey: "rev.r1.meta",
+    dateKey: "rev.r1.date",
     bg: "linear-gradient(135deg, #F472B6 0%, #C084FC 100%)",
   },
   {
-    quote:
-      "Finally a kids brand that cares about what materials they use. My son plays with the multifunctional car every day — quality, packaging, everything is on point.",
+    quoteKey: "rev.r2.quote",
     name: "Ahmed K.",
-    meta: "Local Guide · Abu Dhabi · 23 reviews",
-    date: "1 month ago",
+    metaKey: "rev.r2.meta",
+    dateKey: "rev.r2.date",
     bg: "linear-gradient(135deg, #38BDF8 0%, #6366F1 100%)",
   },
   {
-    quote:
-      "The Pop-It game console was a birthday hit! All the kids at the party wanted one. Beautifully boxed and arrived in 2 days. Will definitely order again.",
+    quoteKey: "rev.r3.quote",
     name: "Fatima R.",
-    meta: "Sharjah · 12 reviews",
-    date: "3 weeks ago",
+    metaKey: "rev.r3.meta",
+    dateKey: "rev.r3.date",
     bg: "linear-gradient(135deg, #34D399 0%, #10B981 100%)",
   },
 ];
@@ -67,6 +67,7 @@ function GoogleG({ size = 18 }: { size?: number }) {
 }
 
 export default function Testimonials() {
+  const { t } = useLang();
   return (
     <section className="bg-cream py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -74,11 +75,11 @@ export default function Testimonials() {
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
               <span className="h-1 w-6 rounded-full bg-orange" />
-              What families say
+              {t("rev.eyebrow")}
               <span className="h-1 w-6 rounded-full bg-orange" />
             </p>
             <h2 className="font-display mt-3 text-3xl tracking-tight text-ink sm:text-4xl md:text-5xl">
-              Real reviews, real families
+              {t("rev.title")}
             </h2>
 
             {/* Aggregate score banner */}
@@ -89,7 +90,7 @@ export default function Testimonials() {
               </span>
               <Stars />
               <span className="text-[12px] font-semibold text-slate md:text-[13px]">
-                · 240+ reviews
+                · {t("rev.aggregate")}
               </span>
             </div>
           </div>
@@ -117,18 +118,18 @@ export default function Testimonials() {
                     <p className="truncate text-[14px] font-bold text-ink">
                       {r.name}
                     </p>
-                    <p className="truncate text-[12px] text-slate">{r.meta}</p>
+                    <p className="truncate text-[12px] text-slate">{t(r.metaKey)}</p>
                   </div>
                   <GoogleG size={16} />
                 </header>
 
                 <div className="flex items-center gap-2">
                   <Stars />
-                  <span className="text-[12px] text-slate">{r.date}</span>
+                  <span className="text-[12px] text-slate">{t(r.dateKey)}</span>
                 </div>
 
                 <p className="text-[14px] leading-relaxed text-ink/85 md:text-[15px]">
-                  {r.quote}
+                  {t(r.quoteKey)}
                 </p>
               </article>
             </Reveal>
@@ -142,7 +143,7 @@ export default function Testimonials() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-5 py-2.5 text-[13px] font-bold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
           >
-            Read all reviews on Google
+            {t("rev.viewall")}
             <svg
               width="14"
               height="14"

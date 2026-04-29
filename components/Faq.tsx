@@ -2,48 +2,26 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 type Item = {
-  q: string;
-  a: string;
+  qKey: string;
+  aKey: string;
 };
 
 const items: Item[] = [
-  {
-    q: "How long does delivery take?",
-    a: "Most orders ship within 24 hours. Delivery within Slovenia takes 1–2 business days; the rest of the EU 3–5 business days; worldwide 5–10 business days. You'll get tracking the moment it leaves our warehouse.",
-  },
-  {
-    q: "Is delivery really free?",
-    a: "Yes — free standard delivery on every order over 150 €. Below that, it's a small flat rate that's shown at checkout before you pay.",
-  },
-  {
-    q: "How do returns work?",
-    a: "You have 30 days to return anything that isn't a perfect fit. Items must be unworn with tags attached. Start a return from your account or email hello@amareen.si — within Slovenia we provide a prepaid label.",
-  },
-  {
-    q: "Are the materials safe for babies and toddlers?",
-    a: "Always. Fabrics are OEKO-TEX certified, dyes are non-toxic and water-based, and every toy is tested for choking-size hazards. Suitable age is printed on each product page.",
-  },
-  {
-    q: "How do I know what size to order?",
-    a: "Each product has a detailed size chart with chest, waist, and length in centimetres. If you're between sizes for a fast-growing kid, we recommend going up — that's how parents end up getting two seasons out of a single piece.",
-  },
-  {
-    q: "Can I change or cancel my order?",
-    a: "If your order hasn't shipped yet, yes — just reply to your confirmation email or contact us within 2 hours. Once it's on its way, you'll need to use the standard return flow.",
-  },
-  {
-    q: "Which payment methods do you accept?",
-    a: "Visa, Mastercard, American Express, Apple Pay, Google Pay, and PayPal. Checkout is fully encrypted; we never store your card details on our servers.",
-  },
-  {
-    q: "Do you offer gift wrapping?",
-    a: "Every order is packed in our reusable cream gift box with a hand-tied ribbon. Add a personal note at checkout — totally free.",
-  },
+  { qKey: "faq.q1", aKey: "faq.a1" },
+  { qKey: "faq.q2", aKey: "faq.a2" },
+  { qKey: "faq.q3", aKey: "faq.a3" },
+  { qKey: "faq.q4", aKey: "faq.a4" },
+  { qKey: "faq.q5", aKey: "faq.a5" },
+  { qKey: "faq.q6", aKey: "faq.a6" },
+  { qKey: "faq.q7", aKey: "faq.a7" },
+  { qKey: "faq.q8", aKey: "faq.a8" },
 ];
 
 function Row({ item, open, onToggle }: { item: Item; open: boolean; onToggle: () => void }) {
+  const { t } = useLang();
   return (
     <div
       className="overflow-hidden rounded-2xl bg-pearl transition-all"
@@ -63,7 +41,7 @@ function Row({ item, open, onToggle }: { item: Item; open: boolean; onToggle: ()
         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5"
       >
         <span className="text-[15px] font-extrabold text-ink md:text-[16px]" style={{ letterSpacing: "-0.01em" }}>
-          {item.q}
+          {t(item.qKey)}
         </span>
         <span
           aria-hidden
@@ -84,7 +62,7 @@ function Row({ item, open, onToggle }: { item: Item; open: boolean; onToggle: ()
       >
         <div className="overflow-hidden">
           <p className="border-t border-orange-dark/10 px-5 py-4 text-[14px] leading-relaxed text-slate md:px-6 md:py-5 md:text-[15px]">
-            {item.a}
+            {t(item.aKey)}
           </p>
         </div>
       </div>
@@ -94,6 +72,7 @@ function Row({ item, open, onToggle }: { item: Item; open: boolean; onToggle: ()
 
 export default function Faq() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const { t } = useLang();
 
   return (
     <section id="faq" className="bg-cream py-16 md:py-24">
@@ -102,21 +81,21 @@ export default function Faq() {
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
               <span className="h-1 w-6 rounded-full bg-orange" />
-              Got questions?
+              {t("faq.eyebrow")}
               <span className="h-1 w-6 rounded-full bg-orange" />
             </p>
             <h2 className="font-display mt-3 text-3xl tracking-tight text-ink sm:text-4xl md:text-5xl">
-              Frequently asked
+              {t("faq.title")}
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-base text-slate md:text-lg">
-              Everything you need to know before ordering — shipping, sizes, materials, returns.
+              {t("faq.subtitle")}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-10 flex flex-col gap-3 md:mt-12">
           {items.map((it, i) => (
-            <Reveal key={it.q} delay={i * 60}>
+            <Reveal key={it.qKey} delay={i * 60}>
               <Row
                 item={it}
                 open={openIdx === i}
@@ -127,7 +106,7 @@ export default function Faq() {
         </div>
 
         <div className="mt-10 flex flex-col items-center gap-3 text-center">
-          <p className="text-[13px] text-slate">Still need help?</p>
+          <p className="text-[13px] text-slate">{t("faq.help")}</p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="mailto:hello@amareen.si"
@@ -138,7 +117,7 @@ export default function Faq() {
                 <rect x="3" y="5" width="18" height="14" rx="2" />
                 <polyline points="3 7 12 13 21 7" />
               </svg>
-              <span style={{ color: "#FFFFFF" }}>Email us</span>
+              <span style={{ color: "#FFFFFF" }}>{t("faq.email")}</span>
             </a>
             <a
               href="https://instagram.com/amareen.slovenija/"
@@ -152,7 +131,7 @@ export default function Faq() {
                 <circle cx="12" cy="12" r="4" />
                 <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
               </svg>
-              DM us on Instagram
+              {t("faq.dm")}
             </a>
           </div>
         </div>

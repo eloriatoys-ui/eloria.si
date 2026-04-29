@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLang } from "@/components/LangProvider";
 
 type Props = {
   productCount: number;
@@ -16,6 +17,7 @@ export default function ShopHero({
   categoryCount,
 }: Props) {
   const [copied, setCopied] = useState(false);
+  const { t } = useLang();
 
   async function copyCode() {
     try {
@@ -57,21 +59,20 @@ export default function ShopHero({
             <div>
               <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-deep">
                 <span className="h-1 w-6 rounded-full bg-orange-dark" />
-                The full collection
+                {t("shop.eyebrow")}
               </p>
               <h1
                 className="font-display mt-3 text-[36px] leading-[1.05] tracking-tight text-ink sm:text-[44px] md:text-[52px]"
                 style={{ letterSpacing: "-0.02em" }}
               >
-                Shop everything
+                {t("shop.title")}
               </h1>
               <p className="mt-3 max-w-xl text-[14px] leading-relaxed text-ink/80 md:text-[15px]">
-                Every product, in stock, ready to ship. Filter by category and
-                price, sort the way you like — and use code{" "}
+                {t("shop.subtitle_pre")}
                 <span className="font-extrabold text-orange-deep">
                   {PROMO_CODE}
-                </span>{" "}
-                for 15% off your first order.
+                </span>
+                {t("shop.subtitle_post")}
               </p>
 
               {/* Stat chips */}
@@ -81,20 +82,20 @@ export default function ShopHero({
                     <rect x="3" y="3" width="18" height="18" rx="3" />
                     <path d="M3 9h18M9 21V9" />
                   </svg>
-                  {productCount} products
+                  {productCount} {t("shop.stat_products")}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-pearl/80 px-3 py-1.5 text-[12px] font-bold text-ink backdrop-blur-md">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 6h16M4 12h16M4 18h10" />
                   </svg>
-                  {categoryCount} categories
+                  {categoryCount} {t("shop.stat_categories")}
                 </span>
                 {onSaleCount > 0 && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E55B47] px-3 py-1.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
-                    {onSaleCount} on sale
+                    {onSaleCount} {t("shop.stat_sale")}
                   </span>
                 )}
               </div>
@@ -136,16 +137,16 @@ export default function ShopHero({
                     </svg>
                   </span>
                   <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-dark">
-                    First-order perk
+                    {t("shop.first")}
                   </p>
                 </div>
 
                 <div>
                   <p className="text-[26px] font-extrabold leading-tight text-ink md:text-[30px]" style={{ letterSpacing: "-0.02em" }}>
-                    15% off your first order
+                    {t("shop.first.title")}
                   </p>
                   <p className="mt-1 text-[13px] text-slate">
-                    Free delivery on orders over 150 €.
+                    {t("shop.first.body")}
                   </p>
                 </div>
 
@@ -171,7 +172,7 @@ export default function ShopHero({
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
-                        <span style={{ color: "#FFFFFF" }}>Copied</span>
+                        <span style={{ color: "#FFFFFF" }}>{t("shop.copied")}</span>
                       </>
                     ) : (
                       <>
@@ -179,14 +180,14 @@ export default function ShopHero({
                           <rect x="9" y="9" width="13" height="13" rx="2" />
                           <path d="M5 15V5a2 2 0 0 1 2-2h10" />
                         </svg>
-                        <span style={{ color: "#FFFFFF" }}>Copy code</span>
+                        <span style={{ color: "#FFFFFF" }}>{t("shop.copy")}</span>
                       </>
                     )}
                   </button>
                 </div>
 
                 <p className="text-[11px] text-slate/85">
-                  Valid on first order. Cannot be combined with other offers.
+                  {t("shop.fineprint")}
                 </p>
               </div>
             </div>

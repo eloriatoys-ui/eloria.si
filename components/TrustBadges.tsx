@@ -1,11 +1,14 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 const iconClass = "h-9 w-9 md:h-10 md:w-10";
 
 const items = [
   {
-    title: "Crafted with Care",
-    subtitle: "Quality you can feel",
+    titleKey: "trust.crafted.title",
+    subtitleKey: "trust.crafted.sub",
     icon: (
       <svg
         className={iconClass}
@@ -27,8 +30,8 @@ const items = [
     ),
   },
   {
-    title: "Child Safe",
-    subtitle: "Non-toxic finishes",
+    titleKey: "trust.safe.title",
+    subtitleKey: "trust.safe.sub",
     icon: (
       <svg
         className={iconClass}
@@ -46,8 +49,8 @@ const items = [
     ),
   },
   {
-    title: "Free Delivery",
-    subtitle: "On orders over 150 €",
+    titleKey: "trust.delivery.title",
+    subtitleKey: "trust.delivery.sub",
     icon: (
       <svg
         className={iconClass}
@@ -68,8 +71,8 @@ const items = [
     ),
   },
   {
-    title: "500+ Happy Families",
-    subtitle: "Loved across the world",
+    titleKey: "trust.families.title",
+    subtitleKey: "trust.families.sub",
     icon: (
       <svg
         className={iconClass}
@@ -91,6 +94,7 @@ const items = [
 ];
 
 export default function TrustBadges() {
+  const { t } = useLang();
   return (
     <section
       className="relative z-10 -mt-4 border-y border-orange-dark/10 bg-pearl/95 backdrop-blur-md sm:-mt-6 md:-mt-8 lg:-mt-10"
@@ -102,7 +106,7 @@ export default function TrustBadges() {
       <div className="mx-auto max-w-7xl px-5 py-5 md:px-8 md:py-7">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
           {items.map((it, i) => (
-            <Reveal key={it.title} delay={i * 90}>
+            <Reveal key={it.titleKey} delay={i * 90}>
               <div className="group flex items-center gap-3">
                 <span
                   className="shrink-0 text-orange-dark transition-colors group-hover:text-orange"
@@ -111,10 +115,10 @@ export default function TrustBadges() {
                 </span>
                 <div className="leading-tight">
                   <p className="text-[13px] font-bold text-ink md:text-[14px]">
-                    {it.title}
+                    {t(it.titleKey)}
                   </p>
                   <p className="mt-0.5 text-[11px] font-medium text-slate md:text-[12px]">
-                    {it.subtitle}
+                    {t(it.subtitleKey)}
                   </p>
                 </div>
               </div>

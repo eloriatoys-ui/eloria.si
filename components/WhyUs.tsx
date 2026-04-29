@@ -1,12 +1,15 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 const iconClass = "h-7 w-7";
 const stroke = "#7C2D12";
 
 const features = [
   {
-    title: "Crafted with Care",
-    body: "Every piece is hand-picked, tested, and packed with the same attention you'd give your own family.",
+    titleKey: "why.crafted.title",
+    bodyKey: "why.crafted.body",
     icon: (
       <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
@@ -14,8 +17,8 @@ const features = [
     ),
   },
   {
-    title: "Child-Safe Materials",
-    body: "Non-toxic, hypoallergenic fabrics and finishes. Tested for the smallest, most curious hands.",
+    titleKey: "why.safe.title",
+    bodyKey: "why.safe.body",
     icon: (
       <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
@@ -24,8 +27,8 @@ const features = [
     ),
   },
   {
-    title: "Built to Last",
-    body: "Reinforced seams, durable trims, and timeless designs that survive playgrounds and hand-me-downs.",
+    titleKey: "why.last.title",
+    bodyKey: "why.last.body",
     icon: (
       <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="6" />
@@ -34,8 +37,8 @@ const features = [
     ),
   },
   {
-    title: "Free Delivery",
-    body: "On orders over 150 €. Quick, tracked shipping with packaging that's kind to the planet.",
+    titleKey: "why.delivery.title",
+    bodyKey: "why.delivery.body",
     icon: (
       <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="6" width="14" height="11" rx="1" />
@@ -48,6 +51,7 @@ const features = [
 ];
 
 export default function WhyUs() {
+  const { t } = useLang();
   return (
     <section id="why" className="wood-dark relative overflow-hidden py-16 md:py-24">
       {/* Soft warm overlays so headlines pop */}
@@ -73,7 +77,7 @@ export default function WhyUs() {
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-amber">
               <span className="h-1 w-6 rounded-full bg-amber" />
-              Why families love us
+              {t("why.eyebrow")}
               <span className="h-1 w-6 rounded-full bg-amber" />
             </p>
             <h2
@@ -83,7 +87,7 @@ export default function WhyUs() {
                 textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
               }}
             >
-              Quality you can feel
+              {t("why.title")}
             </h2>
             <p
               className="mx-auto mt-3 max-w-xl text-base md:text-lg"
@@ -92,14 +96,14 @@ export default function WhyUs() {
                 textShadow: "0 1px 3px rgba(0, 0, 0, 0.45)",
               }}
             >
-              Made to last, designed for play, kind to the planet.
+              {t("why.subtitle")}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-7 lg:grid-cols-4">
           {features.map((f, i) => (
-            <Reveal key={f.title} delay={i * 100}>
+            <Reveal key={f.titleKey} delay={i * 100}>
               <div
                 className="group flex h-full flex-col gap-4 rounded-2xl p-6 transition-transform hover:-translate-y-1"
                 style={{
@@ -120,10 +124,10 @@ export default function WhyUs() {
                   {f.icon}
                 </div>
                 <h3 className="text-[18px] font-extrabold leading-tight text-ink md:text-[19px]" style={{ letterSpacing: "-0.015em" }}>
-                  {f.title}
+                  {t(f.titleKey)}
                 </h3>
                 <p className="text-[14px] leading-relaxed text-slate md:text-[15px]">
-                  {f.body}
+                  {t(f.bodyKey)}
                 </p>
               </div>
             </Reveal>

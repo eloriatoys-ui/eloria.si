@@ -1,5 +1,6 @@
 import ProductCard from "./ProductCard";
 import Reveal from "./Reveal";
+import T from "./T";
 import { getCatalogProducts } from "@/lib/catalog";
 
 const CLOTHING_CATEGORY = /dress|pyjam|bodysuit|tracksuit|clothing set|jacket|shirt|tights|^sets$/i;
@@ -17,14 +18,14 @@ export default async function KidsClothes() {
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
               <span className="h-1 w-6 rounded-full bg-orange" />
-              Wear it
+              <T id="kids.eyebrow" />
               <span className="h-1 w-6 rounded-full bg-orange" />
             </p>
             <h2 className="font-display mt-3 text-3xl tracking-tight text-ink sm:text-4xl md:text-5xl">
-              Little Wardrobe
+              <T id="kids.title" />
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-base text-slate md:text-lg">
-              Comfy, colorful clothes for little adventurers
+              <T id="kids.subtitle" />
             </p>
           </div>
         </Reveal>
@@ -43,7 +44,7 @@ export default async function KidsClothes() {
               href="/shop?category=Clothing+sets+AMAREEN,Dresses,Bodysuit,Jackets,Clothes"
               className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-6 py-3 text-sm font-bold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
             >
-              See all clothes
+              <T id="kids.viewall" />
               <svg
                 width="14"
                 height="14"

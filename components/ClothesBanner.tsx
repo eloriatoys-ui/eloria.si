@@ -1,6 +1,10 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 export default function ClothesBanner() {
+  const { t } = useLang();
   return (
     <section className="bg-cream py-8 md:py-14">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -35,19 +39,16 @@ export default function ClothesBanner() {
               <div className="relative z-10 p-8 md:p-12 lg:p-16">
                 <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-deep">
                   <span className="h-1 w-6 rounded-full bg-orange-dark" />
-                  Little wardrobe
+                  {t("cb.eyebrow")}
                 </p>
                 <h2
                   className="mt-3 text-[34px] font-extrabold leading-[1.05] text-ink sm:text-[44px] md:text-[52px]"
                   style={{ letterSpacing: "-0.03em" }}
                 >
-                  Dress them for
-                  <br />
-                  every adventure.
+                  {t("cb.title")}
                 </h2>
                 <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink/80 md:text-[16px]">
-                  Soft, organic, and built to outlast the playground. Comfy
-                  basics and seasonal favourites for little explorers.
+                  {t("cb.subtitle")}
                 </p>
 
                 <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -60,7 +61,7 @@ export default function ClothesBanner() {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    <span style={{ color: "#FFFFFF" }}>Shop dresses</span>
+                    <span style={{ color: "#FFFFFF" }}>{t("cb.cta_dresses")}</span>
                     <svg
                       width="14"
                       height="14"
@@ -80,7 +81,7 @@ export default function ClothesBanner() {
                     className="inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-[13px] font-bold uppercase tracking-wider text-ink transition-colors hover:bg-pearl/40"
                     style={{ letterSpacing: "0.08em" }}
                   >
-                    Browse sets
+                    {t("cb.cta_sets")}
                   </a>
                 </div>
 
@@ -90,19 +91,19 @@ export default function ClothesBanner() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    100% organic cotton
+                    {t("cb.perk_organic")}
                   </span>
                   <span className="inline-flex items-center gap-1.5">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    Free returns
+                    {t("cb.perk_returns")}
                   </span>
                   <span className="inline-flex items-center gap-1.5">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    Sizes 0–14 yrs
+                    {t("cb.perk_sizes")}
                   </span>
                 </div>
               </div>

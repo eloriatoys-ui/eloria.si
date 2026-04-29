@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLang } from "@/components/LangProvider";
 import { useSearchParams } from "next/navigation";
 import type { Product } from "@/lib/data";
 import { AGE_BUCKETS, ageMatches, type AgeBucketId } from "@/lib/age";
@@ -13,6 +14,7 @@ type Props = {
 type Sort = "featured" | "price-asc" | "price-desc" | "name";
 
 export default function ShopBrowser({ products, categories }: Props) {
+  const { t } = useLang();
   const sp = useSearchParams();
 
   const priceMin = Math.floor(
@@ -206,7 +208,7 @@ export default function ShopBrowser({ products, categories }: Props) {
                     <line x1="6" y1="12" x2="18" y2="12" />
                     <line x1="9" y1="18" x2="15" y2="18" />
                   </svg>
-                  Filters
+                  {t("br.filters")}
                   {activeFilterCount > 0 && (
                     <span className="ml-0.5 rounded-full bg-orange px-2 py-0.5 text-[10px] font-extrabold text-pearl">
                       {activeFilterCount}
@@ -215,16 +217,16 @@ export default function ShopBrowser({ products, categories }: Props) {
                 </button>
 
                 <label className="flex items-center gap-2 text-[12px] font-semibold text-slate">
-                  <span className="hidden md:inline">Sort:</span>
+                  <span className="hidden md:inline">{t("br.sort.label")}:</span>
                   <select
                     value={sort}
                     onChange={(e) => setSort(e.target.value as Sort)}
                     className="rounded-md border border-orange-dark/20 bg-pearl px-3 py-2 text-[13px] font-bold text-ink outline-none focus:border-orange"
                   >
-                    <option value="featured">Featured</option>
-                    <option value="price-asc">Price: low → high</option>
-                    <option value="price-desc">Price: high → low</option>
-                    <option value="name">Name (A-Z)</option>
+                    <option value="featured">{t("br.sort.featured")}</option>
+                    <option value="price-asc">{t("br.sort.priceasc")}</option>
+                    <option value="price-desc">{t("br.sort.pricedesc")}</option>
+                    <option value="name">{t("br.sort.newest")}</option>
                   </select>
                 </label>
               </div>
@@ -247,7 +249,7 @@ export default function ShopBrowser({ products, categories }: Props) {
                   );
                 })}
                 {onSale && (
-                  <Chip label="On sale" onRemove={() => setOnSale(false)} />
+                  <Chip label={t("br.specials.sale")} onRemove={() => setOnSale(false)} />
                 )}
                 {(priceRange[0] !== priceMin || priceRange[1] !== priceMax) && (
                   <Chip
@@ -262,7 +264,7 @@ export default function ShopBrowser({ products, categories }: Props) {
                   onClick={resetAll}
                   className="ml-1 text-[12px] font-bold text-orange-dark underline underline-offset-2 hover:text-orange"
                 >
-                  Clear all
+                  {t("br.clear")}
                 </button>
               </div>
             )}
@@ -277,13 +279,13 @@ export default function ShopBrowser({ products, categories }: Props) {
             {visible.length === 0 && (
               <div className="mt-16 flex flex-col items-center gap-3 text-center">
                 <span className="text-5xl">🪴</span>
-                <p className="text-[15px] font-bold text-ink">No products match these filters.</p>
+                <p className="text-[15px] font-bold text-ink">{t("br.empty.title")}</p>
                 <button
                   onClick={resetAll}
                   className="mt-2 rounded-full bg-orange-dark px-5 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange"
                   style={{ color: "#FFFFFF" }}
                 >
-                  <span style={{ color: "#FFFFFF" }}>Reset filters</span>
+                  <span style={{ color: "#FFFFFF" }}>{t("br.clear")}</span>
                 </button>
               </div>
             )}
@@ -363,26 +365,27 @@ function FilterSidebar(props: {
     activeCount,
     onReset,
   } = props;
+  const { t } = useLang();
 
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
-          Filters
+          {t("br.filters")}
         </h3>
         {activeCount > 0 && (
           <button
             onClick={onReset}
             className="text-[12px] font-bold text-orange-dark underline underline-offset-2 hover:text-orange"
           >
-            Clear all
+            {t("br.clear")}
           </button>
         )}
       </div>
 
       {/* Search */}
-      <FilterSection title="Search" open>
+      <FilterSection title={t("br.search")} open>
         <div className="relative">
           <svg
             width="14"
@@ -401,14 +404,14 @@ function FilterSidebar(props: {
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search products…"
+            placeholder={t("br.search.placeholder")}
             className="w-full rounded-md border border-orange-dark/20 bg-pearl py-2 pl-9 pr-3 text-[13px] text-ink outline-none focus:border-orange"
           />
         </div>
       </FilterSection>
 
       {/* Categories */}
-      <FilterSection title="Category" open badge={selectedCats.size}>
+      <FilterSection title={t("br.cat")} open badge={selectedCats.size}>
         <div className="flex flex-col gap-2">
           {categories.map((c) => {
             const count = catCounts.get(c) ?? 0;
@@ -435,7 +438,7 @@ function FilterSidebar(props: {
       </FilterSection>
 
       {/* Age */}
-      <FilterSection title="Age" open badge={selectedAges.size}>
+      <FilterSection title={t("br.age")} open badge={selectedAges.size}>
         <div className="flex flex-col gap-2">
           {AGE_BUCKETS.map((b) => {
             const count = ageCounts.get(b.id) ?? 0;
@@ -460,15 +463,14 @@ function FilterSidebar(props: {
           })}
           {productsWithoutAge > 0 && (
             <p className="mt-1 text-[11px] text-slate/85">
-              {productsWithoutAge} product{productsWithoutAge === 1 ? "" : "s"} without age info
-              are hidden when an age is selected.
+              {productsWithoutAge} {t("br.no_age")}
             </p>
           )}
         </div>
       </FilterSection>
 
       {/* Price */}
-      <FilterSection title="Price" open>
+      <FilterSection title={t("br.price")} open>
         <PriceSlider
           min={priceMin}
           max={priceMax}
@@ -478,7 +480,7 @@ function FilterSidebar(props: {
       </FilterSection>
 
       {/* Specials */}
-      <FilterSection title="Specials" open>
+      <FilterSection title={t("br.specials")} open>
         <label className="flex cursor-pointer items-center gap-2 text-[13px] font-semibold text-ink hover:text-orange-dark">
           <input
             type="checkbox"
@@ -486,7 +488,7 @@ function FilterSidebar(props: {
             onChange={(e) => setOnSale(e.target.checked)}
             className="h-4 w-4 rounded border-orange-dark/30 accent-orange"
           />
-          On sale only
+          {t("br.specials.sale")}
         </label>
       </FilterSection>
     </div>
@@ -626,6 +628,7 @@ function MobileFilterDrawer({
   onClose: () => void;
   children: React.ReactNode;
 }) {
+  const { t } = useLang();
   useEffect(() => {
     if (open) {
       const prev = document.body.style.overflow;
@@ -643,12 +646,12 @@ function MobileFilterDrawer({
       <div className="absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col bg-cream shadow-lift">
         <div className="flex items-center justify-between border-b border-orange-dark/15 bg-pearl px-5 py-4">
           <h3 className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-ink">
-            Filters
+            {t("br.filters")}
           </h3>
           <button
             onClick={onClose}
             className="grid h-8 w-8 place-items-center rounded-full hover:bg-orange/10"
-            aria-label="Close filters"
+            aria-label={t("br.filters")}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -663,7 +666,7 @@ function MobileFilterDrawer({
             className="w-full rounded-full bg-orange-dark px-5 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl"
             style={{ color: "#FFFFFF" }}
           >
-            <span style={{ color: "#FFFFFF" }}>Show results</span>
+            <span style={{ color: "#FFFFFF" }}>{t("br.apply")}</span>
           </button>
         </div>
       </div>
@@ -708,6 +711,7 @@ function ShopCard({ product }: { product: Product }) {
   const [remoteImages, setRemoteImages] = useState<string[]>([]);
   const [active, setActive] = useState(0);
   const [fetched, setFetched] = useState(false);
+  const { t } = useLang();
 
   const gallery = useMemo(() => {
     const seen = new Set<string>();
@@ -794,7 +798,7 @@ function ShopCard({ product }: { product: Product }) {
           <>
             <button
               type="button"
-              aria-label="Previous image"
+              aria-label="‹"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -891,7 +895,7 @@ function ShopCard({ product }: { product: Product }) {
               <circle cx="18" cy="21" r="1.4" />
               <path d="M3 3h2l2.6 12.6a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" />
             </svg>
-            <span style={{ color: "#FFFFFF" }}>Add to cart</span>
+            <span style={{ color: "#FFFFFF" }}>{t("br.add_to_cart")}</span>
           </button>
           <WishlistButton />
         </div>
@@ -902,10 +906,11 @@ function ShopCard({ product }: { product: Product }) {
 
 function WishlistButton() {
   const [liked, setLiked] = useState(false);
+  const { t } = useLang();
   return (
     <button
       type="button"
-      aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+      aria-label={liked ? t("card.wish_remove") : t("card.wish_add")}
       onClick={() => setLiked((v) => !v)}
       className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-orange-dark/25 transition-transform hover:scale-110"
     >

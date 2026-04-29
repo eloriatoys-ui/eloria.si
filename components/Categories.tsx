@@ -1,8 +1,11 @@
+"use client";
+
 import Reveal from "./Reveal";
 import CycleImage from "./CycleImage";
+import { useLang } from "./LangProvider";
 
 type Category = {
-  title: string;
+  titleKey: string;
   emoji?: string;
   image?: string;
   images?: string[]; // when set, the card cycles through these
@@ -42,35 +45,35 @@ const woodenToysImages = [
 
 const cats: Category[] = [
   {
-    title: "Summer Picks",
+    titleKey: "cats.summer",
     images: summerImages,
     href: "/shop?category=Clothing+sets+AMAREEN",
     bg: "linear-gradient(135deg, #38BDF8 0%, #FCD34D 60%, #F97316 100%)",
     size: "wide",
   },
   {
-    title: "Educational Toys",
+    titleKey: "cats.educational",
     images: woodenToysImages,
     href: "/shop?category=Accessories",
     bg: "linear-gradient(135deg, #FED7AA 0%, #FDE68A 60%, #F4DCB7 100%)",
     size: "wide",
   },
   {
-    title: "Outdoor Play",
+    titleKey: "cats.outdoor",
     images: outdoorImages,
     href: "/shop?category=Accessories",
     bg: "linear-gradient(135deg, #38BDF8 0%, #34D399 100%)",
     size: "wide",
   },
   {
-    title: "Toys for Boys",
+    titleKey: "cats.boys",
     image: "/categories/for-boys.png",
     href: "/shop?category=Accessories",
     bg: "linear-gradient(135deg, #38BDF8 0%, #6366F1 100%)",
     size: "tall",
   },
   {
-    title: "Toys for Girls",
+    titleKey: "cats.girls",
     image: "/categories/for-girls.png",
     href: "/shop?category=Dresses",
     bg: "linear-gradient(135deg, #F472B6 0%, #C084FC 100%)",
@@ -79,6 +82,8 @@ const cats: Category[] = [
 ];
 
 function CategoryCard({ cat, span }: { cat: Category; span: string }) {
+  const { t } = useLang();
+  const title = t(cat.titleKey);
   return (
     <a
       href={cat.href}
@@ -93,14 +98,14 @@ function CategoryCard({ cat, span }: { cat: Category; span: string }) {
         {cat.images && cat.images.length > 0 ? (
           <CycleImage
             images={cat.images}
-            alt={cat.title}
+            alt={title}
             fit={cat.imageFit ?? "cover"}
           />
         ) : cat.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={cat.image}
-            alt={cat.title}
+            alt={title}
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
@@ -136,10 +141,10 @@ function CategoryCard({ cat, span }: { cat: Category; span: string }) {
               textShadow: "0 2px 12px rgba(0,0,0,0.35)",
             }}
           >
-            {cat.title}
+            {title}
           </h3>
           <span className="mt-2 inline-flex items-center gap-1 text-[12px] font-bold uppercase tracking-[0.14em] text-pearl/95">
-            Shop now
+            {t("cats.shopnow")}
             <svg
               width="14"
               height="14"
@@ -161,6 +166,7 @@ function CategoryCard({ cat, span }: { cat: Category; span: string }) {
 }
 
 export default function Categories() {
+  const { t } = useLang();
   return (
     <section className="bg-pearl py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -169,13 +175,13 @@ export default function Categories() {
             <div>
               <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                 <span className="h-1 w-6 rounded-full bg-orange" />
-                Shop by world
+                {t("cats.eyebrow")}
               </p>
               <h2
                 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
                 style={{ letterSpacing: "-0.025em" }}
               >
-                Find their next favourite
+                {t("cats.title")}
               </h2>
             </div>
           </div>
@@ -186,7 +192,7 @@ export default function Categories() {
           {cats
             .filter((c) => c.size === "wide")
             .map((c, i) => (
-              <Reveal key={c.title} delay={i * 100}>
+              <Reveal key={c.titleKey} delay={i * 100}>
                 <CategoryCard cat={c} span="" />
               </Reveal>
             ))}
@@ -197,7 +203,7 @@ export default function Categories() {
           {cats
             .filter((c) => c.size === "tall")
             .map((c, i) => (
-              <Reveal key={c.title} delay={i * 100}>
+              <Reveal key={c.titleKey} delay={i * 100}>
                 <CategoryCard cat={c} span="" />
               </Reveal>
             ))}

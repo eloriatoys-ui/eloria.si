@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
+import T from "@/components/T";
 
 export const metadata = {
   title: "Wooden toys · Eloria",
@@ -10,150 +11,143 @@ export const metadata = {
 
 type WoodenToy = {
   id: string;
-  name: string;
+  nameKey: string;
   price: number;
   comparePrice?: number;
-  badge?: string;
+  badgeKey?: string;
   emoji: string;
   bg: string;
-  category: string;
-  ageLabel: string;
+  categoryKey: string;
+  ageKey: string;
 };
 
 const woodenToys: WoodenToy[] = [
   {
     id: "wt-rainbow",
-    name: "Rainbow Stacking Tower",
+    nameKey: "wt.p.rainbow",
     price: 89,
     comparePrice: 129,
-    badge: "BEST-SELLER",
+    badgeKey: "wt.badge.bestseller",
     emoji: "🌈",
     bg: "linear-gradient(135deg, #FBCFE8 0%, #FED7AA 100%)",
-    category: "Stacking",
-    ageLabel: "1–3 yrs",
+    categoryKey: "wt.cat.stacking",
+    ageKey: "wt.age.1_3y",
   },
   {
     id: "wt-train",
-    name: "Heritage Train Set",
+    nameKey: "wt.p.train",
     price: 119,
-    badge: "NEW",
+    badgeKey: "wt.badge.new",
     emoji: "🚂",
     bg: "linear-gradient(135deg, #BAE6FD 0%, #DDD6FE 100%)",
-    category: "Vehicles",
-    ageLabel: "3–6 yrs",
+    categoryKey: "wt.cat.vehicles",
+    ageKey: "wt.age.3_6y",
   },
   {
     id: "wt-blocks",
-    name: "Natural Wood Building Blocks",
+    nameKey: "wt.p.blocks",
     price: 69,
     comparePrice: 99,
     emoji: "🧱",
     bg: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)",
-    category: "Construction",
-    ageLabel: "2+ yrs",
+    categoryKey: "wt.cat.construction",
+    ageKey: "wt.age.2y",
   },
   {
     id: "wt-xylo",
-    name: "Tonewood Xylophone",
+    nameKey: "wt.p.xylo",
     price: 49,
     emoji: "🎶",
     bg: "linear-gradient(135deg, #BBF7D0 0%, #BAE6FD 100%)",
-    category: "Music",
-    ageLabel: "18 mo+",
+    categoryKey: "wt.cat.music",
+    ageKey: "wt.age.18mo",
   },
   {
     id: "wt-puzzle",
-    name: "Forest Animals Puzzle",
+    nameKey: "wt.p.puzzle",
     price: 39,
     emoji: "🧩",
     bg: "linear-gradient(135deg, #FED7AA 0%, #FBCFE8 100%)",
-    category: "Puzzles",
-    ageLabel: "2–5 yrs",
+    categoryKey: "wt.cat.puzzles",
+    ageKey: "wt.age.2_5y",
   },
   {
     id: "wt-kitchen",
-    name: "Little Wooden Kitchen",
+    nameKey: "wt.p.kitchen",
     price: 199,
     comparePrice: 259,
-    badge: "BEST-SELLER",
+    badgeKey: "wt.badge.bestseller",
     emoji: "🍳",
     bg: "linear-gradient(135deg, #DDD6FE 0%, #FBCFE8 100%)",
-    category: "Pretend play",
-    ageLabel: "3+ yrs",
+    categoryKey: "wt.cat.pretend",
+    ageKey: "wt.age.3y",
   },
   {
     id: "wt-shape",
-    name: "Shape Sorter Cube",
+    nameKey: "wt.p.shape",
     price: 35,
     emoji: "🟦",
     bg: "linear-gradient(135deg, #FDE68A 0%, #BBF7D0 100%)",
-    category: "Sensory",
-    ageLabel: "12–24 mo",
+    categoryKey: "wt.cat.sensory",
+    ageKey: "wt.age.12_24mo",
   },
   {
     id: "wt-pull",
-    name: "Pull-Along Duckling",
+    nameKey: "wt.p.pull",
     price: 29,
     emoji: "🦆",
     bg: "linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%)",
-    category: "First steps",
-    ageLabel: "12+ mo",
+    categoryKey: "wt.cat.first",
+    ageKey: "wt.age.12mo",
   },
   {
     id: "wt-tea",
-    name: "Heirloom Tea Set",
+    nameKey: "wt.p.tea",
     price: 59,
-    badge: "NEW",
+    badgeKey: "wt.badge.new",
     emoji: "🍵",
     bg: "linear-gradient(135deg, #FBCFE8 0%, #DDD6FE 100%)",
-    category: "Pretend play",
-    ageLabel: "3+ yrs",
+    categoryKey: "wt.cat.pretend",
+    ageKey: "wt.age.3y",
   },
   {
     id: "wt-tools",
-    name: "Carpenter's Tool Bench",
+    nameKey: "wt.p.tools",
     price: 99,
     emoji: "🔨",
     bg: "linear-gradient(135deg, #BAE6FD 0%, #BBF7D0 100%)",
-    category: "Pretend play",
-    ageLabel: "3+ yrs",
+    categoryKey: "wt.cat.pretend",
+    ageKey: "wt.age.3y",
   },
   {
     id: "wt-balance",
-    name: "Balance Bike — Walnut",
+    nameKey: "wt.p.balance",
     price: 169,
     comparePrice: 229,
     emoji: "🚲",
     bg: "linear-gradient(135deg, #FED7AA 0%, #FDE68A 100%)",
-    category: "Outdoor",
-    ageLabel: "2–4 yrs",
+    categoryKey: "wt.cat.outdoor",
+    ageKey: "wt.age.2_4y",
   },
   {
     id: "wt-abacus",
-    name: "Counting Abacus",
+    nameKey: "wt.p.abacus",
     price: 45,
     emoji: "🧮",
     bg: "linear-gradient(135deg, #DDD6FE 0%, #BAE6FD 100%)",
-    category: "Learning",
-    ageLabel: "3–7 yrs",
+    categoryKey: "wt.cat.learning",
+    ageKey: "wt.age.3_7y",
   },
 ];
 
-const categories = [...new Set(woodenToys.map((t) => t.category))];
+const categoryKeys = [
+  ...new Set(woodenToys.map((t) => t.categoryKey)),
+];
 
 const benefits = [
-  {
-    title: "100% real wood",
-    body: "Beech, maple and walnut from sustainably managed European forests. No MDF, no plastic.",
-  },
-  {
-    title: "Non-toxic finishes",
-    body: "Water-based, child-safe paints and natural beeswax oils. Safe from the very first chew.",
-  },
-  {
-    title: "Made to outlast",
-    body: "Built to be passed from sibling to sibling — and one day, to the next generation.",
-  },
+  { titleKey: "wt.benefits.b1.title", bodyKey: "wt.benefits.b1.body" },
+  { titleKey: "wt.benefits.b2.title", bodyKey: "wt.benefits.b2.body" },
+  { titleKey: "wt.benefits.b3.title", bodyKey: "wt.benefits.b3.body" },
 ];
 
 function formatPrice(n: number) {
@@ -187,31 +181,29 @@ export default function WoodenToysPage() {
           <Reveal>
             <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-wood-light">
               <span className="h-1 w-6 rounded-full bg-orange" />
-              The wooden collection
+              <T id="wt.eyebrow" />
             </p>
             <h1
               className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl"
               style={{ letterSpacing: "-0.03em" }}
             >
-              Real wood. Real play. Built to be kept.
+              <T id="wt.title" />
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-pearl/80 sm:text-lg">
-              No plastic, no flashing lights — just warm, hand-finished
-              toys that grow with your little one and pass between
-              siblings. Quietly beautiful, endlessly played with.
+              <T id="wt.subtitle" />
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
                 href="#collection"
                 className="inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl shadow-lg shadow-orange/30 transition-transform hover:-translate-y-0.5"
               >
-                Browse the collection →
+                <T id="wt.cta_browse" />
               </a>
               <a
                 href="mailto:hello@amareen.si"
                 className="inline-flex items-center gap-2 rounded-full border border-pearl/30 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl transition-colors hover:bg-pearl hover:text-ink"
               >
-                Custom orders
+                <T id="wt.cta_custom" />
               </a>
             </div>
           </Reveal>
@@ -222,7 +214,7 @@ export default function WoodenToysPage() {
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <div className="grid gap-5 sm:grid-cols-3 md:gap-6">
             {benefits.map((b, i) => (
-              <Reveal key={b.title} delay={i * 80}>
+              <Reveal key={b.titleKey} delay={i * 80}>
                 <div className="h-full rounded-3xl bg-pearl p-6 ring-1 ring-orange-dark/10 transition-shadow hover:shadow-lg">
                   <div className="grid h-10 w-10 place-items-center rounded-2xl bg-wood-light text-wood-dark">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -230,10 +222,10 @@ export default function WoodenToysPage() {
                     </svg>
                   </div>
                   <h3 className="mt-4 text-base font-extrabold text-ink">
-                    {b.title}
+                    <T id={b.titleKey} />
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink/70">
-                    {b.body}
+                    <T id={b.bodyKey} />
                   </p>
                 </div>
               </Reveal>
@@ -249,29 +241,26 @@ export default function WoodenToysPage() {
               <div>
                 <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                   <span className="h-1 w-6 rounded-full bg-orange" />
-                  Coming soon · preview
+                  <T id="wt.coll.eyebrow" />
                 </p>
                 <h2
                   className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
                   style={{ letterSpacing: "-0.025em" }}
                 >
-                  The collection
+                  <T id="wt.coll.title" />
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70 sm:text-base">
-                  These are the pieces we&apos;re hand-finishing right now.
-                  Real photos and stock are landing soon — leave us your
-                  email and we&apos;ll let you know the moment a piece
-                  goes live.
+                  <T id="wt.coll.subtitle" />
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {categories.map((c) => (
+                {categoryKeys.map((c) => (
                   <span
                     key={c}
                     className="inline-flex items-center rounded-full border border-orange-dark/15 bg-pearl px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/70"
                   >
-                    {c}
+                    <T id={c} />
                   </span>
                 ))}
               </div>
@@ -299,12 +288,12 @@ export default function WoodenToysPage() {
                       </div>
 
                       <span className="absolute left-3 top-3 rounded-full bg-pearl/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-ink shadow">
-                        Coming soon
+                        <T id="wt.coming" />
                       </span>
 
-                      {t.badge && (
+                      {t.badgeKey && (
                         <span className="absolute right-3 top-3 rounded-full bg-orange px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-pearl shadow">
-                          {t.badge}
+                          <T id={t.badgeKey} />
                         </span>
                       )}
 
@@ -318,15 +307,15 @@ export default function WoodenToysPage() {
                     <div className="flex flex-1 flex-col gap-3 p-4">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-orange-dark">
-                          {t.category}
+                          <T id={t.categoryKey} />
                         </span>
                         <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
-                          {t.ageLabel}
+                          <T id={t.ageKey} />
                         </span>
                       </div>
 
                       <h3 className="text-sm font-extrabold leading-snug text-ink">
-                        {t.name}
+                        <T id={t.nameKey} />
                       </h3>
 
                       <div className="mt-auto flex items-end justify-between gap-2">
@@ -345,7 +334,7 @@ export default function WoodenToysPage() {
                           disabled
                           className="inline-flex cursor-not-allowed items-center gap-1 rounded-full bg-ink/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40"
                         >
-                          Notify me
+                          <T id="wt.notify" />
                         </button>
                       </div>
                     </div>
@@ -374,18 +363,16 @@ export default function WoodenToysPage() {
               <div className="relative grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-center">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-pearl/70">
-                    Be the first
+                    <T id="wt.notify_first" />
                   </p>
                   <h2
                     className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl"
                     style={{ letterSpacing: "-0.025em" }}
                   >
-                    Get notified when a piece goes live.
+                    <T id="wt.notify_title" />
                   </h2>
                   <p className="mt-4 max-w-xl text-base leading-relaxed text-pearl/85 sm:text-lg">
-                    Small batches, hand-finished one at a time. Drop your
-                    email and we&apos;ll let you know the moment your
-                    favourite is ready to ship.
+                    <T id="wt.notify_body" />
                   </p>
                   <form
                     className="mt-7 flex w-full max-w-md flex-col gap-3 sm:flex-row"
@@ -402,7 +389,7 @@ export default function WoodenToysPage() {
                       type="submit"
                       className="rounded-full bg-orange px-6 py-3 text-sm font-bold uppercase tracking-[0.14em] text-pearl shadow-lg transition-transform hover:-translate-y-0.5"
                     >
-                      Notify me
+                      <T id="wt.notify" />
                     </button>
                   </form>
                 </div>

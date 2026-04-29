@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Product } from "@/lib/data";
+import { useLang } from "./LangProvider";
 
 const badgeColor = (badge: string) => {
   switch (badge) {
@@ -21,6 +22,7 @@ const badgeColor = (badge: string) => {
 
 export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
+  const { t } = useLang();
   const onSale = product.comparePrice > product.price;
   const href = product.slug ? `/shop/${product.slug}` : `/shop/${product.id}`;
 
@@ -55,7 +57,7 @@ export default function ProductCard({ product }: { product: Product }) {
             className="absolute left-3 top-3 z-10 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
             style={{ backgroundColor: "#E55B47", color: "#FFFFFF" }}
           >
-            Sale
+            {t("card.sale")}
           </span>
         )}
 
@@ -75,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
         {/* "View product" overlay on hover */}
         <span className="pointer-events-none absolute inset-x-3 bottom-3 z-10 flex translate-y-2 items-center justify-center gap-2 rounded-full bg-ink/90 px-4 py-2.5 text-[11px] font-extrabold uppercase tracking-wider text-pearl opacity-0 backdrop-blur-md transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100" style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}>
-          <span style={{ color: "#FFFFFF" }}>View product</span>
+          <span style={{ color: "#FFFFFF" }}>{t("card.view")}</span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="13 6 19 12 13 18" />
@@ -119,11 +121,11 @@ export default function ProductCard({ product }: { product: Product }) {
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F97316")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F4B73E")}
           >
-            See product
+            {t("card.see")}
           </a>
           <button
             type="button"
-            aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+            aria-label={liked ? t("card.wish_remove") : t("card.wish_add")}
             onClick={() => setLiked((v) => !v)}
             className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-transform hover:scale-110"
           >

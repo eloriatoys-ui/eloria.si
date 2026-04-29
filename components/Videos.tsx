@@ -1,9 +1,12 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 type VideoCard = {
-  title: string;
-  blurb: string;
-  videoSrc?: string; // optional — falls back to placeholder when missing
+  titleKey: string;
+  blurbKey: string;
+  videoSrc?: string;
   poster?: string;
   duration?: string;
   ctaHref: string;
@@ -11,22 +14,22 @@ type VideoCard = {
 
 const videoCards: VideoCard[] = [
   {
-    title: "Garden Queen Summer set",
-    blurb: "Soft, breezy, made for sunny days outside.",
+    titleKey: "videos.card1.title",
+    blurbKey: "videos.card1.blurb",
     videoSrc: "/videos/v-clothes.mp4",
     duration: "0:11",
     ctaHref: "/shop",
   },
   {
-    title: "Disco LED light",
-    blurb: "Music, lights, dance — turn any room into a party.",
+    titleKey: "videos.card2.title",
+    blurbKey: "videos.card2.blurb",
     videoSrc: "/videos/v-music.mp4",
     duration: "0:15",
     ctaHref: "/shop",
   },
   {
-    title: "Kids walkie-talkie",
-    blurb: "Adventures on the air — copy that, captain!",
+    titleKey: "videos.card3.title",
+    blurbKey: "videos.card3.blurb",
     videoSrc: "/videos/v-toy.mp4",
     duration: "0:15",
     ctaHref: "/shop",
@@ -34,6 +37,7 @@ const videoCards: VideoCard[] = [
 ];
 
 function VideoTile({ card }: { card: VideoCard }) {
+  const { t } = useLang();
   return (
     <article
       className="group relative overflow-hidden rounded-2xl bg-pearl transition-all duration-300 hover:-translate-y-1"
@@ -91,15 +95,15 @@ function VideoTile({ card }: { card: VideoCard }) {
 
       <div className="px-5 pb-5 pt-4">
         <h3 className="text-[16px] font-extrabold leading-tight text-ink" style={{ letterSpacing: "-0.015em" }}>
-          {card.title}
+          {t(card.titleKey)}
         </h3>
-        <p className="mt-1.5 text-[13px] text-slate">{card.blurb}</p>
+        <p className="mt-1.5 text-[13px] text-slate">{t(card.blurbKey)}</p>
         <a
           href={card.ctaHref}
           className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-[12px] font-bold uppercase tracking-[0.14em] text-pearl transition-colors hover:bg-orange-dark"
           style={{ letterSpacing: "0.08em", color: "#FFFFFF" }}
         >
-          <span style={{ color: "#FFFFFF" }}>Order now</span>
+          <span style={{ color: "#FFFFFF" }}>{t("videos.cta_order")}</span>
           <svg
             width="13"
             height="13"
@@ -120,6 +124,7 @@ function VideoTile({ card }: { card: VideoCard }) {
 }
 
 export default function Videos() {
+  const { t } = useLang();
   return (
     <section className="bg-cream py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -128,27 +133,27 @@ export default function Videos() {
             <div>
               <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                 <span className="h-1 w-6 rounded-full bg-orange" />
-                See it in action
+                {t("videos.eyebrow")}
               </p>
               <h2
                 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
                 style={{ letterSpacing: "-0.025em" }}
               >
-                Products in motion
+                {t("videos.title")}
               </h2>
             </div>
             <a
               href="/shop"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
-              Visit the shop →
+              {t("videos.cta_visit")}
             </a>
           </div>
         </Reveal>
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:gap-6 md:mt-12 md:grid-cols-3">
           {videoCards.map((card, i) => (
-            <Reveal key={card.title} delay={i * 100}>
+            <Reveal key={card.titleKey} delay={i * 100}>
               <VideoTile card={card} />
             </Reveal>
           ))}

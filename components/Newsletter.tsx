@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
+import { useLang } from "./LangProvider";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLang();
 
   return (
     <section
@@ -33,7 +35,7 @@ export default function Newsletter() {
         <Reveal>
           <p className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-amber">
             <span className="h-1 w-6 rounded-full bg-amber" />
-            Insider list
+            {t("nl.eyebrow")}
             <span className="h-1 w-6 rounded-full bg-amber" />
           </p>
           <h2
@@ -43,7 +45,7 @@ export default function Newsletter() {
               textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
             }}
           >
-            Become an Eloria insider
+            {t("nl.title")}
           </h2>
           <p
             className="mt-3 text-base md:text-lg"
@@ -52,7 +54,7 @@ export default function Newsletter() {
               textShadow: "0 1px 3px rgba(0, 0, 0, 0.45)",
             }}
           >
-            Get 15% off your first order + early access to new arrivals
+            {t("nl.subtitle")}
           </p>
         </Reveal>
 
@@ -69,19 +71,19 @@ export default function Newsletter() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
+              placeholder={t("nl.placeholder")}
               className="flex-1 rounded-full bg-pearl px-5 py-3.5 text-base font-medium text-ink placeholder:text-slate/70 outline-none ring-2 ring-transparent focus:ring-amber"
             />
             <button
               type="submit"
               className="btn-magic rounded-full px-7 py-3.5 text-base font-bold"
             >
-              {submitted ? "Subscribed ✓" : "Subscribe"}
+              {submitted ? t("nl.cta_done") : t("nl.cta")}
             </button>
           </form>
 
           <p className="mt-4 text-xs text-pearl/70">
-            We respect your privacy. Unsubscribe anytime.
+            {t("nl.privacy")}
           </p>
         </Reveal>
       </div>
