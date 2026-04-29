@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Product } from "@/lib/data";
 import { useLang } from "./LangProvider";
+import { productName } from "@/lib/product-i18n";
 
 const badgeColor = (badge: string) => {
   switch (badge) {
@@ -22,9 +23,10 @@ const badgeColor = (badge: string) => {
 
 export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
-  const { t } = useLang();
+  const { t, locale } = useLang();
   const onSale = product.comparePrice > product.price;
   const href = product.slug ? `/shop/${product.slug}` : `/shop/${product.id}`;
+  const name = productName(product, locale);
 
   return (
     <article
@@ -38,7 +40,7 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* IMAGE → links to product page */}
       <a
         href={href}
-        aria-label={product.name}
+        aria-label={name}
         className="relative block aspect-square w-full overflow-hidden bg-pearl"
       >
         {product.badge && (
@@ -65,7 +67,7 @@ export default function ProductCard({ product }: { product: Product }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={product.image}
-            alt={product.name}
+            alt={name}
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
           />
@@ -106,7 +108,7 @@ export default function ProductCard({ product }: { product: Product }) {
           href={href}
           className="mt-2 line-clamp-2 min-h-[2.6em] text-[13px] font-medium leading-snug text-ink transition-colors hover:text-orange-dark"
         >
-          {product.name}
+          {name}
         </a>
 
         {/* See product link + wishlist */}

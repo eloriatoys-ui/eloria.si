@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 import type { Product } from "@/lib/data";
+import { useLang } from "@/components/LangProvider";
+import { productName, productShortDescription } from "@/lib/product-i18n";
 
 type Props = {
   product: Product;
 };
 
 export default function ProductInfo({ product }: Props) {
+  const { locale } = useLang();
+  const name = productName(product, locale);
   const onSale = product.comparePrice > product.price;
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<"description" | "details" | "shipping">("description");
@@ -27,7 +31,8 @@ export default function ProductInfo({ product }: Props) {
     };
   }, [product.id]);
 
-  const description = longDesc || product.shortDescription || null;
+  const description =
+    longDesc || productShortDescription(product, locale) || null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -40,7 +45,7 @@ export default function ProductInfo({ product }: Props) {
           className="mt-2 text-[28px] font-extrabold leading-tight text-ink md:text-[36px]"
           style={{ letterSpacing: "-0.02em" }}
         >
-          {product.name}
+          {name}
         </h1>
 
         {/* Rating */}
@@ -208,8 +213,7 @@ export default function ProductInfo({ product }: Props) {
               />
             ) : (
               <p className="text-[14px] leading-relaxed text-slate">
-                {product.name} from our {product.category.toLowerCase()} collection.
-                Quality you can feel — crafted with care.
+                {name} — {product.category.toLowerCase()}.
               </p>
             )
           )}

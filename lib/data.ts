@@ -28,6 +28,10 @@ export type Product = {
   // maxMonths is undefined for open-ended "+X years" descriptions.
   ageMinMonths?: number;
   ageMaxMonths?: number;
+  // Slovenian translations baked from amareen.si via the migration script.
+  name_sl?: string;
+  shortDescription_sl?: string;
+  permalink_sl?: string;
 };
 
 

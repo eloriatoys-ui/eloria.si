@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLang } from "@/components/LangProvider";
+import { productName } from "@/lib/product-i18n";
 import { useSearchParams } from "next/navigation";
 import type { Product } from "@/lib/data";
 import { AGE_BUCKETS, ageMatches, type AgeBucketId } from "@/lib/age";
@@ -699,6 +700,7 @@ function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {
 function ShopCard({ product }: { product: Product }) {
   const onSale = product.comparePrice > product.price;
   const href = product.slug ? `/shop/${product.slug}` : `/shop/${product.id}`;
+  // pulled below `useLang()` so we can read the active locale.
 
   const localImages = (
     (product as Product & { images?: string[] }).images?.length
@@ -711,7 +713,8 @@ function ShopCard({ product }: { product: Product }) {
   const [remoteImages, setRemoteImages] = useState<string[]>([]);
   const [active, setActive] = useState(0);
   const [fetched, setFetched] = useState(false);
-  const { t } = useLang();
+  const { t, locale } = useLang();
+  const name = productName(product, locale);
 
   const gallery = useMemo(() => {
     const seen = new Set<string>();
@@ -754,7 +757,7 @@ function ShopCard({ product }: { product: Product }) {
       {/* IMAGE AREA — link to product page */}
       <a
         href={href}
-        aria-label={product.name}
+        aria-label={name}
         className="relative block aspect-square w-full overflow-hidden bg-pearl"
       >
         {product.badge && (
@@ -781,7 +784,7 @@ function ShopCard({ product }: { product: Product }) {
             <img
               key={src}
               src={src}
-              alt={i === 0 ? product.name : ""}
+              alt={i === 0 ? name : ""}
               loading={i === 0 ? "eager" : "lazy"}
               className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out group-hover:scale-[1.03]"
               style={{ opacity: i === active ? 1 : 0 }}
@@ -868,7 +871,7 @@ function ShopCard({ product }: { product: Product }) {
           href={href}
           className="mt-2 line-clamp-2 min-h-[2.6em] text-[13px] font-medium leading-snug text-ink transition-colors hover:text-orange-dark"
         >
-          {product.name}
+          {name}
         </a>
         <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate">
           {product.category}

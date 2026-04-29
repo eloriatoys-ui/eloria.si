@@ -86,11 +86,12 @@ function basicAuth(key, secret) {
   return "Basic " + Buffer.from(`${key}:${secret}`).toString("base64");
 }
 
-async function fetchAllPages(baseUrl, auth, pathSegment) {
+async function fetchAllPages(baseUrl, auth, pathSegment, extraQuery = "") {
   const all = [];
   let page = 1;
   while (true) {
-    const url = `${baseUrl}/wp-json/wc/v3/${pathSegment}?per_page=100&page=${page}`;
+    const sep = extraQuery ? "&" : "";
+    const url = `${baseUrl}/wp-json/wc/v3/${pathSegment}?per_page=100&page=${page}${sep}${extraQuery}`;
     const res = await fetch(url, { headers: { Authorization: auth } });
     if (!res.ok) {
       throw new Error(
@@ -157,7 +158,36 @@ async function main() {
   }
   const auth = basicAuth(key, secret);
 
+  // ── Slovenian source (optional). Either a separate store or a WPML
+  //    `?lang=sl` query param on the main store.
+  //
+  //    Separate store:
+  //      WOOCOMMERCE_STORE_URL_SL=https://www.amareen.si
+  //      WOOCOMMERCE_CONSUMER_KEY_SL=ck_…
+  //      WOOCOMMERCE_CONSUMER_SECRET_SL=cs_…
+  //
+  //    WPML same-store:
+  //      WOOCOMMERCE_LANG_PARAM_SL=sl   (sends ?lang=sl to existing URL)
+  const slBase = env.WOOCOMMERCE_STORE_URL_SL?.replace(/\/$/, "") || base;
+  const slKey = env.WOOCOMMERCE_CONSUMER_KEY_SL || key;
+  const slSecret = env.WOOCOMMERCE_CONSUMER_SECRET_SL || secret;
+  const slLangParam = env.WOOCOMMERCE_LANG_PARAM_SL || "";
+  const slAuth = basicAuth(slKey, slSecret);
+  const slEnabled = Boolean(
+    env.WOOCOMMERCE_STORE_URL_SL || env.WOOCOMMERCE_LANG_PARAM_SL,
+  );
+  const slQuery = slLangParam ? `lang=${encodeURIComponent(slLangParam)}` : "";
+
   console.log(`[woo] store: ${base}`);
+  if (slEnabled) {
+    console.log(
+      `[woo] sl source: ${slBase}${slQuery ? ` (?${slQuery})` : ""}`,
+    );
+  } else {
+    console.log(
+      "[woo] sl source: not configured — products.json will only contain English fields",
+    );
+  }
   await ensureDir(PUBLIC_PRODUCTS);
   await ensureDir(PUBLIC_CATALOG_DIR);
 
@@ -172,6 +202,30 @@ async function main() {
   console.log("[woo] fetching products …");
   const wcProducts = await fetchAllPages(base, auth, "products");
   console.log(`  → ${wcProducts.length} products`);
+
+  // ── Slovenian products (if configured)
+  let slById = new Map();
+  let slBySlug = new Map();
+  if (slEnabled) {
+    console.log("[woo] fetching Slovenian products …");
+    try {
+      const slProducts = await fetchAllPages(
+        slBase,
+        slAuth,
+        "products",
+        slQuery,
+      );
+      console.log(`  → ${slProducts.length} sl products`);
+      for (const sp of slProducts) {
+        if (sp.id != null) slById.set(sp.id, sp);
+        if (sp.slug) slBySlug.set(String(sp.slug).toLowerCase(), sp);
+      }
+    } catch (err) {
+      console.warn(
+        `  [woo] sl fetch failed (${err.message}); continuing without Slovenian fields`,
+      );
+    }
+  }
 
   const products = [];
   let imgOk = 0;
@@ -210,7 +264,13 @@ async function main() {
     }
     const imagePath = imagePaths[0];
 
-    products.push({
+    // Slovenian counterpart — try id first, then slug
+    const slMatch =
+      slById.get(p.id) ||
+      slBySlug.get(String(p.slug || "").toLowerCase()) ||
+      null;
+
+    const entry = {
       id: p.id,
       name: p.name,
       slug,
@@ -225,7 +285,16 @@ async function main() {
       stockStatus: p.stock_status || "instock",
       permalink: p.permalink,
       shortDescription: p.short_description,
-    });
+    };
+
+    if (slMatch) {
+      if (slMatch.name) entry.name_sl = slMatch.name;
+      if (slMatch.short_description)
+        entry.shortDescription_sl = slMatch.short_description;
+      if (slMatch.permalink) entry.permalink_sl = slMatch.permalink;
+    }
+
+    products.push(entry);
 
     if ((i + 1) % 25 === 0) {
       console.log(`  … ${i + 1}/${wcProducts.length}`);
