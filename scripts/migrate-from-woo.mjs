@@ -204,8 +204,13 @@ async function main() {
   console.log(`  → ${wcProducts.length} products`);
 
   // ── Slovenian products (if configured)
+  //    Different stores use different IDs and slugs (slugs are localized),
+  //    so we also index by SKU and by the first image filename — image
+  //    filenames are the most reliable cross-store match in practice.
   let slById = new Map();
   let slBySlug = new Map();
+  let slBySku = new Map();
+  let slByImage = new Map();
   if (slEnabled) {
     console.log("[woo] fetching Slovenian products …");
     try {
@@ -219,6 +224,12 @@ async function main() {
       for (const sp of slProducts) {
         if (sp.id != null) slById.set(sp.id, sp);
         if (sp.slug) slBySlug.set(String(sp.slug).toLowerCase(), sp);
+        if (sp.sku) slBySku.set(String(sp.sku).trim(), sp);
+        const firstImg = sp.images?.[0]?.src;
+        if (firstImg) {
+          const fn = firstImg.split("/").pop();
+          if (fn) slByImage.set(fn.toLowerCase(), sp);
+        }
       }
     } catch (err) {
       console.warn(
@@ -230,6 +241,7 @@ async function main() {
   const products = [];
   let imgOk = 0;
   let imgSkip = 0;
+  let slMatched = 0;
 
   for (let i = 0; i < wcProducts.length; i++) {
     const p = wcProducts[i];
@@ -264,11 +276,21 @@ async function main() {
     }
     const imagePath = imagePaths[0];
 
-    // Slovenian counterpart — try id first, then slug
-    const slMatch =
-      slById.get(p.id) ||
-      slBySlug.get(String(p.slug || "").toLowerCase()) ||
-      null;
+    // Slovenian counterpart — try id, SKU, image filename, then slug.
+    // In practice the image filename is the only reliable match between
+    // amareen.eu and amareen.si because IDs and slugs are localized.
+    let slMatch = slById.get(p.id) || null;
+    if (!slMatch && p.sku) slMatch = slBySku.get(String(p.sku).trim()) || null;
+    if (!slMatch) {
+      const firstImg = p.images?.[0]?.src;
+      if (firstImg) {
+        const fn = firstImg.split("/").pop();
+        if (fn) slMatch = slByImage.get(fn.toLowerCase()) || null;
+      }
+    }
+    if (!slMatch) {
+      slMatch = slBySlug.get(String(p.slug || "").toLowerCase()) || null;
+    }
 
     const entry = {
       id: p.id,
@@ -288,6 +310,7 @@ async function main() {
     };
 
     if (slMatch) {
+      slMatched++;
       if (slMatch.name) entry.name_sl = slMatch.name;
       if (slMatch.short_description)
         entry.shortDescription_sl = slMatch.short_description;
@@ -304,6 +327,11 @@ async function main() {
   await fs.writeFile(OUT_PRODUCTS, JSON.stringify(products, null, 2));
   console.log(`  → ${products.length} products saved to lib/products.json`);
   console.log(`  → images: ${imgOk} downloaded, ${imgSkip} skipped/failed`);
+  if (slEnabled) {
+    console.log(
+      `  → sl matches: ${slMatched}/${products.length} products linked to Slovenian copy`,
+    );
+  }
 
   console.log("\n✓ migration complete");
 }
