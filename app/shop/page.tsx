@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopBrowser from "@/components/shop/ShopBrowser";
@@ -28,7 +29,9 @@ export default async function ShopPage() {
         categoryCount={categories.length}
       />
 
-      <ShopBrowser products={products} categories={categories} />
+      <Suspense fallback={null}>
+        <ShopBrowser products={products} categories={categories} />
+      </Suspense>
 
       <Footer />
     </main>
