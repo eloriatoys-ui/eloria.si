@@ -254,7 +254,7 @@ const links: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop", mega: shopMega },
   { label: "Clothes", href: "/#clothes" },
-  { label: "About", href: "/#why" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/#newsletter" },
 ];
 

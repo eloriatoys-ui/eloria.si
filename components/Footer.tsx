@@ -26,7 +26,7 @@ const linkCols = [
   {
     title: "About Eloria",
     items: [
-      { label: "Our story", href: "/#why" },
+      { label: "Our story", href: "/about" },
       { label: "Sustainability", href: "/#why" },
       { label: "Reviews", href: "/#testimonials" },
       { label: "Press", href: "#" },
