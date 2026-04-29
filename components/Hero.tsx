@@ -1,4 +1,7 @@
-import { STORE_NAME, TAGLINE } from "@/lib/data";
+"use client";
+
+import { STORE_NAME } from "@/lib/data";
+import { useLang } from "./LangProvider";
 
 function CharacterVideo({
   id,
@@ -44,6 +47,7 @@ function Sparkle({
 }
 
 export default function Hero() {
+  const { t } = useLang();
   return (
     <section
       id="home"
@@ -98,7 +102,7 @@ export default function Hero() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-pearl/95 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-ink shadow-soft backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-orange" />
-            Where Imagination Comes Alive
+            {t("hero.badge")}
             <span className="h-1.5 w-1.5 rounded-full bg-orange" />
           </span>
 
@@ -133,7 +137,7 @@ export default function Hero() {
                   "0 1px 0 rgba(60, 35, 20, 0.55), 0 2px 6px rgba(60, 35, 20, 0.35)",
               }}
             >
-              {TAGLINE}
+              {t("hero.tagline")}
             </p>
             <p
               className="mt-2 text-[14px] font-semibold leading-relaxed sm:text-[15px]"
@@ -143,8 +147,7 @@ export default function Hero() {
                   "0 1px 0 rgba(60, 35, 20, 0.5), 0 1px 4px rgba(60, 35, 20, 0.3)",
               }}
             >
-              Magical toys, organic kids&apos; clothes, and timeless play
-              — made for curious little hands.
+              {t("hero.subtitle")}
             </p>
           </div>
 
@@ -160,7 +163,7 @@ export default function Hero() {
                 border: "1px solid rgba(0, 0, 0, 0.45)",
               }}
             >
-              <span style={{ color: "#FFFFFF" }}>Shop the collection</span>
+              <span style={{ color: "#FFFFFF" }}>{t("hero.cta.shop")}</span>
               <svg
                 width="16"
                 height="16"
@@ -190,7 +193,7 @@ export default function Hero() {
               >
                 %
               </span>
-              See sale items
+              {t("hero.cta.sale")}
             </a>
           </div>
         </div>

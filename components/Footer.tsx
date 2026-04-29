@@ -1,37 +1,41 @@
-import { STORE_NAME } from "@/lib/data";
+"use client";
 
+import { STORE_NAME } from "@/lib/data";
+import { useLang } from "./LangProvider";
+
+// title/label values are i18n keys resolved via t() at render time.
 const linkCols = [
   {
-    title: "Shop",
+    title: "footer.col.shop",
     items: [
-      { label: "All products", href: "/shop" },
-      { label: "Clothing sets", href: "/shop?category=Clothing+sets+AMAREEN" },
-      { label: "Dresses", href: "/shop?category=Dresses" },
-      { label: "Accessories", href: "/shop?category=Accessories" },
-      { label: "New arrivals", href: "/shop?category=New" },
-      { label: "On sale", href: "/shop?onSale=1" },
+      { label: "footer.col.shop.all", href: "/shop" },
+      { label: "footer.col.shop.sets", href: "/shop?category=Clothing+sets+AMAREEN" },
+      { label: "footer.col.shop.dresses", href: "/shop?category=Dresses" },
+      { label: "footer.col.shop.acc", href: "/shop?category=Accessories" },
+      { label: "footer.col.shop.new", href: "/shop?category=New" },
+      { label: "footer.col.shop.sale", href: "/shop?onSale=1" },
     ],
   },
   {
-    title: "Customer care",
+    title: "footer.col.care",
     items: [
-      { label: "Track your order", href: "#" },
-      { label: "Shipping & delivery", href: "/#faq" },
-      { label: "Returns & refunds", href: "/#faq" },
-      { label: "Size guide", href: "/#faq" },
-      { label: "FAQ", href: "/#faq" },
-      { label: "Contact us", href: "mailto:hello@amareen.si" },
+      { label: "footer.col.care.track", href: "#" },
+      { label: "footer.col.care.shipping", href: "/#faq" },
+      { label: "footer.col.care.returns", href: "/#faq" },
+      { label: "footer.col.care.size", href: "/#faq" },
+      { label: "footer.col.care.faq", href: "/#faq" },
+      { label: "footer.col.care.contact", href: "mailto:hello@amareen.si" },
     ],
   },
   {
-    title: "About Eloria",
+    title: "footer.col.about",
     items: [
-      { label: "Our story", href: "/about" },
-      { label: "Sustainability", href: "/#why" },
-      { label: "Reviews", href: "/#testimonials" },
-      { label: "Press", href: "#" },
-      { label: "Affiliates", href: "#" },
-      { label: "Wholesale", href: "mailto:hello@amareen.si" },
+      { label: "footer.col.about.story", href: "/about" },
+      { label: "footer.col.about.sustain", href: "/#why" },
+      { label: "footer.col.about.reviews", href: "/#testimonials" },
+      { label: "footer.col.about.press", href: "#" },
+      { label: "footer.col.about.aff", href: "#" },
+      { label: "footer.col.about.wholesale", href: "mailto:hello@amareen.si" },
     ],
   },
 ];
@@ -84,6 +88,7 @@ const socials: { name: Parameters<typeof SocialIcon>[0]["name"]; href: string; l
 const payments = ["Visa", "Mastercard", "Amex", "Apple Pay", "Google Pay", "PayPal"];
 
 export default function Footer() {
+  const { t } = useLang();
   return (
     <footer className="bg-pearl text-ink">
       {/* Top — brand + links */}
@@ -100,8 +105,7 @@ export default function Footer() {
               />
             </a>
             <p className="mt-5 max-w-sm text-[14px] leading-relaxed text-slate">
-              Magical toys & organic kids&apos; clothes — built to be loved,
-              hand-me-downed, and remembered.
+              {t("footer.tagline")}
             </p>
 
             {/* Contact info */}
@@ -153,7 +157,7 @@ export default function Footer() {
           {linkCols.map((col) => (
             <div key={col.title} className="md:col-span-2">
               <h4 className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
-                {col.title}
+                {t(col.title)}
               </h4>
               <ul className="mt-4 flex flex-col gap-2.5">
                 {col.items.map((it) => (
@@ -162,7 +166,7 @@ export default function Footer() {
                       href={it.href}
                       className="text-[13px] font-medium text-ink/80 transition-colors hover:text-orange-dark"
                     >
-                      {it.label}
+                      {t(it.label)}
                     </a>
                   </li>
                 ))}
@@ -173,17 +177,17 @@ export default function Footer() {
           {/* Stay in touch column */}
           <div className="md:col-span-2">
             <h4 className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
-              Stay in touch
+              {t("footer.col.stay")}
             </h4>
             <p className="mt-4 text-[13px] text-slate">
-              Get 15% off + early access to new arrivals.
+              {t("footer.col.stay.body")}
             </p>
             <a
               href="#newsletter"
               className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-orange-dark px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange"
               style={{ letterSpacing: "0.08em" }}
             >
-              <span style={{ color: "#FFFFFF" }}>Subscribe</span>
+              <span style={{ color: "#FFFFFF" }}>{t("footer.col.stay.cta")}</span>
               <svg
                 width="13"
                 height="13"
@@ -210,7 +214,7 @@ export default function Footer() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
               </svg>
-              Secure checkout
+              {t("footer.trust.secure")}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -219,7 +223,7 @@ export default function Footer() {
                 <circle cx="6" cy="19" r="2" />
                 <circle cx="18" cy="19" r="2" />
               </svg>
-              Free delivery over 150 €
+              {t("footer.trust.delivery")}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -228,7 +232,7 @@ export default function Footer() {
                 <path d="M21 12a9 9 0 0 1-9 9" />
                 <path d="m21 12-4 4M21 12l-4-4" />
               </svg>
-              30-day returns
+              {t("footer.trust.returns")}
             </span>
           </div>
 
@@ -249,31 +253,31 @@ export default function Footer() {
       <div className="border-t border-orange-dark/10 bg-pearl">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-5 text-[12px] text-slate md:flex-row md:px-8">
           <p>
-            © {new Date().getFullYear()} {STORE_NAME}. All rights reserved.
+            © {new Date().getFullYear()} {STORE_NAME}. {t("footer.copy_rights")}
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
             <li>
               <a href="#" className="hover:text-orange-dark">
-                Privacy policy
+                {t("footer.legal.privacy")}
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-orange-dark">
-                Terms of service
+                {t("footer.legal.terms")}
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-orange-dark">
-                Cookie settings
+                {t("footer.legal.cookies")}
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-orange-dark">
-                Imprint
+                {t("footer.legal.imprint")}
               </a>
             </li>
           </ul>
-          <p className="text-slate/80">EUR · English</p>
+          <p className="text-slate/80">{t("footer.locale_summary")}</p>
         </div>
       </div>
     </footer>

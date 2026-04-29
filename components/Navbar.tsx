@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { STORE_NAME } from "@/lib/data";
+import { useLang } from "./LangProvider";
+import LangSwitch from "./LangSwitch";
 
 type SearchHit = {
   id: number;
@@ -48,42 +50,43 @@ type NavLink = {
   mega?: MegaColumn[];
 };
 
+// label/heading values are i18n keys resolved via t() at render time.
 const shopMega: MegaColumn[] = [
   {
-    heading: "Clothing",
+    heading: "mega.shop.clothing.heading",
     items: [
-      { label: "Clothing sets", href: "/shop?category=Clothing+sets+AMAREEN", icon: "hanger" },
-      { label: "Dresses", href: "/shop?category=Dresses", icon: "dress" },
-      { label: "Bodysuits", href: "/shop?category=Bodysuit", icon: "baby" },
-      { label: "Jackets", href: "/shop?category=Jackets", icon: "jacket" },
+      { label: "mega.shop.clothing.sets", href: "/shop?category=Clothing+sets+AMAREEN", icon: "hanger" },
+      { label: "mega.shop.clothing.dresses", href: "/shop?category=Dresses", icon: "dress" },
+      { label: "mega.shop.clothing.bodysuits", href: "/shop?category=Bodysuit", icon: "baby" },
+      { label: "mega.shop.clothing.jackets", href: "/shop?category=Jackets", icon: "jacket" },
     ],
   },
   {
-    heading: "Accessories",
+    heading: "mega.shop.acc.heading",
     items: [
-      { label: "All accessories", href: "/shop?category=Accessories", icon: "accessories" },
-      { label: "Headpieces", href: "/shop?category=Headpieces", icon: "crown" },
-      { label: "Head bows & clips", href: "/shop?category=Head+bows%2Fclips", icon: "ribbon" },
-      { label: "Hats & scarfs", href: "/shop?category=Hats+and+scarfs", icon: "scarf" },
-      { label: "Footwear", href: "/shop?category=Footwear", icon: "shoe" },
-      { label: "Flowers", href: "/shop?category=Flowers", icon: "sparkles" },
+      { label: "mega.shop.acc.all", href: "/shop?category=Accessories", icon: "accessories" },
+      { label: "mega.shop.acc.headpieces", href: "/shop?category=Headpieces", icon: "crown" },
+      { label: "mega.shop.acc.bows", href: "/shop?category=Head+bows%2Fclips", icon: "ribbon" },
+      { label: "mega.shop.acc.hats", href: "/shop?category=Hats+and+scarfs", icon: "scarf" },
+      { label: "mega.shop.acc.footwear", href: "/shop?category=Footwear", icon: "shoe" },
+      { label: "mega.shop.acc.flowers", href: "/shop?category=Flowers", icon: "sparkles" },
     ],
   },
   {
-    heading: "Highlights",
+    heading: "mega.shop.highlights.heading",
     items: [
-      { label: "All products", href: "/shop", icon: "toys" },
-      { label: "New arrivals", href: "/shop?category=New", icon: "sprout" },
-      { label: "On sale", href: "/shop?onSale=1", icon: "tag" },
+      { label: "mega.shop.highlights.all", href: "/shop", icon: "toys" },
+      { label: "mega.shop.highlights.new", href: "/shop?category=New", icon: "sprout" },
+      { label: "mega.shop.highlights.sale", href: "/shop?onSale=1", icon: "tag" },
     ],
   },
   {
-    heading: "Help & info",
+    heading: "mega.shop.help.heading",
     items: [
-      { label: "Track order", href: "#", icon: "leaf" },
-      { label: "Shipping & returns", href: "/#faq", icon: "shirt" },
-      { label: "FAQ", href: "/#faq", icon: "sun" },
-      { label: "Contact us", href: "mailto:hello@amareen.si", icon: "moon" },
+      { label: "mega.shop.help.track", href: "#", icon: "leaf" },
+      { label: "mega.shop.help.shipping", href: "/#faq", icon: "shirt" },
+      { label: "mega.shop.help.faq", href: "/#faq", icon: "sun" },
+      { label: "mega.shop.help.contact", href: "mailto:hello@amareen.si", icon: "moon" },
     ],
   },
 ];
@@ -250,33 +253,31 @@ function MegaIcon({ name }: { name: MegaIconName }) {
   }
 }
 
+// label values are i18n keys resolved via t() at render time.
 const links: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop", mega: shopMega },
-  { label: "Wooden toys", href: "/wooden-toys" },
-  { label: "Clothes", href: "/#clothes" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/#newsletter" },
+  { label: "nav.home", href: "/" },
+  { label: "nav.shop", href: "/shop", mega: shopMega },
+  { label: "nav.wooden", href: "/wooden-toys" },
+  { label: "nav.clothes", href: "/#clothes" },
+  { label: "nav.about", href: "/about" },
+  { label: "nav.contact", href: "/#newsletter" },
 ];
 
-const promos = [
-  "✦ Free delivery on orders over 150 €",
-  "✦ Sustainably crafted in small batches",
-  "✦ New customers: 15% off with code MAGIC15",
-];
+const promoKeys = ["promo.free_delivery", "promo.sustainable", "promo.discount"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [promoIdx, setPromoIdx] = useState(0);
   const [megaOpen, setMegaOpen] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
-    const t = setInterval(
-      () => setPromoIdx((i) => (i + 1) % promos.length),
+    const id = setInterval(
+      () => setPromoIdx((i) => (i + 1) % promoKeys.length),
       4500,
     );
-    return () => clearInterval(t);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -291,7 +292,7 @@ export default function Navbar() {
         <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-5 py-2.5 text-[12px] font-semibold text-white md:px-8 md:text-[13px]">
           <div className="hidden items-center gap-2 md:flex">
             <span aria-hidden className="text-white">✦</span>
-            <span className="text-white/95">Magical play, every day</span>
+            <span className="text-white/95">{t("nav.tagline")}</span>
           </div>
           <div className="md:hidden" />
           <div
@@ -299,14 +300,14 @@ export default function Navbar() {
             className="text-center text-white"
             style={{ animation: "fadeSlide 0.5s ease-out" }}
           >
-            {promos[promoIdx]}
+            {t(promoKeys[promoIdx])}
           </div>
           <div className="hidden items-center gap-3 md:flex">
             <a
               href="mailto:hello@amareen.si?subject=Order%20status"
               className="text-white/95 hover:text-white"
             >
-              Track Order
+              {t("nav.track_order")}
             </a>
           </div>
           <div className="md:hidden" />
@@ -353,7 +354,7 @@ export default function Navbar() {
                   }}
                 >
                   <span className="relative z-10" style={{ color: "#FFFFFF" }}>
-                    {l.label}
+                    {t(l.label)}
                   </span>
                   {l.mega && (
                     <svg
@@ -399,9 +400,14 @@ export default function Navbar() {
               />
             </div>
 
+            {/* Language switch — desktop */}
+            <div className="hidden md:block">
+              <LangSwitch />
+            </div>
+
             {/* Wishlist */}
             <button
-              aria-label="Wishlist"
+              aria-label={t("nav.wishlist")}
               className="hidden h-11 w-11 place-items-center rounded-full bg-pearl/10 text-pearl transition-colors hover:bg-pearl/20 md:grid"
             >
               <svg
@@ -502,7 +508,7 @@ export default function Navbar() {
                 textShadow: "0 1px 2px rgba(0, 0, 0, 0.4)",
               }}
             >
-              <span>{l.label}</span>
+              <span>{t(l.label)}</span>
               <svg
                 width="16"
                 height="16"
@@ -524,8 +530,14 @@ export default function Navbar() {
             className="mt-3 rounded-2xl btn-magic px-4 py-3 text-center text-sm font-bold"
             style={{ color: "#FFFFFF" }}
           >
-            <span style={{ color: "#FFFFFF" }}>Track Order</span>
+            <span style={{ color: "#FFFFFF" }}>{t("nav.track_order")}</span>
           </a>
+          <div className="mt-3 flex items-center justify-between rounded-2xl bg-pearl/10 px-4 py-3">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-pearl/80">
+              {t("lang.label")}
+            </span>
+            <LangSwitch />
+          </div>
         </nav>
       </div>
 
@@ -554,6 +566,7 @@ function MegaMenuPanel({
   link: NavLink;
   onClose: () => void;
 }) {
+  const { t } = useLang();
   if (!link.mega) return null;
   return (
     <div className="absolute inset-x-0 top-full z-40 hidden border-t border-pearl/10 bg-pearl shadow-lift lg:block">
@@ -561,7 +574,7 @@ function MegaMenuPanel({
         {link.mega.map((col) => (
           <div key={col.heading}>
             <h3 className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
-              {col.heading}
+              {t(col.heading)}
             </h3>
             <ul className="flex flex-col gap-1.5">
               {col.items.map((item) => (
@@ -578,7 +591,7 @@ function MegaMenuPanel({
                     >
                       <MegaIcon name={item.icon} />
                     </span>
-                    {item.label}
+                    {t(item.label)}
                     <svg
                       width="12"
                       height="12"
@@ -631,6 +644,7 @@ function SearchPanel({
   const [q, setQ] = useState("");
   const [results, setResults] = useState<SearchHit[]>([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useLang();
   const [total, setTotal] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -691,7 +705,7 @@ function SearchPanel({
   if (!open) {
     return (
       <button
-        aria-label="Search"
+        aria-label={t("nav.search")}
         onClick={() => setOpen(true)}
         className={
           variant === "desktop"
@@ -717,7 +731,7 @@ function SearchPanel({
             className="text-[12px] font-semibold"
             style={{ color: "#FFFFFF" }}
           >
-            Search…
+            {t("nav.search")}…
           </span>
         )}
       </button>
@@ -754,7 +768,7 @@ function SearchPanel({
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search toys, dresses, sets…"
+          placeholder={t("nav.search.placeholder")}
           className="flex-1 bg-transparent text-[14px] font-semibold text-ink outline-none placeholder:font-medium placeholder:text-slate"
         />
         <button

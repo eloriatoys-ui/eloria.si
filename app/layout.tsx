@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import LangProvider from "@/components/LangProvider";
 
 export const metadata: Metadata = {
   title: "WoodLand Toys — Where Imagination Grows Naturally",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-body text-text-dark antialiased">{children}</body>
+      <body className="font-body text-text-dark antialiased">
+        <LangProvider>{children}</LangProvider>
+      </body>
     </html>
   );
 }
