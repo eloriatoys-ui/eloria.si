@@ -49,7 +49,7 @@ export default function Hero() {
       id="home"
       className="relative overflow-hidden text-ink min-h-[560px] sm:min-h-[620px] md:min-h-[680px] lg:min-h-[740px] xl:min-h-[800px]"
       style={{
-        backgroundImage: "url('/hero-bg.png')",
+        backgroundImage: "url('/hero-bg.webp')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

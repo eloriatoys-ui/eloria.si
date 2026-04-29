@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.18]"
           style={{
-            backgroundImage: "url('/hero-bg.png')",
+            backgroundImage: "url('/hero-bg.webp')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

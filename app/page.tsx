@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import SplashScreen from "@/components/SplashScreen";
 import TrustBadges from "@/components/TrustBadges";
 import NewArrivals from "@/components/NewArrivals";
 import Trending from "@/components/Trending";
@@ -24,6 +25,13 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-cream">
+      {/* Preload critical hero assets so the browser starts fetching
+          them before React hydrates the section. */}
+      <link rel="preload" as="image" href="/hero-bg.webp" fetchPriority="high" />
+      <link rel="preload" as="image" href="/brand/eloria.webp" fetchPriority="high" />
+      <link rel="preload" as="video" href="/videos/girl-jump.webm" type="video/webm" />
+
+      <SplashScreen />
       <Navbar />
       <Hero />
       <TrustBadges />

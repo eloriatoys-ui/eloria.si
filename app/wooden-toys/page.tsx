@@ -169,7 +169,7 @@ export default function WoodenToysPage() {
         <div
           className="pointer-events-none absolute inset-0 opacity-30"
           style={{
-            backgroundImage: "url('/hero-bg.png')",
+            backgroundImage: "url('/hero-bg.webp')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             mixBlendMode: "overlay",
