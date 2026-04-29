@@ -253,6 +253,7 @@ function MegaIcon({ name }: { name: MegaIconName }) {
 const links: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop", mega: shopMega },
+  { label: "Wooden toys", href: "/wooden-toys" },
   { label: "Clothes", href: "/#clothes" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/#newsletter" },

@@ -73,6 +73,20 @@ export default function Hero() {
         }}
       />
 
+      {/* Centered hero video — alpha channel preserved (HEVC + VP9) */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[36%] h-[88%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+        style={{ objectFit: "contain" }}
+      >
+        <source src="/videos/girl-jump.mov" type='video/mp4; codecs="hvc1"' />
+        <source src="/videos/girl-jump.webm" type="video/webm" />
+      </video>
+
       {/* Sparkles */}
       <Sparkle className="left-[18%] top-32" delay={0.3} />
       <Sparkle className="left-[36%] top-20" delay={1.2} />

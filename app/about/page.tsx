@@ -102,7 +102,7 @@ export default function AboutPage() {
 
             <Reveal delay={120}>
               <div
-                className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-[36px] shadow-2xl"
+                className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[36px] shadow-2xl"
                 style={{
                   background:
                     "radial-gradient(circle at 30% 30%, #FBCFE8 0%, #F9A8D4 100%)",
@@ -110,8 +110,8 @@ export default function AboutPage() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/categories/for-girls.png"
-                  alt="A small Eloria moment"
+                  src="/about/story-hero.jpg"
+                  alt="Our story"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -133,8 +133,8 @@ export default function AboutPage() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/categories/for-boys.png"
-                  alt="Eloria for boys"
+                  src="/about/story-creativity.jpg"
+                  alt="How it began — developing creativity through play"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
