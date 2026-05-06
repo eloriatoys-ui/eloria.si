@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { updateProduct, deleteProduct } from "../../actions";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -112,20 +113,16 @@ export default async function EditProductPage({
           </Card>
 
           <Card title="Description">
-            <Field label="Short description (English) — HTML allowed">
-              <textarea
+            <Field label="Description (English)">
+              <RichTextEditor
                 name="short_description_en"
                 defaultValue={product.short_description_en ?? ""}
-                rows={6}
-                className={inputCls + " font-mono text-[12px]"}
               />
             </Field>
-            <Field label="Short description (Slovenian) — HTML allowed">
-              <textarea
+            <Field label="Description (Slovenian)">
+              <RichTextEditor
                 name="short_description_sl"
                 defaultValue={product.short_description_sl ?? ""}
-                rows={8}
-                className={inputCls + " font-mono text-[12px]"}
               />
             </Field>
           </Card>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createProduct } from "../actions";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Add product · Eloria Admin" };
@@ -50,11 +51,11 @@ export default async function NewProductPage() {
           </Card>
 
           <Card title="Description">
-            <Field label="Short description (English) — HTML allowed">
-              <textarea name="short_description_en" rows={6} className={inputCls + " font-mono text-[12px]"} />
+            <Field label="Description (English)">
+              <RichTextEditor name="short_description_en" />
             </Field>
-            <Field label="Short description (Slovenian) — HTML allowed">
-              <textarea name="short_description_sl" rows={8} className={inputCls + " font-mono text-[12px]"} />
+            <Field label="Description (Slovenian)">
+              <RichTextEditor name="short_description_sl" />
             </Field>
           </Card>
 
