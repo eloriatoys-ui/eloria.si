@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import type { Product } from "@/lib/data";
 import { useLang } from "@/components/LangProvider";
 import { productName, productShortDescription } from "@/lib/product-i18n";
+import { useCart } from "@/lib/cart/cart-context";
+import BuyNowButton from "@/components/cart/BuyNowButton";
 
 type Props = {
   product: Product;
@@ -16,6 +18,22 @@ export default function ProductInfo({ product }: Props) {
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<"description" | "details" | "shipping">("description");
   const [longDesc, setLongDesc] = useState<string | null>(null);
+  const { add } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const cartLine = {
+    productId: product.id,
+    slug: product.slug ?? String(product.id),
+    name,
+    image: product.image,
+    price: product.price,
+  };
+
+  const onAddToCart = () => {
+    add(cartLine, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
 
   useEffect(() => {
     let alive = true;
@@ -123,18 +141,13 @@ export default function ProductInfo({ product }: Props) {
 
         <button
           type="button"
+          onClick={onAddToCart}
           className="flex-1 rounded-full bg-ink px-6 py-3.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
           style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
         >
-          <span style={{ color: "#FFFFFF" }}>Add to cart</span>
+          <span style={{ color: "#FFFFFF" }}>{added ? "Added ✓" : "Add to cart"}</span>
         </button>
-        <button
-          type="button"
-          className="flex-1 rounded-full bg-orange px-6 py-3.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
-          style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
-        >
-          <span style={{ color: "#FFFFFF" }}>Buy now</span>
-        </button>
+        <BuyNowButton product={cartLine} />
         <button
           type="button"
           aria-label="Add to wishlist"
