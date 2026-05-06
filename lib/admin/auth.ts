@@ -20,8 +20,8 @@ async function sha256(input: string): Promise<string> {
 }
 
 export async function adminToken(): Promise<string | null> {
-  const email = process.env.ADMIN_EMAIL;
-  const pw = process.env.ADMIN_PASSWORD;
+  const email = process.env.ADMIN_EMAIL?.trim();
+  const pw = process.env.ADMIN_PASSWORD?.trim();
   if (!email || !pw) return null;
   return sha256(`eloria-admin:${email}:${pw}`);
 }
@@ -48,12 +48,13 @@ export async function checkCredentials(
   email: string,
   password: string,
 ): Promise<boolean> {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPw = process.env.ADMIN_PASSWORD;
+  // Trim env vars defensively — Vercel pastes sometimes carry whitespace.
+  const adminEmail = process.env.ADMIN_EMAIL?.trim();
+  const adminPw = process.env.ADMIN_PASSWORD?.trim();
   if (!adminEmail || !adminPw) return false;
-  // Email is case-insensitive; password is exact.
+  // Email is case-insensitive; password is exact (no trim on what the user typed).
   return (
-    email.trim().toLowerCase() === adminEmail.trim().toLowerCase() &&
+    email.trim().toLowerCase() === adminEmail.toLowerCase() &&
     timingSafeEqualString(password, adminPw)
   );
 }

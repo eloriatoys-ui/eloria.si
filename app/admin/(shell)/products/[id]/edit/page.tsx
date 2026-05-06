@@ -60,7 +60,7 @@ export default async function EditProductPage({
         )}
       </p>
 
-      <form action={update} className="mt-8 grid gap-8 md:grid-cols-[1fr,320px]">
+      <form action={update} encType="multipart/form-data" className="mt-8 grid gap-8 md:grid-cols-[1fr,320px]">
         {/* Main form */}
         <div className="space-y-6">
           <Card title="Names">
@@ -154,7 +154,22 @@ export default async function EditProductPage({
           </Card>
 
           <Card title="Images">
-            <Field label="Main image URL (relative path or full URL)">
+            {product.image && (
+              <div className="flex items-center gap-3 rounded-lg border border-orange-dark/15 bg-cream p-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={product.image} alt="" className="h-16 w-16 rounded-md object-cover" />
+                <p className="break-all text-[12px] text-ink/70">{product.image}</p>
+              </div>
+            )}
+            <Field label="Replace main image — upload">
+              <input
+                name="image_file"
+                type="file"
+                accept="image/*"
+                className="block w-full text-[12px] file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-4 file:py-2 file:text-[12px] file:font-bold file:text-pearl hover:file:bg-orange-dark"
+              />
+            </Field>
+            <Field label="…or paste a URL (leave blank to keep current image when nothing is uploaded)">
               <input
                 name="image"
                 defaultValue={product.image ?? ""}
@@ -162,7 +177,17 @@ export default async function EditProductPage({
                 className={inputCls}
               />
             </Field>
-            <Field label="Gallery (one URL per line)">
+
+            <Field label="Add to gallery — upload multiple files">
+              <input
+                name="gallery_files"
+                type="file"
+                accept="image/*"
+                multiple
+                className="block w-full text-[12px] file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-4 file:py-2 file:text-[12px] file:font-bold file:text-pearl hover:file:bg-orange-dark"
+              />
+            </Field>
+            <Field label="Gallery URLs (one per line — saving replaces the gallery)">
               <textarea
                 name="gallery"
                 defaultValue={galleryUrls}
