@@ -1,148 +1,16 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 import T from "@/components/T";
+import { supabaseAdmin } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Wooden toys · Eloria",
   description:
     "Hand-crafted wooden toys made from sustainably sourced natural wood. No plastic, no compromises — just timeless play.",
 };
-
-type WoodenToy = {
-  id: string;
-  nameKey: string;
-  price: number;
-  comparePrice?: number;
-  badgeKey?: string;
-  emoji: string;
-  bg: string;
-  categoryKey: string;
-  ageKey: string;
-};
-
-const woodenToys: WoodenToy[] = [
-  {
-    id: "wt-rainbow",
-    nameKey: "wt.p.rainbow",
-    price: 89,
-    comparePrice: 129,
-    badgeKey: "wt.badge.bestseller",
-    emoji: "🌈",
-    bg: "linear-gradient(135deg, #FBCFE8 0%, #FED7AA 100%)",
-    categoryKey: "wt.cat.stacking",
-    ageKey: "wt.age.1_3y",
-  },
-  {
-    id: "wt-train",
-    nameKey: "wt.p.train",
-    price: 119,
-    badgeKey: "wt.badge.new",
-    emoji: "🚂",
-    bg: "linear-gradient(135deg, #BAE6FD 0%, #DDD6FE 100%)",
-    categoryKey: "wt.cat.vehicles",
-    ageKey: "wt.age.3_6y",
-  },
-  {
-    id: "wt-blocks",
-    nameKey: "wt.p.blocks",
-    price: 69,
-    comparePrice: 99,
-    emoji: "🧱",
-    bg: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)",
-    categoryKey: "wt.cat.construction",
-    ageKey: "wt.age.2y",
-  },
-  {
-    id: "wt-xylo",
-    nameKey: "wt.p.xylo",
-    price: 49,
-    emoji: "🎶",
-    bg: "linear-gradient(135deg, #BBF7D0 0%, #BAE6FD 100%)",
-    categoryKey: "wt.cat.music",
-    ageKey: "wt.age.18mo",
-  },
-  {
-    id: "wt-puzzle",
-    nameKey: "wt.p.puzzle",
-    price: 39,
-    emoji: "🧩",
-    bg: "linear-gradient(135deg, #FED7AA 0%, #FBCFE8 100%)",
-    categoryKey: "wt.cat.puzzles",
-    ageKey: "wt.age.2_5y",
-  },
-  {
-    id: "wt-kitchen",
-    nameKey: "wt.p.kitchen",
-    price: 199,
-    comparePrice: 259,
-    badgeKey: "wt.badge.bestseller",
-    emoji: "🍳",
-    bg: "linear-gradient(135deg, #DDD6FE 0%, #FBCFE8 100%)",
-    categoryKey: "wt.cat.pretend",
-    ageKey: "wt.age.3y",
-  },
-  {
-    id: "wt-shape",
-    nameKey: "wt.p.shape",
-    price: 35,
-    emoji: "🟦",
-    bg: "linear-gradient(135deg, #FDE68A 0%, #BBF7D0 100%)",
-    categoryKey: "wt.cat.sensory",
-    ageKey: "wt.age.12_24mo",
-  },
-  {
-    id: "wt-pull",
-    nameKey: "wt.p.pull",
-    price: 29,
-    emoji: "🦆",
-    bg: "linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%)",
-    categoryKey: "wt.cat.first",
-    ageKey: "wt.age.12mo",
-  },
-  {
-    id: "wt-tea",
-    nameKey: "wt.p.tea",
-    price: 59,
-    badgeKey: "wt.badge.new",
-    emoji: "🍵",
-    bg: "linear-gradient(135deg, #FBCFE8 0%, #DDD6FE 100%)",
-    categoryKey: "wt.cat.pretend",
-    ageKey: "wt.age.3y",
-  },
-  {
-    id: "wt-tools",
-    nameKey: "wt.p.tools",
-    price: 99,
-    emoji: "🔨",
-    bg: "linear-gradient(135deg, #BAE6FD 0%, #BBF7D0 100%)",
-    categoryKey: "wt.cat.pretend",
-    ageKey: "wt.age.3y",
-  },
-  {
-    id: "wt-balance",
-    nameKey: "wt.p.balance",
-    price: 169,
-    comparePrice: 229,
-    emoji: "🚲",
-    bg: "linear-gradient(135deg, #FED7AA 0%, #FDE68A 100%)",
-    categoryKey: "wt.cat.outdoor",
-    ageKey: "wt.age.2_4y",
-  },
-  {
-    id: "wt-abacus",
-    nameKey: "wt.p.abacus",
-    price: 45,
-    emoji: "🧮",
-    bg: "linear-gradient(135deg, #DDD6FE 0%, #BAE6FD 100%)",
-    categoryKey: "wt.cat.learning",
-    ageKey: "wt.age.3_7y",
-  },
-];
-
-const categoryKeys = [
-  ...new Set(woodenToys.map((t) => t.categoryKey)),
-];
 
 const benefits = [
   { titleKey: "wt.benefits.b1.title", bodyKey: "wt.benefits.b1.body" },
@@ -151,10 +19,46 @@ const benefits = [
 ];
 
 function formatPrice(n: number) {
-  return `${n} €`;
+  return `${n.toFixed(n % 1 === 0 ? 0 : 2)} €`;
 }
 
-export default function WoodenToysPage() {
+function ageLabel(min: number | null, max: number | null): string | null {
+  if (min == null && max == null) return null;
+  const fmt = (m: number) =>
+    m < 24 ? `${m}m` : `${Math.round(m / 12)}y`;
+  if (min != null && max != null) return `${fmt(min)}–${fmt(max)}`;
+  if (min != null) return `${fmt(min)}+`;
+  return `up to ${fmt(max!)}`;
+}
+
+async function loadWoodenToys() {
+  // Pull every product that's linked to the "wooden-toys" category.
+  const { data: cat } = await supabaseAdmin
+    .from("categories")
+    .select("id")
+    .eq("slug", "wooden-toys")
+    .maybeSingle();
+  if (!cat) return [];
+
+  const { data } = await supabaseAdmin
+    .from("product_categories")
+    .select(
+      "products(id, woo_id, slug, name_en, name_sl, price, compare_price, image, badge, age_min_months, age_max_months, stock_status, is_published, created_at)",
+    )
+    .eq("category_id", cat.id);
+
+  const rows = (data ?? [])
+    .map((r: any) => r.products)
+    .filter(
+      (p: any) => p && p.is_published && p.stock_status === "instock",
+    )
+    .sort((a: any, b: any) => (a.created_at < b.created_at ? 1 : -1));
+  return rows;
+}
+
+export default async function WoodenToysPage() {
+  const products = await loadWoodenToys();
+
   return (
     <main className="min-h-screen bg-cream">
       <Navbar />
@@ -200,7 +104,7 @@ export default function WoodenToysPage() {
                 <T id="wt.cta_browse" />
               </a>
               <a
-                href="mailto:hello@amareen.si"
+                href="mailto:hello@eloria.si"
                 className="inline-flex items-center gap-2 rounded-full border border-pearl/30 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl transition-colors hover:bg-pearl hover:text-ink"
               >
                 <T id="wt.cta_custom" />
@@ -253,157 +157,107 @@ export default function WoodenToysPage() {
                   <T id="wt.coll.subtitle" />
                 </p>
               </div>
-
-              <div className="flex flex-wrap gap-2">
-                {categoryKeys.map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center rounded-full border border-orange-dark/15 bg-pearl px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/70"
-                  >
-                    <T id={c} />
-                  </span>
-                ))}
-              </div>
+              <p className="text-[12px] font-bold text-ink/60">
+                {products.length} {products.length === 1 ? "product" : "products"}
+              </p>
             </div>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
-            {woodenToys.map((t, i) => {
-              const onSale =
-                typeof t.comparePrice === "number" && t.comparePrice > t.price;
-              const discount = onSale
-                ? Math.round(
-                    ((t.comparePrice! - t.price) / t.comparePrice!) * 100,
-                  )
-                : 0;
-              return (
-                <Reveal key={t.id} delay={(i % 4) * 60}>
-                  <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-pearl ring-1 ring-orange-dark/10 transition-all hover:-translate-y-1 hover:shadow-xl">
-                    <div
-                      className="relative aspect-square overflow-hidden"
-                      style={{ background: t.bg }}
+          {products.length === 0 ? (
+            <div className="mt-10 rounded-3xl border border-orange-dark/15 bg-pearl p-10 text-center text-ink/70">
+              <p className="text-base">No wooden toys in stock right now.</p>
+              <Link
+                href="/shop"
+                className="mt-4 inline-block text-[13px] font-bold text-orange-dark hover:underline"
+              >
+                Browse the full shop →
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+              {products.map((p: any, i: number) => {
+                const onSale =
+                  typeof p.compare_price === "number" &&
+                  Number(p.compare_price) > Number(p.price);
+                const discount = onSale
+                  ? Math.round(
+                      ((Number(p.compare_price) - Number(p.price)) /
+                        Number(p.compare_price)) *
+                        100,
+                    )
+                  : 0;
+                const age = ageLabel(p.age_min_months, p.age_max_months);
+                return (
+                  <Reveal key={p.id} delay={(i % 4) * 60}>
+                    <Link
+                      href={`/shop/${p.slug}`}
+                      className="group flex h-full flex-col overflow-hidden rounded-3xl bg-pearl ring-1 ring-orange-dark/10 transition-all hover:-translate-y-1 hover:shadow-xl"
                     >
-                      <div className="absolute inset-0 grid place-items-center text-7xl transition-transform duration-500 group-hover:scale-110 md:text-8xl">
-                        <span aria-hidden>{t.emoji}</span>
-                      </div>
+                      <div className="relative aspect-square overflow-hidden bg-cream">
+                        {p.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={p.image}
+                            alt={p.name_en}
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="grid h-full w-full place-items-center text-7xl">
+                            🧸
+                          </div>
+                        )}
 
-                      <span className="absolute left-3 top-3 rounded-full bg-pearl/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-ink shadow">
-                        <T id="wt.coming" />
-                      </span>
-
-                      {t.badgeKey && (
-                        <span className="absolute right-3 top-3 rounded-full bg-orange px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-pearl shadow">
-                          <T id={t.badgeKey} />
-                        </span>
-                      )}
-
-                      {onSale && (
-                        <span className="absolute bottom-3 right-3 rounded-full bg-wood-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-pearl shadow">
-                          −{discount}%
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-1 flex-col gap-3 p-4">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-orange-dark">
-                          <T id={t.categoryKey} />
-                        </span>
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
-                          <T id={t.ageKey} />
-                        </span>
-                      </div>
-
-                      <h3 className="text-sm font-extrabold leading-snug text-ink">
-                        <T id={t.nameKey} />
-                      </h3>
-
-                      <div className="mt-auto flex items-end justify-between gap-2">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-base font-extrabold text-ink">
-                            {formatPrice(t.price)}
+                        {p.badge && (
+                          <span className="absolute right-3 top-3 rounded-full bg-orange px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-pearl shadow">
+                            {p.badge}
                           </span>
-                          {onSale && (
-                            <span className="text-xs text-ink/40 line-through">
-                              {formatPrice(t.comparePrice!)}
+                        )}
+
+                        {onSale && (
+                          <span className="absolute bottom-3 right-3 rounded-full bg-wood-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-pearl shadow">
+                            −{discount}%
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex flex-1 flex-col gap-3 p-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-orange-dark">
+                            Wooden Toys
+                          </span>
+                          {age && (
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
+                              {age}
                             </span>
                           )}
                         </div>
-                        <button
-                          type="button"
-                          disabled
-                          className="inline-flex cursor-not-allowed items-center gap-1 rounded-full bg-ink/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40"
-                        >
-                          <T id="wt.notify" />
-                        </button>
+
+                        <h3 className="line-clamp-2 text-sm font-extrabold leading-snug text-ink">
+                          {p.name_sl ?? p.name_en}
+                        </h3>
+
+                        <div className="mt-auto flex items-end justify-between gap-2">
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-base font-extrabold text-ink">
+                              {formatPrice(Number(p.price))}
+                            </span>
+                            {onSale && (
+                              <span className="text-xs text-ink/40 line-through">
+                                {formatPrice(Number(p.compare_price))}
+                              </span>
+                            )}
+                          </div>
+                          <span className="inline-flex items-center gap-1 rounded-full bg-orange px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-pearl">
+                            View
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-cream pb-20 md:pb-28">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <Reveal>
-            <div
-              className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-wood-dark to-orange-deep p-8 text-pearl md:p-14"
-              style={{ boxShadow: "0 30px 60px -20px rgba(28, 25, 23, 0.45)" }}
-            >
-              <div
-                className="pointer-events-none absolute inset-0 opacity-25"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 80% 20%, #FED7AA 0%, transparent 45%), radial-gradient(circle at 10% 100%, #FBCFE8 0%, transparent 40%)",
-                }}
-              />
-              <div className="relative grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-center">
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-pearl/70">
-                    <T id="wt.notify_first" />
-                  </p>
-                  <h2
-                    className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl"
-                    style={{ letterSpacing: "-0.025em" }}
-                  >
-                    <T id="wt.notify_title" />
-                  </h2>
-                  <p className="mt-4 max-w-xl text-base leading-relaxed text-pearl/85 sm:text-lg">
-                    <T id="wt.notify_body" />
-                  </p>
-                  <form
-                    className="mt-7 flex w-full max-w-md flex-col gap-3 sm:flex-row"
-                    action="mailto:hello@amareen.si"
-                    method="post"
-                  >
-                    <input
-                      type="email"
-                      required
-                      placeholder="you@example.com"
-                      className="flex-1 rounded-full border border-pearl/30 bg-pearl/10 px-5 py-3 text-sm text-pearl placeholder-pearl/50 outline-none transition-colors focus:bg-pearl focus:text-ink focus:placeholder-ink/40"
-                    />
-                    <button
-                      type="submit"
-                      className="rounded-full bg-orange px-6 py-3 text-sm font-bold uppercase tracking-[0.14em] text-pearl shadow-lg transition-transform hover:-translate-y-0.5"
-                    >
-                      <T id="wt.notify" />
-                    </button>
-                  </form>
-                </div>
-
-                <div className="hidden md:block">
-                  <div className="relative aspect-square overflow-hidden rounded-[28px] bg-wood-light/30 ring-1 ring-pearl/10">
-                    <div className="absolute inset-0 grid place-items-center text-9xl">
-                      <span aria-hidden>🪵</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </Link>
+                  </Reveal>
+                );
+              })}
             </div>
-          </Reveal>
+          )}
         </div>
       </section>
 

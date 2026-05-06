@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 type SearchParams = {
   q?: string;
   stock?: string;
+  category?: string;
   page?: string;
 };
 
@@ -16,12 +17,17 @@ async function loadProducts(sp: SearchParams) {
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
+  const categoryId = sp.category ? Number(sp.category) : null;
+
+  // When filtering by category, use an inner join so we only return products
+  // that have a row in product_categories matching that id.
+  const select = categoryId
+    ? "id, woo_id, slug, name_en, name_sl, price, compare_price, image, stock_status, is_published, created_at, product_categories!inner(category_id, categories(name_en))"
+    : "id, woo_id, slug, name_en, name_sl, price, compare_price, image, stock_status, is_published, created_at, product_categories(categories(name_en))";
+
   let q = supabaseAdmin
     .from("products")
-    .select(
-      "id, woo_id, slug, name_en, name_sl, price, compare_price, image, stock_status, is_published, created_at, product_categories(categories(name_en))",
-      { count: "exact" },
-    )
+    .select(select, { count: "exact" })
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -31,6 +37,7 @@ async function loadProducts(sp: SearchParams) {
   }
   if (sp.stock === "instock") q = q.eq("stock_status", "instock");
   if (sp.stock === "outofstock") q = q.neq("stock_status", "instock");
+  if (categoryId) q = q.eq("product_categories.category_id", categoryId);
 
   const { data, count, error } = await q;
   if (error) {
@@ -40,15 +47,27 @@ async function loadProducts(sp: SearchParams) {
   return { rows: data ?? [], count: count ?? 0, page };
 }
 
+async function loadCategories() {
+  const { data } = await supabaseAdmin
+    .from("categories")
+    .select("id, name_en")
+    .order("name_en", { ascending: true });
+  return data ?? [];
+}
+
 export default async function AdminProductsPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
-  const { rows, count, page } = await loadProducts(searchParams);
+  const [{ rows, count, page }, categories] = await Promise.all([
+    loadProducts(searchParams),
+    loadCategories(),
+  ]);
   const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
   const q = searchParams.q ?? "";
   const stock = searchParams.stock ?? "";
+  const category = searchParams.category ?? "";
 
   return (
     <div>
@@ -76,6 +95,18 @@ export default async function AdminProductsPage({
           className="min-w-[200px] flex-1 rounded-full border border-orange-dark/20 bg-pearl px-5 py-2.5 text-sm outline-none focus:border-orange focus:ring-2 focus:ring-orange/30"
         />
         <select
+          name="category"
+          defaultValue={category}
+          className="rounded-full border border-orange-dark/20 bg-pearl px-4 py-2.5 text-sm outline-none focus:border-orange"
+        >
+          <option value="">All categories</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name_en}
+            </option>
+          ))}
+        </select>
+        <select
           name="stock"
           defaultValue={stock}
           className="rounded-full border border-orange-dark/20 bg-pearl px-4 py-2.5 text-sm outline-none focus:border-orange"
@@ -90,7 +121,7 @@ export default async function AdminProductsPage({
         >
           Filter
         </button>
-        {(q || stock) && (
+        {(q || stock || category) && (
           <Link
             href="/admin/products"
             className="text-[13px] font-bold text-ink/60 hover:text-orange-dark"
@@ -180,7 +211,7 @@ export default async function AdminProductsPage({
       </div>
 
       {totalPages > 1 && (
-        <Pagination page={page} totalPages={totalPages} q={q} stock={stock} />
+        <Pagination page={page} totalPages={totalPages} q={q} stock={stock} category={category} />
       )}
     </div>
   );
@@ -206,16 +237,19 @@ function Pagination({
   totalPages,
   q,
   stock,
+  category,
 }: {
   page: number;
   totalPages: number;
   q: string;
   stock: string;
+  category: string;
 }) {
   const buildHref = (p: number) => {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
     if (stock) params.set("stock", stock);
+    if (category) params.set("category", category);
     if (p > 1) params.set("page", String(p));
     const s = params.toString();
     return `/admin/products${s ? "?" + s : ""}`;
