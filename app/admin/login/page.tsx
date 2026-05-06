@@ -36,7 +36,7 @@ async function login(formData: FormData) {
 export default async function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string; next?: string };
+  searchParams: { error?: string; next?: string; diag?: string };
 }) {
   const existing = cookies().get(ADMIN_COOKIE)?.value;
   if (await isAdminCookieValid(existing)) {
@@ -50,6 +50,32 @@ export default async function AdminLoginPage({
       : error
       ? "Wrong email or password."
       : null;
+
+  // Lightweight diagnostic (?diag=1) — shows only metadata, never the values.
+  let diag: null | {
+    emailSet: boolean;
+    emailRaw: number;
+    emailTrim: number;
+    pwSet: boolean;
+    pwRaw: number;
+    pwTrim: number;
+    emailFirst3: string;
+    emailLast3: string;
+  } = null;
+  if (searchParams.diag === "1") {
+    const e = process.env.ADMIN_EMAIL ?? "";
+    const p = process.env.ADMIN_PASSWORD ?? "";
+    diag = {
+      emailSet: !!e,
+      emailRaw: e.length,
+      emailTrim: e.trim().length,
+      pwSet: !!p,
+      pwRaw: p.length,
+      pwTrim: p.trim().length,
+      emailFirst3: e.trim().slice(0, 3),
+      emailLast3: e.trim().slice(-3),
+    };
+  }
 
   return (
     <main className="grid min-h-screen place-items-center bg-cream px-5">
@@ -89,6 +115,20 @@ export default async function AdminLoginPage({
           <p className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[13px] text-red-700">
             {errorMessage}
           </p>
+        )}
+
+        {diag && (
+          <pre className="mt-3 overflow-x-auto rounded-md border border-amber-200 bg-amber-50 p-3 text-[11px] text-amber-900">
+{`Diagnostic (no values, only metadata):
+  ADMIN_EMAIL set:        ${diag.emailSet}
+  ADMIN_EMAIL length:     raw=${diag.emailRaw} trim=${diag.emailTrim} (must be ${"eloriatoys@gmail.com".length})
+  ADMIN_EMAIL preview:    "${diag.emailFirst3}…${diag.emailLast3}"
+  ADMIN_PASSWORD set:     ${diag.pwSet}
+  ADMIN_PASSWORD length:  raw=${diag.pwRaw} trim=${diag.pwTrim} (must be ${"Eloria2026@".length})
+
+If trim < raw → there is whitespace in the Vercel value.
+If lengths don't match the "must be" value → the Vercel value is wrong.`}
+          </pre>
         )}
 
         <button
