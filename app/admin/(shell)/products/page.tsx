@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { deleteProduct } from "./actions";
+import DeleteButton from "@/components/admin/DeleteButton";
+import { IconEdit, IconPlus, IconSearch } from "@/components/admin/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -80,20 +83,25 @@ export default async function AdminProductsPage({
         </div>
         <Link
           href="/admin/products/new"
-          className="rounded-full bg-orange px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
-          style={{ color: "#FFFFFF" }}
+          className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
         >
-          <span style={{ color: "#FFFFFF" }}>+ Add product</span>
+          <IconPlus size={14} />
+          <span style={{ color: "#FFFFFF" }}>Add product</span>
         </Link>
       </div>
 
       <form className="mt-6 flex flex-wrap items-center gap-3" action="/admin/products" method="get">
-        <input
-          name="q"
-          defaultValue={q}
-          placeholder="Search by name or slug…"
-          className="min-w-[200px] flex-1 rounded-full border border-orange-dark/20 bg-pearl px-5 py-2.5 text-sm outline-none focus:border-orange focus:ring-2 focus:ring-orange/30"
-        />
+        <div className="relative min-w-[220px] flex-1">
+          <span className="pointer-events-none absolute inset-y-0 left-4 grid place-items-center text-ink/40">
+            <IconSearch size={14} />
+          </span>
+          <input
+            name="q"
+            defaultValue={q}
+            placeholder="Search by name or slug…"
+            className="w-full rounded-full border border-orange-dark/20 bg-pearl py-2.5 pl-10 pr-5 text-sm outline-none focus:border-orange focus:ring-2 focus:ring-orange/30"
+          />
+        </div>
         <select
           name="category"
           defaultValue={category}
@@ -196,13 +204,20 @@ export default async function AdminProductsPage({
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-right">
-                  <Link
-                    href={`/admin/products/${p.id}/edit`}
-                    className="rounded-md border border-orange-dark/20 bg-cream px-3 py-1.5 text-[12px] font-bold text-ink hover:bg-orange-dark hover:text-pearl"
-                  >
-                    Edit
-                  </Link>
+                <td className="px-4 py-3">
+                  <div className="flex items-center justify-end gap-2">
+                    <Link
+                      href={`/admin/products/${p.id}/edit`}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-orange-dark/20 bg-cream px-3 py-1.5 text-[12px] font-bold text-ink hover:border-orange-dark hover:bg-orange-dark hover:text-pearl"
+                    >
+                      <IconEdit size={13} />
+                      Edit
+                    </Link>
+                    <DeleteButton
+                      action={deleteProduct.bind(null, p.id)}
+                      confirmMessage={`Delete "${p.name_en}"? This will also remove its images and categories. This can't be undone.`}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}
