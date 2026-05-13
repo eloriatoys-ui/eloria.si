@@ -253,7 +253,15 @@ export default function Footer() {
       <div className="border-t border-orange-dark/10 bg-pearl">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-5 text-[12px] text-slate md:flex-row md:px-8">
           <p>
-            © {new Date().getFullYear()} {STORE_NAME}. {t("footer.copy_rights")}
+            © {new Date().getFullYear()} {STORE_NAME}. {t("footer.copy_rights")} · Site by{" "}
+            <a
+              href="https://www.dubaiprod.com"
+              target="_blank"
+              rel="noopener"
+              className="font-semibold text-ink hover:text-orange-dark"
+            >
+              Dubai Prod
+            </a>
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
             <li>
