@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { markShipped, markDelivered } from "./actions";
+import { markShipped, markDelivered, createGlsShipmentForOrder } from "./actions";
+import { getTrackingUrl } from "@/lib/gls";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,10 @@ export default async function AdminOrderDetail({
 
   const ship = markShipped.bind(null, params.id);
   const deliver = markDelivered.bind(null, params.id);
+  const createGls = createGlsShipmentForOrder.bind(null, params.id);
   const sa = order.shipping_address as any;
+  const hasGlsParcel = Boolean(order.tracking_number && order.tracking_carrier === "GLS");
+  const glsTrackingUrl = hasGlsParcel ? getTrackingUrl(order.tracking_number) : null;
 
   return (
     <div>
@@ -119,6 +123,67 @@ export default async function AdminOrderDetail({
               </div>
             </dl>
           </section>
+
+          {order.payment_status === "paid" && (
+            <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
+              <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
+                GLS shipment
+              </h2>
+              {hasGlsParcel ? (
+                <div className="mt-3 space-y-3 text-[13px]">
+                  <p>
+                    <span className="text-ink/60">Parcel #</span>{" "}
+                    <span className="font-bold text-ink">{order.tracking_number}</span>
+                  </p>
+                  {order.gls_created_at && (
+                    <p className="text-[12px] text-ink/60">
+                      Created {new Date(order.gls_created_at).toLocaleString()}
+                    </p>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={`/admin/api/orders/${order.id}/label`}
+                      target="_blank"
+                      rel="noopener"
+                      className="rounded-full bg-orange px-4 py-2.5 text-center text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
+                      style={{ color: "#FFFFFF" }}
+                    >
+                      <span style={{ color: "#FFFFFF" }}>Print label (PDF)</span>
+                    </a>
+                    {glsTrackingUrl && (
+                      <a
+                        href={glsTrackingUrl}
+                        target="_blank"
+                        rel="noopener"
+                        className="rounded-full border border-orange-dark/25 bg-cream px-4 py-2.5 text-center text-[12px] font-extrabold uppercase tracking-wider text-ink hover:bg-orange-dark hover:text-pearl"
+                      >
+                        Track parcel
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-3 space-y-3">
+                  {order.gls_error && (
+                    <p className="rounded-lg bg-red-50 px-3 py-2 text-[12px] text-red-800">
+                      Last error: {order.gls_error}
+                    </p>
+                  )}
+                  <form action={createGls}>
+                    <button
+                      type="submit"
+                      className="w-full rounded-full bg-orange px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
+                      style={{ color: "#FFFFFF" }}
+                    >
+                      <span style={{ color: "#FFFFFF" }}>
+                        {order.gls_error ? "Retry GLS shipment" : "Create GLS shipment"}
+                      </span>
+                    </button>
+                  </form>
+                </div>
+              )}
+            </section>
+          )}
 
           {order.payment_status === "paid" && order.shipping_status !== "shipped" && order.shipping_status !== "delivered" && (
             <form action={ship} className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">

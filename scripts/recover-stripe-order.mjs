@@ -166,3 +166,5 @@ console.log(`✅ Recovered order ${order.order_number} (id=${order.id})`);
 console.log(`   Email:    ${email}`);
 console.log(`   Total:    ${total} ${(session.currency ?? "eur").toUpperCase()}`);
 console.log(`   Items:    ${items.length}`);
+console.log(`   Note: GLS shipment is NOT created by this script — use the`);
+console.log(`   admin "Create GLS shipment" button or re-run the webhook handler.`);

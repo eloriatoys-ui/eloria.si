@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { createGlsShipment } from "@/lib/gls";
 
 export const runtime = "nodejs";
 
@@ -133,7 +134,7 @@ async function fulfillSession(sessionId: string) {
           ? session.payment_intent
           : session.payment_intent?.id ?? null,
     })
-    .select("id")
+    .select("id, order_number")
     .single();
   if (orderErr || !order) {
     console.error("Order insert failed:", orderErr);
@@ -163,5 +164,54 @@ async function fulfillSession(sessionId: string) {
   if (items.length > 0) {
     const { error: itemsErr } = await supabaseAdmin.from("order_items").insert(items);
     if (itemsErr) console.error("Order items insert failed:", itemsErr);
+  }
+
+  // Fire-and-forget GLS shipment. We intentionally don't await this inside
+  // the webhook response path so a transient GLS failure doesn't make Stripe
+  // retry the whole order-creation flow.
+  fulfillGlsShipment({
+    orderId: order.id,
+    order_number: (order as any).order_number ?? "",
+    email,
+    shipping_address: shipping_address as any,
+    phone,
+  }).catch((err) => {
+    console.error("GLS fulfillment crashed:", err);
+  });
+}
+
+async function fulfillGlsShipment(args: {
+  orderId: string;
+  order_number: string;
+  email: string;
+  shipping_address: Record<string, unknown> | null;
+  phone: string | null;
+}) {
+  if (!args.shipping_address) return;
+  try {
+    const result = await createGlsShipment({
+      order_number: args.order_number,
+      email: args.email,
+      shipping_address: args.shipping_address as any,
+      phone: args.phone,
+    });
+    await supabaseAdmin
+      .from("orders")
+      .update({
+        tracking_carrier: "GLS",
+        tracking_number: result.parcelNumber,
+        gls_parcel_id: result.parcelId,
+        gls_label_pdf: result.labelPdfBase64,
+        gls_error: null,
+        gls_created_at: new Date().toISOString(),
+      })
+      .eq("id", args.orderId);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`GLS shipment failed for order ${args.order_number}:`, message);
+    await supabaseAdmin
+      .from("orders")
+      .update({ gls_error: message })
+      .eq("id", args.orderId);
   }
 }

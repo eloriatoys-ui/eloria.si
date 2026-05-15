@@ -3,6 +3,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClearCartOnMount from "./ClearCartOnMount";
 import { stripe } from "@/lib/stripe";
+import { supabaseAdmin } from "@/lib/supabase/server";
+import { getTrackingUrl } from "@/lib/gls";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,7 @@ export default async function OrderSuccessPage({
 }) {
   const sessionId = searchParams.session_id;
   let summary: { email?: string; total?: number; currency?: string } = {};
+  let tracking: { number: string; url: string } | null = null;
   if (sessionId) {
     try {
       const s = await stripe.checkout.sessions.retrieve(sessionId);
@@ -22,6 +25,17 @@ export default async function OrderSuccessPage({
         currency: (s.currency ?? "eur").toUpperCase(),
       };
     } catch {}
+    const { data: orderRow } = await supabaseAdmin
+      .from("orders")
+      .select("tracking_number, tracking_carrier")
+      .eq("stripe_session_id", sessionId)
+      .maybeSingle();
+    if (orderRow?.tracking_number && orderRow.tracking_carrier === "GLS") {
+      tracking = {
+        number: orderRow.tracking_number,
+        url: getTrackingUrl(orderRow.tracking_number),
+      };
+    }
   }
 
   return (
@@ -57,6 +71,24 @@ export default async function OrderSuccessPage({
             {summary.total.toFixed(2)}
           </p>
         ) : null}
+        {tracking && (
+          <div className="mx-auto mt-8 max-w-md rounded-2xl border border-orange-dark/15 bg-pearl p-5 text-left">
+            <p className="text-[12px] font-bold uppercase tracking-wider text-ink/70">
+              Tracking
+            </p>
+            <p className="mt-2 text-[14px] text-ink">
+              GLS · <span className="font-bold">{tracking.number}</span>
+            </p>
+            <a
+              href={tracking.url}
+              target="_blank"
+              rel="noopener"
+              className="mt-3 inline-block text-[13px] font-bold text-orange-dark hover:underline"
+            >
+              Follow your parcel →
+            </a>
+          </div>
+        )}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link
             href="/shop"

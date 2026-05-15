@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { createGlsShipment } from "@/lib/gls";
 
 export async function markShipped(id: string, formData: FormData) {
   const trackingCarrier = String(formData.get("tracking_carrier") ?? "").trim() || null;
@@ -28,5 +29,39 @@ export async function markDelivered(id: string) {
     .eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/orders");
+  revalidatePath("/admin/orders/" + id);
+}
+
+export async function createGlsShipmentForOrder(id: string) {
+  const { data: order } = await supabaseAdmin
+    .from("orders")
+    .select("id, order_number, email, shipping_address")
+    .eq("id", id)
+    .maybeSingle();
+  if (!order) throw new Error("Order not found");
+
+  try {
+    const result = await createGlsShipment({
+      order_number: order.order_number,
+      email: order.email,
+      shipping_address: order.shipping_address as any,
+      phone: null,
+    });
+    await supabaseAdmin
+      .from("orders")
+      .update({
+        tracking_carrier: "GLS",
+        tracking_number: result.parcelNumber,
+        gls_parcel_id: result.parcelId,
+        gls_label_pdf: result.labelPdfBase64,
+        gls_error: null,
+        gls_created_at: new Date().toISOString(),
+      })
+      .eq("id", id);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await supabaseAdmin.from("orders").update({ gls_error: message }).eq("id", id);
+    throw new Error(message);
+  }
   revalidatePath("/admin/orders/" + id);
 }
