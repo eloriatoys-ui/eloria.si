@@ -47,52 +47,59 @@ function normalizeIban(iban: string): string {
 }
 
 // Build the UPN QR text payload (the string we'll encode as a QR code).
-// ZBS UPN QR spec — 19 fields separated by \n in this exact order:
-//   1  UPNQR
-//   2  IBAN plačnika           (payer IBAN — empty, bank fills from logged-in account)
-//   3  Polog                   (deposit indicator — empty)
-//   4  Referenca plačnika      (payer's own reference — empty)
-//   5  Ime plačnika
-//   6  Ulica plačnika
-//   7  Mesto plačnika
-//   8  Znesek                  (11-digit amount in cents)
-//   9  Datum plačila           (DDMMYYYY or empty)
-//   10 Nujno                   (X if urgent, else empty)
-//   11 Koda namena             (4-char ISO 20022 purpose code)
-//   12 Namen plačila           (purpose text, ≤42 chars)
-//   13 Rok plačila             (deadline DDMMYYYY or empty)
-//   14 IBAN prejemnika         (recipient IBAN)
-//   15 Referenca prejemnika    (SI<model> <reference>)
-//   16 Ime prejemnika
-//   17 Ulica prejemnika
-//   18 Mesto prejemnika
-//   19 Kontrolna vsota         (3-digit byte-length of lines 1-18 with their \n)
+// ZBS UPN QR spec v3 — 19 fields separated by \n, each field SPACE-PADDED to
+// its exact spec width (this is the bit my earlier versions had wrong, which
+// is why bank apps either misread or rejected the QR outright).
 //
-// Earlier version omitted line 4, shifting fields 5-18 by one position — that
-// caused bank apps to render the IBAN as a street address, etc.
+// Field order + width:
+//   1  UPNQR                    (5)
+//   2  IBAN plačnika            (33)
+//   3  Polog                    (1)
+//   4  Referenca plačnika       (26)
+//   5  Ime plačnika             (33)
+//   6  Ulica plačnika           (33)
+//   7  Mesto plačnika           (33)
+//   8  Znesek                   (11)
+//   9  Datum plačila            (8)
+//   10 Nujno                    (1)
+//   11 Koda namena              (4)
+//   12 Namen plačila            (42)
+//   13 Rok plačila              (8)
+//   14 IBAN prejemnika          (34)
+//   15 Referenca prejemnika     (26)
+//   16 Ime prejemnika           (33)
+//   17 Ulica prejemnika         (33)
+//   18 Mesto prejemnika         (33)
+//   19 Kontrolna vsota          (3 digits)
 export function buildUpnPayload(input: UpnInput): string {
+  // pad-right to fixed width with spaces (truncate if longer).
+  const w = (s: string, width: number) => {
+    const v = (s ?? "").slice(0, width);
+    return v + " ".repeat(width - v.length);
+  };
+
   const lines = [
-    "UPNQR",                                       // 1
-    "",                                            // 2  payer IBAN
-    "",                                            // 3  polog
-    "",                                            // 4  payer reference  ← was missing
-    ascii(input.payerName ?? "").slice(0, 33),     // 5  payer name
-    ascii(input.payerStreet ?? "").slice(0, 33),   // 6  payer street
-    ascii(input.payerCity ?? "").slice(0, 33),     // 7  payer city
-    formatAmount(input.amountEur),                 // 8  amount (11 digits, cents)
-    "",                                            // 9  payment date
-    "",                                            // 10 urgent
-    (input.purposeCode ?? "OTHR").slice(0, 4),     // 11 purpose code
-    ascii(input.purposeText).slice(0, 42),         // 12 purpose text
-    input.deadline ?? "",                          // 13 deadline
-    normalizeIban(input.recipientIban),            // 14 recipient IBAN
-    input.reference.slice(0, 26),                  // 15 reference
-    ascii(input.recipientName).slice(0, 33),       // 16 recipient name
-    ascii(input.recipientStreet).slice(0, 33),     // 17 recipient street
-    ascii(input.recipientCity).slice(0, 33),       // 18 recipient city
+    "UPNQR",                                       // 1 (5)
+    w("", 33),                                     // 2 payer IBAN (33)
+    w("", 1),                                      // 3 polog (1)
+    w("", 26),                                     // 4 payer reference (26)
+    w(ascii(input.payerName ?? ""), 33),           // 5 payer name (33)
+    w(ascii(input.payerStreet ?? ""), 33),         // 6 payer street (33)
+    w(ascii(input.payerCity ?? ""), 33),           // 7 payer city (33)
+    formatAmount(input.amountEur),                 // 8 amount (11, no pad — fixed)
+    w(input.deadline ? "" : "", 8),                // 9 payment date (8, blank)
+    w("", 1),                                      // 10 urgent (1)
+    w(input.purposeCode ?? "OTHR", 4),             // 11 purpose code (4)
+    w(ascii(input.purposeText), 42),               // 12 purpose text (42)
+    w(input.deadline ?? "", 8),                    // 13 deadline (8)
+    w(normalizeIban(input.recipientIban), 34),     // 14 recipient IBAN (34)
+    w(input.reference, 26),                        // 15 reference (26)
+    w(ascii(input.recipientName), 33),             // 16 recipient name (33)
+    w(ascii(input.recipientStreet), 33),           // 17 recipient street (33)
+    w(ascii(input.recipientCity), 33),             // 18 recipient city (33)
   ];
   const head = lines.join("\n") + "\n";
-  // Field 19: kontrolna vsota — total byte length of lines 1-18 (incl. their \n), 3 digits.
+  // Field 19: kontrolna vsota — 3-digit byte length of lines 1-18 + their \ns.
   const checksum = Buffer.byteLength(head, "utf8").toString().padStart(3, "0");
   return head + checksum + "\n";
 }
