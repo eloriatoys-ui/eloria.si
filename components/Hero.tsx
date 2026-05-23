@@ -51,7 +51,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden text-ink min-h-[560px] sm:min-h-[620px] md:min-h-[680px] lg:min-h-[740px] xl:min-h-[800px]"
+      className="relative overflow-hidden text-ink min-h-[480px] sm:min-h-[580px] md:min-h-[680px] lg:min-h-[740px] xl:min-h-[800px]"
       style={{
         backgroundImage: "url('/hero-bg.webp')",
         backgroundSize: "cover",
@@ -228,14 +228,16 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Mobile / tablet — videos side by side at the bottom */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-10 grid grid-cols-2 items-end gap-2 px-4 sm:bottom-14 sm:px-8 lg:hidden">
+      {/* Tablet only — videos side by side at the bottom.
+          On small phones (<sm) videos are hidden because they cover the text
+          card. On desktop (lg+) the flanking block above takes over. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-4 hidden grid-cols-2 items-end gap-2 px-3 sm:bottom-8 sm:grid sm:px-6 md:bottom-12 lg:hidden">
         <div className="flex justify-center">
           <CharacterVideo
             id="hero-video-left-mobile"
             webm="/videos/kidleft.webm"
             mp4="/videos/kidleft.mp4"
-            className="h-[280px] w-auto sm:h-[360px] md:h-[420px]"
+            className="h-[220px] w-auto md:h-[320px]"
           />
         </div>
         <div className="flex justify-center">
@@ -243,7 +245,7 @@ export default function Hero() {
             id="hero-video-right-mobile"
             webm="/videos/kidright.webm"
             mp4="/videos/kidright.mp4"
-            className="h-[280px] w-auto sm:h-[360px] md:h-[420px]"
+            className="h-[220px] w-auto md:h-[320px]"
           />
         </div>
       </div>
