@@ -1,36 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/lib/cart/cart-context";
 
 export default function CartPage() {
   const { lines, subtotal, setQuantity, remove, clear } = useCart();
-  const [loading, setLoading] = useState(false);
-
-  const checkout = async () => {
-    if (lines.length === 0) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines }),
-      });
-      const data = await res.json();
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data?.error ?? "Checkout failed.");
-        setLoading(false);
-      }
-    } catch {
-      alert("Network error. Please try again.");
-      setLoading(false);
-    }
-  };
 
   return (
     <main className="min-h-screen bg-cream">
@@ -134,16 +110,13 @@ export default function CartPage() {
                   </dd>
                 </div>
               </dl>
-              <button
-                onClick={checkout}
-                disabled={loading}
-                className="mt-6 w-full rounded-full bg-orange px-6 py-3.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark disabled:opacity-60"
+              <Link
+                href="/checkout"
+                className="mt-6 block w-full rounded-full bg-orange px-6 py-3.5 text-center text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
                 style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
               >
-                <span style={{ color: "#FFFFFF" }}>
-                  {loading ? "Redirecting…" : "Checkout"}
-                </span>
-              </button>
+                <span style={{ color: "#FFFFFF" }}>Checkout</span>
+              </Link>
               <button
                 onClick={clear}
                 className="mt-3 w-full text-[12px] font-bold text-ink/60 hover:text-orange-dark"

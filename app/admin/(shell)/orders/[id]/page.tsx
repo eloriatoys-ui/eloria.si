@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { markShipped, markDelivered, createGlsShipmentForOrder } from "./actions";
+import { markShipped, markDelivered, createGlsShipmentForOrder, markAwaitingPaymentAsPaid } from "./actions";
 import { getTrackingUrl } from "@/lib/gls";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +23,7 @@ export default async function AdminOrderDetail({
   const ship = markShipped.bind(null, params.id);
   const deliver = markDelivered.bind(null, params.id);
   const createGls = createGlsShipmentForOrder.bind(null, params.id);
+  const activatePayment = markAwaitingPaymentAsPaid.bind(null, params.id);
   const sa = order.shipping_address as any;
   const hasGlsParcel = Boolean(order.tracking_number && order.tracking_carrier === "GLS");
   const glsTrackingUrl = hasGlsParcel ? getTrackingUrl(order.tracking_number) : null;
@@ -110,6 +111,16 @@ export default async function AdminOrderDetail({
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">Status</h2>
             <dl className="mt-3 space-y-1 text-[13px]">
               <div className="flex justify-between">
+                <dt className="text-ink/70">Method</dt>
+                <dd className="font-bold text-ink">
+                  {order.payment_method === "bank_transfer"
+                    ? "Bank transfer"
+                    : order.payment_method === "cod"
+                    ? "Cash on delivery"
+                    : "Card"}
+                </dd>
+              </div>
+              <div className="flex justify-between">
                 <dt className="text-ink/70">Payment</dt>
                 <dd className="font-bold text-ink">{order.payment_status}</dd>
               </div>
@@ -123,6 +134,31 @@ export default async function AdminOrderDetail({
               </div>
             </dl>
           </section>
+
+          {order.payment_status === "awaiting_payment" && (
+            <form
+              action={activatePayment}
+              className="rounded-2xl border-2 border-amber-500/40 bg-amber-50 p-5"
+            >
+              <h2 className="text-[13px] font-bold uppercase tracking-wider text-amber-900">
+                Awaiting bank transfer
+              </h2>
+              <p className="mt-2 text-[12px] text-amber-900/80">
+                Customer was shown a UPN QR code at checkout. Verify the
+                transfer arrived in your OTP account (reference{" "}
+                <span className="font-mono">SI00 {order.order_number.replace(/[^0-9-]/g, "")}</span>
+                ), then activate the order below. Activation triggers GLS
+                shipment automatically.
+              </p>
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-full bg-amber-600 px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-amber-700"
+                style={{ color: "#FFFFFF" }}
+              >
+                <span style={{ color: "#FFFFFF" }}>✓ Mark as paid · activate order</span>
+              </button>
+            </form>
+          )}
 
           {order.payment_status === "paid" && (
             <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">

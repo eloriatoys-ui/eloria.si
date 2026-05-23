@@ -88,6 +88,8 @@ export type OrderForShipping = {
     country?: string | null;
   };
   phone?: string | null;
+  // If set, GLS courier collects this amount in cash on delivery.
+  cod_amount_eur?: number | null;
 };
 
 function deliveryAddressFor(order: OrderForShipping): GlsAddress {
@@ -172,6 +174,7 @@ export async function createGlsShipment(
 ): Promise<CreateShipmentResult> {
   const clientNumber = Number(env("GLS_CLIENT_NUMBER"));
 
+  const isCod = (order.cod_amount_eur ?? 0) > 0;
   const body = {
     ...authBase(),
     PrintPosition: 1,
@@ -185,7 +188,14 @@ export async function createGlsShipment(
         Content: `Eloria order ${order.order_number}`,
         PickupAddress: senderAddress(),
         DeliveryAddress: deliveryAddressFor(order),
-        ServiceList: [],
+        ServiceList: isCod ? [{ Code: "COD" }] : [],
+        ...(isCod
+          ? {
+              CODAmount: Number(order.cod_amount_eur),
+              CODReference: order.order_number,
+              CODCurrency: "EUR",
+            }
+          : {}),
       },
     ],
   };
