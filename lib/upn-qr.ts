@@ -47,31 +47,52 @@ function normalizeIban(iban: string): string {
 }
 
 // Build the UPN QR text payload (the string we'll encode as a QR code).
-// Per the ZBS UPN QR spec: 19 fields separated by \n. Fields ARE truncated to
-// their max widths but NOT space-padded — bank apps treat the value as the
-// literal content. Field 18 is a 3-digit length-of-head checksum.
+// ZBS UPN QR spec — 19 fields separated by \n in this exact order:
+//   1  UPNQR
+//   2  IBAN plačnika           (payer IBAN — empty, bank fills from logged-in account)
+//   3  Polog                   (deposit indicator — empty)
+//   4  Referenca plačnika      (payer's own reference — empty)
+//   5  Ime plačnika
+//   6  Ulica plačnika
+//   7  Mesto plačnika
+//   8  Znesek                  (11-digit amount in cents)
+//   9  Datum plačila           (DDMMYYYY or empty)
+//   10 Nujno                   (X if urgent, else empty)
+//   11 Koda namena             (4-char ISO 20022 purpose code)
+//   12 Namen plačila           (purpose text, ≤42 chars)
+//   13 Rok plačila             (deadline DDMMYYYY or empty)
+//   14 IBAN prejemnika         (recipient IBAN)
+//   15 Referenca prejemnika    (SI<model> <reference>)
+//   16 Ime prejemnika
+//   17 Ulica prejemnika
+//   18 Mesto prejemnika
+//   19 Kontrolna vsota         (3-digit byte-length of lines 1-18 with their \n)
+//
+// Earlier version omitted line 4, shifting fields 5-18 by one position — that
+// caused bank apps to render the IBAN as a street address, etc.
 export function buildUpnPayload(input: UpnInput): string {
   const lines = [
-    "UPNQR",                                  // 1. magic
-    "",                                       // 2. payer IBAN (empty — bank fills)
-    "",                                       // 3. payer deposit (empty)
-    ascii(input.payerName ?? "").slice(0, 33),     // 4. payer name
-    ascii(input.payerStreet ?? "").slice(0, 33),   // 5. payer street
-    ascii(input.payerCity ?? "").slice(0, 33),     // 6. payer city
-    formatAmount(input.amountEur),            // 7. amount (11 digits, in cents)
-    "",                                       // 8. payment date (empty)
-    "",                                       // 9. urgent flag (empty)
-    (input.purposeCode ?? "OTHR").slice(0, 4),// 10. purpose code (4 chars)
-    ascii(input.purposeText).slice(0, 42),    // 11. purpose text (≤42 chars)
-    input.deadline ?? "",                     // 12. payment deadline (DD.MM.YYYY or empty)
-    normalizeIban(input.recipientIban),       // 13. recipient IBAN (≤34)
-    input.reference.slice(0, 26),             // 14. reference (≤26 chars)
-    ascii(input.recipientName).slice(0, 33),  // 15. recipient name (≤33)
-    ascii(input.recipientStreet).slice(0, 33),// 16. recipient street (≤33)
-    ascii(input.recipientCity).slice(0, 33),  // 17. recipient city (≤33)
+    "UPNQR",                                       // 1
+    "",                                            // 2  payer IBAN
+    "",                                            // 3  polog
+    "",                                            // 4  payer reference  ← was missing
+    ascii(input.payerName ?? "").slice(0, 33),     // 5  payer name
+    ascii(input.payerStreet ?? "").slice(0, 33),   // 6  payer street
+    ascii(input.payerCity ?? "").slice(0, 33),     // 7  payer city
+    formatAmount(input.amountEur),                 // 8  amount (11 digits, cents)
+    "",                                            // 9  payment date
+    "",                                            // 10 urgent
+    (input.purposeCode ?? "OTHR").slice(0, 4),     // 11 purpose code
+    ascii(input.purposeText).slice(0, 42),         // 12 purpose text
+    input.deadline ?? "",                          // 13 deadline
+    normalizeIban(input.recipientIban),            // 14 recipient IBAN
+    input.reference.slice(0, 26),                  // 15 reference
+    ascii(input.recipientName).slice(0, 33),       // 16 recipient name
+    ascii(input.recipientStreet).slice(0, 33),     // 17 recipient street
+    ascii(input.recipientCity).slice(0, 33),       // 18 recipient city
   ];
   const head = lines.join("\n") + "\n";
-  // Field 18: control sum — length of head in bytes, 3 digits.
+  // Field 19: kontrolna vsota — total byte length of lines 1-18 (incl. their \n), 3 digits.
   const checksum = Buffer.byteLength(head, "utf8").toString().padStart(3, "0");
   return head + checksum + "\n";
 }
