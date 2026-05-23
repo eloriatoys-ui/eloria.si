@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { CartLine } from "@/lib/cart/cart-context";
+import { useRouter } from "next/navigation";
+import { useCart, type CartLine } from "@/lib/cart/cart-context";
 
 type Props = {
   product: Omit<CartLine, "quantity">;
@@ -14,29 +15,17 @@ export default function BuyNowButton({
   className = "",
   label = "Buy now",
 }: Props) {
+  const router = useRouter();
+  const { add } = useCart();
   const [loading, setLoading] = useState(false);
 
-  const onClick = async () => {
+  const onClick = () => {
     setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lines: [{ ...product, quantity: 1 }],
-        }),
-      });
-      const data = await res.json();
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data?.error ?? "Checkout failed. Please try again.");
-        setLoading(false);
-      }
-    } catch (err) {
-      alert("Network error. Please try again.");
-      setLoading(false);
-    }
+    // Add this product to the cart (so it's there if the user backs out of
+    // /checkout), then send them to the payment-method picker — same flow
+    // as clicking Checkout from the basket.
+    add(product, 1);
+    router.push("/checkout");
   };
 
   return (
