@@ -58,23 +58,23 @@ export default async function OrderSuccessPage({
           </svg>
         </div>
         <h1 className="mt-6 text-3xl font-extrabold text-ink md:text-4xl">
-          Thank you for your order!
+          Hvala za vaše naročilo!
         </h1>
         <p className="mt-3 text-base text-ink/80">
           {summary.email
-            ? `A confirmation has been sent to ${summary.email}.`
-            : "Your payment was successful."}
+            ? `Potrditev smo poslali na ${summary.email}.`
+            : "Vaše plačilo je bilo uspešno."}
         </p>
         {summary.total ? (
           <p className="mt-1 text-sm font-bold text-ink/70">
-            Total paid: {summary.currency === "EUR" ? "€" : ""}
+            Plačano: {summary.currency === "EUR" ? "€" : ""}
             {summary.total.toFixed(2)}
           </p>
         ) : null}
         {tracking && (
           <div className="mx-auto mt-8 max-w-md rounded-2xl border border-orange-dark/15 bg-pearl p-5 text-left">
             <p className="text-[12px] font-bold uppercase tracking-wider text-ink/70">
-              Tracking
+              Sledenje
             </p>
             <p className="mt-2 text-[14px] text-ink">
               GLS · <span className="font-bold">{tracking.number}</span>
@@ -85,7 +85,7 @@ export default async function OrderSuccessPage({
               rel="noopener"
               className="mt-3 inline-block text-[13px] font-bold text-orange-dark hover:underline"
             >
-              Follow your parcel →
+              Sledite paketu →
             </a>
           </div>
         )}
@@ -95,13 +95,13 @@ export default async function OrderSuccessPage({
             className="rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
             style={{ color: "#FFFFFF" }}
           >
-            <span style={{ color: "#FFFFFF" }}>Continue shopping</span>
+            <span style={{ color: "#FFFFFF" }}>Nadaljuj nakupovanje</span>
           </Link>
           <Link
             href="/"
             className="rounded-full border border-orange-dark/25 bg-pearl px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-ink hover:bg-orange-dark hover:text-pearl"
           >
-            Back to home
+            Nazaj na domačo stran
           </Link>
         </div>
       </section>

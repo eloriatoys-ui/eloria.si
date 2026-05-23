@@ -37,13 +37,13 @@ export default function CheckoutPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (lines.length === 0) {
-      setError("Your cart is empty.");
+      setError("Vaša košarica je prazna.");
       return;
     }
     if (requiresForm) {
       for (const k of ["name", "email", "street", "postal_code", "city"] as const) {
         if (!form[k].trim()) {
-          setError("Please fill in all shipping fields.");
+          setError("Prosimo, izpolnite vsa polja za dostavo.");
           return;
         }
       }
@@ -62,7 +62,7 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (!data?.url) {
-        setError(data?.error ?? "Checkout failed.");
+        setError(data?.error ?? "Nakup ni uspel.");
         setLoading(false);
         return;
       }
@@ -76,7 +76,7 @@ export default function CheckoutPage() {
         router.push(data.url);
       }
     } catch {
-      setError("Network error. Please try again.");
+      setError("Napaka v omrežju. Poskusite znova.");
       setLoading(false);
     }
   };
@@ -86,14 +86,14 @@ export default function CheckoutPage() {
       <main className="min-h-screen bg-cream">
         <Navbar />
         <section className="mx-auto max-w-3xl px-5 py-16 text-center md:px-8 md:py-20">
-          <h1 className="text-3xl font-extrabold text-ink">Your cart is empty</h1>
-          <p className="mt-3 text-ink/70">Add a product before checking out.</p>
+          <h1 className="text-3xl font-extrabold text-ink">Vaša košarica je prazna</h1>
+          <p className="mt-3 text-ink/70">Pred zaključkom nakupa dodajte izdelek.</p>
           <Link
             href="/shop"
             className="mt-8 inline-flex rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
             style={{ color: "#FFFFFF" }}
           >
-            <span style={{ color: "#FFFFFF" }}>Browse shop</span>
+            <span style={{ color: "#FFFFFF" }}>Pojdi v trgovino</span>
           </Link>
         </section>
         <Footer />
@@ -105,33 +105,33 @@ export default function CheckoutPage() {
     <main className="min-h-screen bg-cream">
       <Navbar />
       <section className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-14">
-        <h1 className="text-3xl font-extrabold text-ink md:text-4xl">Checkout</h1>
+        <h1 className="text-3xl font-extrabold text-ink md:text-4xl">Zaključek nakupa</h1>
 
         <form onSubmit={submit} className="mt-8 grid gap-8 md:grid-cols-[1fr,360px]">
           <div className="space-y-6">
             {/* Payment method picker */}
             <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
               <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-                Payment method
+                Način plačila
               </h2>
               <div className="mt-4 space-y-3">
                 <MethodRadio
                   checked={method === "card"}
                   onChange={() => setMethod("card")}
-                  title="Credit / Debit card"
-                  subtitle="Visa, Mastercard, Amex via Stripe — instant confirmation"
+                  title="Kreditna / debetna kartica"
+                  subtitle="Visa, Mastercard, Amex prek Stripe — takojšnja potrditev"
                 />
                 <MethodRadio
                   checked={method === "bank_transfer"}
                   onChange={() => setMethod("bank_transfer")}
-                  title="Bank transfer (UPN QR)"
-                  subtitle="Scan QR with your bank app — order ships after payment is confirmed"
+                  title="Bančno nakazilo (UPN QR)"
+                  subtitle="Skenirajte QR z bančno aplikacijo — naročilo odpošljemo po potrditvi plačila"
                 />
                 <MethodRadio
                   checked={method === "cod"}
                   onChange={() => setMethod("cod")}
-                  title="Cash on delivery"
-                  subtitle="Pay cash to the GLS courier on delivery — COD handling fee +€2.00"
+                  title="Plačilo po povzetju"
+                  subtitle="Plačajte z gotovino kurirju GLS ob dostavi — strošek povzetja +2,00 €"
                 />
               </div>
             </section>
@@ -139,23 +139,23 @@ export default function CheckoutPage() {
             {requiresForm && (
               <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
                 <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-                  Shipping address
+                  Naslov za dostavo
                 </h2>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <Field label="Full name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} className="sm:col-span-2" />
-                  <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-                  <Field label="Phone" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
-                  <Field label="Street + house no." value={form.street} onChange={(v) => setForm({ ...form, street: v })} className="sm:col-span-2" />
-                  <Field label="Postal code" value={form.postal_code} onChange={(v) => setForm({ ...form, postal_code: v })} />
-                  <Field label="City" value={form.city} onChange={(v) => setForm({ ...form, city: v })} />
-                  <Field label="Country" value={form.country} onChange={(v) => setForm({ ...form, country: v.toUpperCase().slice(0, 2) })} />
+                  <Field label="Ime in priimek" value={form.name} onChange={(v) => setForm({ ...form, name: v })} className="sm:col-span-2" />
+                  <Field label="E-pošta" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
+                  <Field label="Telefon" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                  <Field label="Ulica in hišna številka" value={form.street} onChange={(v) => setForm({ ...form, street: v })} className="sm:col-span-2" />
+                  <Field label="Poštna številka" value={form.postal_code} onChange={(v) => setForm({ ...form, postal_code: v })} />
+                  <Field label="Kraj" value={form.city} onChange={(v) => setForm({ ...form, city: v })} />
+                  <Field label="Država" value={form.country} onChange={(v) => setForm({ ...form, country: v.toUpperCase().slice(0, 2) })} />
                 </div>
               </section>
             )}
           </div>
 
           <aside className="h-fit rounded-2xl border border-orange-dark/15 bg-pearl p-6">
-            <h2 className="text-lg font-extrabold text-ink">Order summary</h2>
+            <h2 className="text-lg font-extrabold text-ink">Povzetek naročila</h2>
             <ul className="mt-4 divide-y divide-orange-dark/10 text-[13px]">
               {lines.map((l) => (
                 <li key={l.productId} className="flex justify-between gap-4 py-2">
@@ -170,21 +170,21 @@ export default function CheckoutPage() {
             </ul>
             <dl className="mt-4 space-y-2 border-t border-orange-dark/10 pt-3 text-[14px]">
               <div className="flex justify-between">
-                <dt className="text-ink/70">Subtotal</dt>
+                <dt className="text-ink/70">Vmesni seštevek</dt>
                 <dd className="font-bold text-ink">€{subtotal.toFixed(2)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-ink/70">Shipping</dt>
-                <dd className="font-bold text-ink">Free</dd>
+                <dt className="text-ink/70">Dostava</dt>
+                <dd className="font-bold text-ink">Brezplačno</dd>
               </div>
               {method === "cod" && (
                 <div className="flex justify-between">
-                  <dt className="text-ink/70">COD handling fee</dt>
+                  <dt className="text-ink/70">Strošek povzetja</dt>
                   <dd className="font-bold text-ink">+€{COD_SURCHARGE.toFixed(2)}</dd>
                 </div>
               )}
               <div className="flex justify-between border-t border-orange-dark/10 pt-3 text-[16px]">
-                <dt className="font-extrabold text-ink">Total</dt>
+                <dt className="font-extrabold text-ink">Skupaj</dt>
                 <dd className="font-extrabold text-ink">€{total.toFixed(2)}</dd>
               </div>
             </dl>
@@ -201,19 +201,19 @@ export default function CheckoutPage() {
             >
               <span style={{ color: "#FFFFFF" }}>
                 {loading
-                  ? "Processing…"
+                  ? "Obdelava…"
                   : method === "card"
-                  ? "Pay with card"
+                  ? "Plačaj s kartico"
                   : method === "bank_transfer"
-                  ? "Place order — pay by bank"
-                  : "Place order — cash on delivery"}
+                  ? "Oddaj naročilo — plačaj z nakazilom"
+                  : "Oddaj naročilo — plačilo po povzetju"}
               </span>
             </button>
             <Link
               href="/cart"
               className="mt-3 block text-center text-[12px] font-bold text-ink/60 hover:text-orange-dark"
             >
-              ← Back to cart
+              ← Nazaj v košarico
             </Link>
           </aside>
         </form>

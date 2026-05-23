@@ -12,17 +12,17 @@ export default function CartPage() {
     <main className="min-h-screen bg-cream">
       <Navbar />
       <section className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-14">
-        <h1 className="text-3xl font-extrabold text-ink md:text-4xl">Your cart</h1>
+        <h1 className="text-3xl font-extrabold text-ink md:text-4xl">Vaša košarica</h1>
 
         {lines.length === 0 ? (
           <div className="mt-8 rounded-2xl border border-orange-dark/15 bg-pearl p-8 text-center">
-            <p className="text-base text-ink/80">Your cart is empty.</p>
+            <p className="text-base text-ink/80">Vaša košarica je prazna.</p>
             <Link
               href="/shop"
               className="mt-5 inline-flex rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
               style={{ color: "#FFFFFF" }}
             >
-              <span style={{ color: "#FFFFFF" }}>Browse shop</span>
+              <span style={{ color: "#FFFFFF" }}>Pojdi v trgovino</span>
             </Link>
           </div>
         ) : (
@@ -85,7 +85,7 @@ export default function CartPage() {
                       onClick={() => remove(l.productId)}
                       className="text-[12px] font-bold text-ink/60 hover:text-orange-dark"
                     >
-                      Remove
+                      Odstrani
                     </button>
                   </div>
                 </li>
@@ -93,18 +93,18 @@ export default function CartPage() {
             </ul>
 
             <aside className="h-fit rounded-2xl border border-orange-dark/15 bg-pearl p-6">
-              <h2 className="text-lg font-extrabold text-ink">Order summary</h2>
+              <h2 className="text-lg font-extrabold text-ink">Povzetek naročila</h2>
               <dl className="mt-5 space-y-2 text-[14px]">
                 <div className="flex justify-between">
-                  <dt className="text-ink/70">Subtotal</dt>
+                  <dt className="text-ink/70">Vmesni seštevek</dt>
                   <dd className="font-bold text-ink">€{subtotal.toFixed(2)}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-ink/70">Shipping</dt>
-                  <dd className="font-bold text-ink">Free</dd>
+                  <dt className="text-ink/70">Dostava</dt>
+                  <dd className="font-bold text-ink">Brezplačno</dd>
                 </div>
                 <div className="flex justify-between border-t border-orange-dark/10 pt-3 text-[16px]">
-                  <dt className="font-extrabold text-ink">Total</dt>
+                  <dt className="font-extrabold text-ink">Skupaj</dt>
                   <dd className="font-extrabold text-ink">
                     €{subtotal.toFixed(2)}
                   </dd>
@@ -115,13 +115,13 @@ export default function CartPage() {
                 className="mt-6 block w-full rounded-full bg-orange px-6 py-3.5 text-center text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
                 style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
               >
-                <span style={{ color: "#FFFFFF" }}>Checkout</span>
+                <span style={{ color: "#FFFFFF" }}>Na blagajno</span>
               </Link>
               <button
                 onClick={clear}
                 className="mt-3 w-full text-[12px] font-bold text-ink/60 hover:text-orange-dark"
               >
-                Clear cart
+                Izprazni košarico
               </button>
             </aside>
           </div>

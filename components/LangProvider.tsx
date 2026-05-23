@@ -1,14 +1,11 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { DEFAULT_LOCALE, type Locale, translate } from "@/lib/i18n";
+
+// Site is Slovenian-only. LangProvider stays in the tree so existing
+// components that call useLang() / t() keep working — but locale is
+// hard-locked to "sl" and there is no toggle UI.
 
 type Ctx = {
   locale: Locale;
@@ -22,8 +19,6 @@ const LangContext = createContext<Ctx>({
   t: (k) => k,
 });
 
-const STORAGE_KEY = "eloria.locale";
-
 export function useLang(): Ctx {
   return useContext(LangContext);
 }
@@ -33,43 +28,17 @@ export default function LangProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
-
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved === "en" || saved === "sl") {
-        setLocaleState(saved);
-        document.documentElement.lang = saved;
-      } else {
-        const browser = navigator.language?.toLowerCase() || "";
-        if (browser.startsWith("sl")) {
-          setLocaleState("sl");
-          document.documentElement.lang = "sl";
-        }
-      }
-    } catch {
-      // ignore — keep default
-    }
-  }, []);
-
-  const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, l);
-      document.documentElement.lang = l;
-    } catch {
-      // ignore
-    }
+    document.documentElement.lang = "sl";
   }, []);
 
   const value = useMemo<Ctx>(
     () => ({
-      locale,
-      setLocale,
-      t: (key: string) => translate(locale, key),
+      locale: "sl",
+      setLocale: () => {},
+      t: (key: string) => translate("sl", key),
     }),
-    [locale, setLocale],
+    [],
   );
 
   return (

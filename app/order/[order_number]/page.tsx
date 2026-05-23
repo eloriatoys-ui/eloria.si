@@ -54,7 +54,7 @@ export default async function PublicOrderPage({
             </svg>
           </div>
           <h1 className="mt-6 text-3xl font-extrabold text-ink md:text-4xl">
-            {isBank && !isPaid ? "Order received — please pay" : "Thank you for your order!"}
+            {isBank && !isPaid ? "Naročilo prejeto — prosimo, plačajte" : "Hvala za vaše naročilo!"}
           </h1>
           <p className="mt-2 text-[15px] font-bold text-ink/70">
             {order.order_number} · €{Number(order.total).toFixed(2)}
@@ -64,25 +64,25 @@ export default async function PublicOrderPage({
         {isBank && !isPaid && qrDataUrl && (
           <section className="mt-10 rounded-2xl border border-orange-dark/15 bg-pearl p-6">
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-              Pay by bank transfer
+              Plačilo z bančnim nakazilom
             </h2>
             <p className="mt-2 text-[14px] text-ink/80">
-              Scan this UPN QR code with your bank app (NLB, OTP, Intesa, A Bank, etc.). Your order ships once we confirm payment.
+              Skenirajte UPN QR kodo z bančno aplikacijo (NLB, OTP, Intesa, A Bank …). Naročilo odpošljemo, ko prejmemo plačilo.
             </p>
             <div className="mt-6 grid gap-6 md:grid-cols-[auto,1fr] md:items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={qrDataUrl} alt="UPN QR code" className="h-64 w-64 rounded-xl bg-white p-2 shadow-sm" />
+              <img src={qrDataUrl} alt="UPN QR koda" className="h-64 w-64 rounded-xl bg-white p-2 shadow-sm" />
               <dl className="space-y-2 text-[13px]">
-                <Row label="Recipient" value={bankName} />
+                <Row label="Prejemnik" value={bankName} />
                 <Row label="IBAN" value={bankIban} mono />
                 <Row label="BIC / SWIFT" value={bankBic} mono />
-                <Row label="Amount" value={`€${Number(order.total).toFixed(2)}`} />
-                <Row label="Reference" value={buildReference(order.order_number)} mono />
-                <Row label="Purpose" value={`Eloria order ${order.order_number}`} />
+                <Row label="Znesek" value={`€${Number(order.total).toFixed(2)}`} />
+                <Row label="Sklic" value={buildReference(order.order_number)} mono />
+                <Row label="Namen" value={`Eloria naročilo ${order.order_number}`} />
               </dl>
             </div>
             <p className="mt-6 text-[12px] text-ink/60">
-              Can&apos;t scan? Manually enter the IBAN, amount, and reference above into your bank app or web banking.
+              Ne morete skenirati? Ročno vnesite IBAN, znesek in sklic v bančno aplikacijo ali spletno banko.
             </p>
           </section>
         )}
@@ -90,13 +90,13 @@ export default async function PublicOrderPage({
         {isCod && (
           <section className="mt-10 rounded-2xl border border-orange-dark/15 bg-pearl p-6">
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-              Cash on delivery
+              Plačilo po povzetju
             </h2>
             <p className="mt-2 text-[14px] text-ink/80">
-              Pay <span className="font-bold">€{Number(order.total).toFixed(2)}</span> in cash to the GLS courier when your parcel arrives. Please have the exact amount ready.
+              Plačajte <span className="font-bold">€{Number(order.total).toFixed(2)}</span> z gotovino kurirju GLS ob dostavi paketa. Prosimo, pripravite točen znesek.
             </p>
             <p className="mt-1 text-[12px] text-ink/60">
-              Includes COD handling fee of €{Number(order.cod_surcharge ?? 0).toFixed(2)}.
+              Vključuje strošek povzetja €{Number(order.cod_surcharge ?? 0).toFixed(2)}.
             </p>
           </section>
         )}
@@ -104,7 +104,7 @@ export default async function PublicOrderPage({
         {tracking && (
           <section className="mt-6 rounded-2xl border border-orange-dark/15 bg-pearl p-6">
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-              Shipping
+              Dostava
             </h2>
             <p className="mt-2 text-[14px] text-ink">
               GLS · <span className="font-bold">{tracking.number}</span>
@@ -115,7 +115,7 @@ export default async function PublicOrderPage({
               rel="noopener"
               className="mt-3 inline-block text-[13px] font-bold text-orange-dark hover:underline"
             >
-              Follow your parcel →
+              Sledite paketu →
             </a>
           </section>
         )}
@@ -126,13 +126,13 @@ export default async function PublicOrderPage({
             className="rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
             style={{ color: "#FFFFFF" }}
           >
-            <span style={{ color: "#FFFFFF" }}>Continue shopping</span>
+            <span style={{ color: "#FFFFFF" }}>Nadaljuj nakupovanje</span>
           </Link>
           <Link
             href="/"
             className="rounded-full border border-orange-dark/25 bg-pearl px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-ink hover:bg-orange-dark hover:text-pearl"
           >
-            Back to home
+            Nazaj na domačo stran
           </Link>
         </div>
       </section>

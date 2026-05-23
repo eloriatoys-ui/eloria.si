@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { STORE_NAME } from "@/lib/data";
 import { useLang } from "./LangProvider";
-import LangSwitch from "./LangSwitch";
 import NavbarCart from "./cart/NavbarCart";
 
 type SearchHit = {
@@ -401,11 +400,6 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Language switch — desktop */}
-            <div className="hidden md:block">
-              <LangSwitch />
-            </div>
-
             {/* Wishlist */}
             <button
               aria-label={t("nav.wishlist")}
@@ -508,12 +502,6 @@ export default function Navbar() {
           >
             <span style={{ color: "#FFFFFF" }}>{t("nav.track_order")}</span>
           </a>
-          <div className="mt-3 flex items-center justify-between rounded-2xl bg-pearl/10 px-4 py-3">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-pearl/80">
-              {t("lang.label")}
-            </span>
-            <LangSwitch />
-          </div>
         </nav>
       </div>
 

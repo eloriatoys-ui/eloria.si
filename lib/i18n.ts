@@ -4,7 +4,10 @@
 export type Locale = "en" | "sl";
 
 export const LOCALES: Locale[] = ["en", "sl"];
-export const DEFAULT_LOCALE: Locale = "en";
+// Site is Slovenian-only — DEFAULT_LOCALE is the only locale that ships.
+// We keep the EN dictionary so legacy t("...") calls fall back cleanly if
+// a SL translation is ever missing, but no UI lets the user switch to it.
+export const DEFAULT_LOCALE: Locale = "sl";
 
 type Dict = Record<string, string>;
 

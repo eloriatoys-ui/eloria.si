@@ -13,7 +13,7 @@ type Props = {
 export default function BuyNowButton({
   product,
   className = "",
-  label = "Buy now",
+  label = "Kupi zdaj",
 }: Props) {
   const router = useRouter();
   const { add } = useCart();
@@ -37,7 +37,7 @@ export default function BuyNowButton({
       style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
     >
       <span style={{ color: "#FFFFFF" }}>
-        {loading ? "Redirecting…" : label}
+        {loading ? "Preusmerjanje…" : label}
       </span>
     </button>
   );
