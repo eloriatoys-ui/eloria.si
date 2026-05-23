@@ -15,6 +15,9 @@ type UpnInput = {
   purposeCode?: string;       // 4-letter ISO 20022 purpose, default "OTHR"
   purposeText: string;        // e.g. "Eloria order ELO-2026-01005"
   deadline?: string;          // optional "DD.MM.YYYY"
+  payerName?: string;         // customer's name — bank app pre-fills payer
+  payerStreet?: string;       // customer's street + house number
+  payerCity?: string;         // customer's postal code + city
 };
 
 // Pad-or-truncate a string to a fixed width. UPN spec is strict about widths.
@@ -44,25 +47,28 @@ function normalizeIban(iban: string): string {
 }
 
 // Build the UPN QR text payload (the string we'll encode as a QR code).
+// Per the ZBS UPN QR spec: 19 fields separated by \n. Fields ARE truncated to
+// their max widths but NOT space-padded — bank apps treat the value as the
+// literal content. Field 18 is a 3-digit length-of-head checksum.
 export function buildUpnPayload(input: UpnInput): string {
   const lines = [
-    "UPNQR",
-    "",                                       // 2. payer IBAN (empty)
+    "UPNQR",                                  // 1. magic
+    "",                                       // 2. payer IBAN (empty — bank fills)
     "",                                       // 3. payer deposit (empty)
-    "",                                       // 4. payer name
-    "",                                       // 5. payer street
-    "",                                       // 6. payer city
+    ascii(input.payerName ?? "").slice(0, 33),     // 4. payer name
+    ascii(input.payerStreet ?? "").slice(0, 33),   // 5. payer street
+    ascii(input.payerCity ?? "").slice(0, 33),     // 6. payer city
     formatAmount(input.amountEur),            // 7. amount (11 digits, in cents)
     "",                                       // 8. payment date (empty)
     "",                                       // 9. urgent flag (empty)
-    fix(input.purposeCode ?? "OTHR", 4),      // 10. purpose code (4 chars)
-    fix(ascii(input.purposeText), 42),        // 11. purpose text (≤42 chars)
+    (input.purposeCode ?? "OTHR").slice(0, 4),// 10. purpose code (4 chars)
+    ascii(input.purposeText).slice(0, 42),    // 11. purpose text (≤42 chars)
     input.deadline ?? "",                     // 12. payment deadline (DD.MM.YYYY or empty)
-    fix(normalizeIban(input.recipientIban), 34), // 13. recipient IBAN (34 chars, padded)
-    fix(input.reference, 26),                 // 14. reference (≤26 chars)
-    fix(ascii(input.recipientName), 33),      // 15. recipient name (≤33)
-    fix(ascii(input.recipientStreet), 33),    // 16. recipient street (≤33)
-    fix(ascii(input.recipientCity), 33),      // 17. recipient city (≤33)
+    normalizeIban(input.recipientIban),       // 13. recipient IBAN (≤34)
+    input.reference.slice(0, 26),             // 14. reference (≤26 chars)
+    ascii(input.recipientName).slice(0, 33),  // 15. recipient name (≤33)
+    ascii(input.recipientStreet).slice(0, 33),// 16. recipient street (≤33)
+    ascii(input.recipientCity).slice(0, 33),  // 17. recipient city (≤33)
   ];
   const head = lines.join("\n") + "\n";
   // Field 18: control sum — length of head in bytes, 3 digits.
@@ -71,10 +77,14 @@ export function buildUpnPayload(input: UpnInput): string {
 }
 
 // Build a Slovenian SI00 reference number from the order number.
-// SI00 + structured reference (digits/dashes). Length max 22 chars after "SI00".
+// SI00 = "non-structured" reference model (any chars allowed). We keep digits
+// and dashes from the order number (e.g. ELO-2026-01001 → "2026-01001"), with
+// no leading/trailing dashes so bank apps render it cleanly.
 export function buildReference(orderNumber: string): string {
-  // Strip everything that isn't digit or dash, fits the SI00 model.
-  const ref = orderNumber.replace(/[^0-9-]/g, "");
+  const ref = orderNumber
+    .replace(/[^0-9-]/g, "")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-+/g, "-");
   return `SI00 ${ref}`;
 }
 
@@ -93,9 +103,24 @@ export async function generateUpnQrDataUrl(input: UpnInput): Promise<string> {
 export type OrderForUpn = {
   order_number: string;
   total: number;
+  shipping_address?: {
+    name?: string | null;
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    postal_code?: string | null;
+    country?: string | null;
+  } | null;
 };
 
 export function generateOrderQr(order: OrderForUpn): Promise<string> {
+  const sa = order.shipping_address ?? null;
+  const payerStreet = sa?.line1
+    ? [sa.line1, sa.line2].filter(Boolean).join(" ")
+    : "";
+  const payerCity = sa
+    ? [sa.postal_code, sa.city].filter(Boolean).join(" ").trim()
+    : "";
   return generateUpnQrDataUrl({
     amountEur: order.total,
     recipientName: process.env.ELORIA_BANK_ACCOUNT_NAME ?? "",
@@ -104,5 +129,8 @@ export function generateOrderQr(order: OrderForUpn): Promise<string> {
     recipientIban: process.env.ELORIA_BANK_IBAN ?? "",
     reference: buildReference(order.order_number),
     purposeText: `Eloria order ${order.order_number}`,
+    payerName: sa?.name ?? "",
+    payerStreet,
+    payerCity,
   });
 }

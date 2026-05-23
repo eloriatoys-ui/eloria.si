@@ -30,6 +30,7 @@ export default async function PublicOrderPage({
     isBank && !isPaid ? await generateOrderQr({
       order_number: order.order_number,
       total: Number(order.total),
+      shipping_address: order.shipping_address as any,
     }) : null;
 
   const tracking =
