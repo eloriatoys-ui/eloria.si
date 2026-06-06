@@ -84,7 +84,7 @@ export default function Hero() {
         loop
         playsInline
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[36%] h-[88%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute left-1/2 top-[20%] h-[52%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 sm:top-[36%] sm:h-[88%]"
         style={{ objectFit: "contain" }}
       >
         <source src="/videos/girl-jump.mov" type='video/mp4; codecs="hvc1"' />
@@ -109,7 +109,7 @@ export default function Hero() {
           <h1 className="sr-only">{STORE_NAME}</h1>
 
           <div
-            className="wood-dark mx-auto mt-6 max-w-xl rounded-2xl px-6 py-6 shadow-lift"
+            className="wood-dark mx-auto mt-4 max-w-xs rounded-2xl px-5 py-4 shadow-lift sm:mt-6 sm:max-w-xl sm:px-6 sm:py-6"
             style={{
               border: "1px solid rgba(0, 0, 0, 0.45)",
             }}
@@ -118,7 +118,7 @@ export default function Hero() {
             <img
               src="/brand/eloria.webp"
               alt={STORE_NAME}
-              className="mx-auto h-16 w-auto sm:h-20 md:h-24"
+              className="mx-auto h-12 w-auto sm:h-20 md:h-24"
             />
             <div
               aria-hidden
@@ -129,7 +129,7 @@ export default function Hero() {
               }}
             />
             <p
-              className="mt-4 text-[19px] font-extrabold leading-snug sm:text-[22px]"
+              className="mt-3 text-[17px] font-extrabold leading-snug sm:mt-4 sm:text-[22px]"
               style={{
                 color: "#FFFFFF",
                 letterSpacing: "-0.01em",
@@ -231,13 +231,13 @@ export default function Hero() {
       {/* Tablet only — videos side by side at the bottom.
           On small phones (<sm) videos are hidden because they cover the text
           card. On desktop (lg+) the flanking block above takes over. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-4 hidden grid-cols-2 items-end gap-2 px-3 sm:bottom-8 sm:grid sm:px-6 md:bottom-12 lg:hidden">
+      <div className="pointer-events-none absolute inset-x-0 bottom-4 grid grid-cols-2 items-end gap-2 px-2 sm:bottom-8 sm:px-6 md:bottom-12 lg:hidden">
         <div className="flex justify-center">
           <CharacterVideo
             id="hero-video-left-mobile"
             webm="/videos/kidleft.webm"
             mp4="/videos/kidleft.mp4"
-            className="h-[220px] w-auto md:h-[320px]"
+            className="h-[150px] w-auto sm:h-[220px] md:h-[320px]"
           />
         </div>
         <div className="flex justify-center">
@@ -245,7 +245,7 @@ export default function Hero() {
             id="hero-video-right-mobile"
             webm="/videos/kidright.webm"
             mp4="/videos/kidright.mp4"
-            className="h-[220px] w-auto md:h-[320px]"
+            className="h-[150px] w-auto sm:h-[220px] md:h-[320px]"
           />
         </div>
       </div>

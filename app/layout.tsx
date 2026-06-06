@@ -4,9 +4,13 @@ import LangProvider from "@/components/LangProvider";
 import { CartProvider } from "@/lib/cart/cart-context";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.eloria.si"),
   title: "Eloria — Kjer domišljija raste naravno",
   description:
     "Ročno izdelane lesene igrače in organska otroška oblačila. 100% naravni materiali, otrokom prijazne obdelave, brezplačna dostava v Sloveniji.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
