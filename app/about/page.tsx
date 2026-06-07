@@ -153,6 +153,41 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="bg-pearl py-16 md:py-24">
+        <div className="mx-auto max-w-5xl px-5 md:px-8">
+          <Reveal>
+            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
+              <span className="h-1 w-6 rounded-full bg-orange" />
+              Eloria v živo
+            </p>
+            <h2
+              className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
+              style={{ letterSpacing: "-0.025em" }}
+            >
+              Naše igrače v igri
+            </h2>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {["DZLC4kvKjLk", "DZFuISRqKaQ"].map((id, i) => (
+              <Reveal key={id} delay={i * 120}>
+                <div className="mx-auto w-full max-w-[420px] overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-orange-dark/10">
+                  <iframe
+                    src={`https://www.instagram.com/p/${id}/embed`}
+                    title={`Instagram ${id}`}
+                    className="h-[600px] w-full"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    scrolling="no"
+                    allowFullScreen
+                  />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="relative bg-wood-dark py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <Reveal>

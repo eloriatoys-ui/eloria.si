@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createGlsShipment } from "@/lib/gls";
 import { sendNewOrderEmails } from "@/lib/email";
+import { handoffToCourier } from "@/lib/courier-handoff";
 
 export const runtime = "nodejs";
 
@@ -168,12 +169,12 @@ async function fulfillSession(sessionId: string) {
   }
 
   // Notify the shop + confirm to the customer. Best-effort, never throws.
-  await sendNewOrderEmails({
+  const orderEmail = {
     order_number: (order as any).order_number ?? "",
     email,
     total,
     currency: (session.currency ?? "eur").toUpperCase(),
-    payment_method: "card",
+    payment_method: "card" as const,
     shipping_address: shipping_address as any,
     items: items.map((it) => ({
       product_name: it.product_name,
@@ -181,7 +182,10 @@ async function fulfillSession(sessionId: string) {
       unit_price: it.unit_price,
       total: it.total,
     })),
-  });
+  };
+  await sendNewOrderEmails(orderEmail);
+  // Card orders are paid on creation → hand off to courier immediately.
+  await handoffToCourier(order.id, orderEmail);
 
   // Fire-and-forget GLS shipment. We intentionally don't await this inside
   // the webhook response path so a transient GLS failure doesn't make Stripe

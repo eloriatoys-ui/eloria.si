@@ -13,6 +13,7 @@ type TrackedOrder = {
   created_at?: string | null;
   paid_at?: string | null;
   shipped_at?: string | null;
+  in_transit_at?: string | null;
   delivered_at?: string | null;
   tracking_carrier?: string | null;
   tracking_number?: string | null;

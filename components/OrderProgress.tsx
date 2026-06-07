@@ -7,6 +7,7 @@ type OrderLike = {
   created_at?: string | null;
   paid_at?: string | null;
   shipped_at?: string | null;
+  in_transit_at?: string | null;
   delivered_at?: string | null;
   payment_status?: string | null;
   shipping_status?: string | null;
@@ -31,9 +32,11 @@ function fmt(d: string | null | undefined): string | null {
 export default function OrderProgress({ order }: { order: OrderLike }) {
   const isCod = order.payment_method === "cod";
   const isPaid = order.payment_status === "paid";
-  const isShipped =
-    order.shipping_status === "shipped" || order.shipping_status === "delivered";
-  const isDelivered = order.shipping_status === "delivered";
+  const ss = order.shipping_status;
+  // Lifecycle: pending → shipped → in_transit → delivered (each implies the prior).
+  const sentToCourier = ss === "shipped" || ss === "in_transit" || ss === "delivered";
+  const onTheWay = ss === "in_transit" || ss === "delivered";
+  const isDelivered = ss === "delivered";
 
   const steps = [
     {
@@ -47,9 +50,14 @@ export default function OrderProgress({ order }: { order: OrderLike }) {
       at: fmt(order.paid_at),
     },
     {
-      label: "Oddano za dostavo",
-      done: isShipped,
+      label: "Poslano kurirju (GLS)",
+      done: sentToCourier,
       at: fmt(order.shipped_at),
+    },
+    {
+      label: "Na poti",
+      done: onTheWay,
+      at: fmt(order.in_transit_at),
     },
     {
       label: "Dostavljeno",

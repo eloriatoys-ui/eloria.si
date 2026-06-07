@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { markShipped, markDelivered, createGlsShipmentForOrder, markAwaitingPaymentAsPaid } from "./actions";
+import { markShipped, markOnTheWay, markDelivered, createGlsShipmentForOrder, markAwaitingPaymentAsPaid } from "./actions";
 import { getTrackingUrl } from "@/lib/gls";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +21,7 @@ export default async function AdminOrderDetail({
   if (!order) notFound();
 
   const ship = markShipped.bind(null, params.id);
+  const onTheWay = markOnTheWay.bind(null, params.id);
   const deliver = markDelivered.bind(null, params.id);
   const createGls = createGlsShipmentForOrder.bind(null, params.id);
   const activatePayment = markAwaitingPaymentAsPaid.bind(null, params.id);
@@ -221,10 +222,10 @@ export default async function AdminOrderDetail({
             </section>
           )}
 
-          {(order.payment_status === "paid" || order.payment_method === "cod") && order.shipping_status !== "shipped" && order.shipping_status !== "delivered" && (
+          {(order.payment_status === "paid" || order.payment_method === "cod") && order.shipping_status === "pending" && (
             <form action={ship} className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
               <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-                Mark as shipped
+                Mark as shipped (Poslano kurirju)
               </h2>
               <label className="mt-3 block text-[12px] font-bold text-ink/70">Carrier</label>
               <input
@@ -250,6 +251,24 @@ export default async function AdminOrderDetail({
           )}
 
           {order.shipping_status === "shipped" && (
+            <form action={onTheWay} className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
+              <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
+                Mark on the way (Na poti)
+              </h2>
+              <p className="mt-2 text-[12px] text-ink/70">
+                Klikni, ko GLS potrdi prevzem / da je paket na poti.
+              </p>
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-full bg-blue-600 px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-blue-700"
+                style={{ color: "#FFFFFF" }}
+              >
+                <span style={{ color: "#FFFFFF" }}>Mark on the way</span>
+              </button>
+            </form>
+          )}
+
+          {(order.shipping_status === "shipped" || order.shipping_status === "in_transit") && (
             <form action={deliver} className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
               <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
                 Mark as delivered

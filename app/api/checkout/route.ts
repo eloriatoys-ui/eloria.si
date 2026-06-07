@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createGlsShipment } from "@/lib/gls";
 import { sendNewOrderEmails } from "@/lib/email";
+import { handoffToCourier } from "@/lib/courier-handoff";
 
 type IncomingLine = {
   productId: number;
@@ -240,7 +241,7 @@ export async function POST(req: Request) {
     }
 
     // Notify the shop + confirm to the customer. Best-effort, never blocks.
-    await sendNewOrderEmails({
+    const orderEmail = {
       order_number: order.order_number,
       email: addr.email,
       total,
@@ -253,7 +254,14 @@ export async function POST(req: Request) {
         unit_price: v.unit_price,
         total: v.line_total,
       })),
-    });
+    };
+    await sendNewOrderEmails(orderEmail);
+
+    // COD is committed on order (paid on delivery) → hand off to courier now.
+    // Bank transfer waits until the admin confirms payment.
+    if (method === "cod") {
+      await handoffToCourier(order.id, orderEmail);
+    }
 
     // COD orders: kick off GLS shipment immediately (with COD service so courier
     // collects cash). Bank-transfer orders wait for admin to confirm payment.

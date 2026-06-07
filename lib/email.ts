@@ -9,6 +9,8 @@ import { Resend } from "resend";
 const SITE_URL = (process.env.ELORIA_SITE_URL ?? "https://eloria.si").replace(/\/$/, "");
 const FROM = process.env.EMAIL_FROM ?? "Eloria <hello@amareen.si>";
 const ADMIN_TO = process.env.ADMIN_ORDER_EMAIL ?? "hello@amareen.si";
+// Replies go to the real shop inbox even when sending from a different verified domain.
+const REPLY_TO = process.env.EMAIL_REPLY_TO ?? "hello@amareen.si";
 
 let _resend: Resend | null = null;
 function client(): Resend | null {
@@ -139,6 +141,7 @@ export async function sendNewOrderEmails(order: OrderEmailData): Promise<void> {
       .send({
         from: FROM,
         to: ADMIN_TO,
+        replyTo: REPLY_TO,
         subject: `Novo naročilo ${order.order_number} · ${eur(order.total)}`,
         html: adminHtml(order),
       })
@@ -152,6 +155,7 @@ export async function sendNewOrderEmails(order: OrderEmailData): Promise<void> {
         .send({
           from: FROM,
           to: order.email,
+          replyTo: REPLY_TO,
           subject: `Potrditev naročila ${order.order_number} — Eloria`,
           html: customerHtml(order),
         })
@@ -160,4 +164,39 @@ export async function sendNewOrderEmails(order: OrderEmailData): Promise<void> {
   }
 
   await Promise.allSettled(tasks);
+}
+
+function readyToShipHtml(o: OrderEmailData): string {
+  const adminUrl = `${SITE_URL}/admin/orders`;
+  return `
+  <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#2b2b2b;">
+    <h1 style="font-size:20px;">📦 Pripravi pošiljko: ${escapeHtml(o.order_number)}</h1>
+    <p style="font-size:14px;">Naročilo je plačano/potrjeno. <strong>Ustvarite pošiljko v GLS portalu</strong> na spodnji naslov, nato v skrbniški plošči kliknite «Mark as shipped» in vnesite GLS sledilno številko.</p>
+    <p style="font-size:14px;margin:14px 0 4px;"><strong>Naslov za dostavo (GLS)</strong></p>
+    <div style="padding:14px;background:#f5f5f5;border-radius:10px;font-size:14px;line-height:1.5;">${addressHtml(o.shipping_address)}</div>
+    <div style="margin:16px 0;padding:16px;background:#faf6ef;border-radius:12px;">
+      ${itemsTableHtml(o.items)}
+      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+      <p style="font-size:13px;color:#777;margin:4px 0 0;">Plačilo: ${paymentLabel(o.payment_method)} · Kupec: ${escapeHtml(o.email)}</p>
+    </div>
+    <p style="font-size:14px;"><a href="${adminUrl}" style="color:#d2691e;font-weight:bold;">Odpri naročilo →</a></p>
+  </div>`;
+}
+
+/** "Ready to ship" notice to the shop inbox — fired when an order is paid/committed. Never throws. */
+export async function sendReadyToShipEmail(order: OrderEmailData): Promise<void> {
+  const resend = client();
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY not set — skipping ready-to-ship for", order.order_number);
+    return;
+  }
+  await resend.emails
+    .send({
+      from: FROM,
+      to: ADMIN_TO,
+      replyTo: REPLY_TO,
+      subject: `📦 Pripravi pošiljko: ${order.order_number} (plačano)`,
+      html: readyToShipHtml(order),
+    })
+    .catch((err) => console.error("[email] ready-to-ship failed:", err));
 }

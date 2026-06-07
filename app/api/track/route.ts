@@ -53,6 +53,7 @@ export async function POST(req: Request) {
     created_at: o.created_at,
     paid_at: o.paid_at ?? null,
     shipped_at: o.shipped_at ?? null,
+    in_transit_at: o.in_transit_at ?? null,
     delivered_at: o.delivered_at ?? null,
     tracking_carrier: o.tracking_carrier ?? null,
     tracking_number: o.tracking_number ?? null,
