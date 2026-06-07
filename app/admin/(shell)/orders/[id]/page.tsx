@@ -136,6 +136,20 @@ export default async function AdminOrderDetail({
             </dl>
           </section>
 
+          {order.invoice_url && (
+            <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
+              <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">Račun</h2>
+              <a
+                href={order.invoice_url}
+                target="_blank"
+                rel="noopener"
+                className="mt-3 inline-block text-[13px] font-bold text-orange-dark hover:underline"
+              >
+                Odpri račun (PDF) →
+              </a>
+            </section>
+          )}
+
           {order.payment_status === "awaiting_payment" && (
             <form
               action={activatePayment}

@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Ensure the invoice PDF fonts are bundled into the serverless functions
+  // that generate invoices (checkout/webhook routes + admin server actions).
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/**/*": ["./lib/assets/**"],
+      "/admin/**/*": ["./lib/assets/**"],
+    },
+  },
   async redirects() {
     return [
       // Anyone landing on the *.vercel.app deployment URL (e.g. from a stale

@@ -1,6 +1,7 @@
 import "server-only";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { sendReadyToShipEmail, type OrderEmailData } from "@/lib/email";
+import { issueInvoice } from "@/lib/issue-invoice";
 
 // Called the moment an order becomes paid/committed (card paid, bank transfer
 // confirmed, or COD placed). Stamps courier_notified_at — which lights up the
@@ -19,5 +20,7 @@ export async function handoffToCourier(
   } catch (err) {
     console.error("[courier-handoff] timestamp update failed:", err);
   }
+  // Issue the PDF invoice → Google Drive (best-effort), then notify the shop.
+  await issueInvoice(orderId, order);
   await sendReadyToShipEmail(order);
 }
