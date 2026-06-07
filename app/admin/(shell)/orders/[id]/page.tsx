@@ -221,7 +221,7 @@ export default async function AdminOrderDetail({
             </section>
           )}
 
-          {order.payment_status === "paid" && order.shipping_status !== "shipped" && order.shipping_status !== "delivered" && (
+          {(order.payment_status === "paid" || order.payment_method === "cod") && order.shipping_status !== "shipped" && order.shipping_status !== "delivered" && (
             <form action={ship} className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
               <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
                 Mark as shipped

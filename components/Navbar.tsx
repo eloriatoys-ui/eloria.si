@@ -304,7 +304,7 @@ export default function Navbar() {
           </div>
           <div className="hidden items-center gap-3 md:flex">
             <a
-              href="mailto:hello@amareen.si?subject=Order%20status"
+              href="/sledenje"
               className="text-white/95 hover:text-white"
             >
               {t("nav.track_order")}
@@ -399,6 +399,22 @@ export default function Navbar() {
                 variant="mobile"
               />
             </div>
+
+            {/* Track order */}
+            <a
+              href="/sledenje"
+              aria-label={t("nav.track_order")}
+              className="hidden items-center gap-1.5 rounded-full bg-orange px-3.5 py-2 text-[13px] font-extrabold text-pearl shadow-sm transition-colors hover:bg-orange-dark md:flex"
+              style={{ color: "#FFFFFF" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 18H3V6a1 1 0 0 1 1-1h11v13h-4" />
+                <path d="M15 8h4l3 4v6h-3" />
+                <circle cx="7.5" cy="18.5" r="1.5" />
+                <circle cx="17.5" cy="18.5" r="1.5" />
+              </svg>
+              <span style={{ color: "#FFFFFF" }}>{t("nav.track_order")}</span>
+            </a>
 
             {/* Wishlist */}
             <button
@@ -496,7 +512,7 @@ export default function Navbar() {
           ))}
 
           <a
-            href="mailto:hello@amareen.si?subject=Order%20status"
+            href="/sledenje"
             className="mt-3 rounded-2xl btn-magic px-4 py-3 text-center text-sm font-bold"
             style={{ color: "#FFFFFF" }}
           >

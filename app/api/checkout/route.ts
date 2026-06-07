@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createGlsShipment } from "@/lib/gls";
+import { sendNewOrderEmails } from "@/lib/email";
 
 type IncomingLine = {
   productId: number;
@@ -237,6 +238,22 @@ export async function POST(req: Request) {
         .insert(items);
       if (itemsErr) console.error("Order items insert failed:", itemsErr);
     }
+
+    // Notify the shop + confirm to the customer. Best-effort, never blocks.
+    await sendNewOrderEmails({
+      order_number: order.order_number,
+      email: addr.email,
+      total,
+      currency: "EUR",
+      payment_method: method,
+      shipping_address,
+      items: validated.map((v) => ({
+        product_name: v.name,
+        quantity: v.quantity,
+        unit_price: v.unit_price,
+        total: v.line_total,
+      })),
+    });
 
     // COD orders: kick off GLS shipment immediately (with COD service so courier
     // collects cash). Bank-transfer orders wait for admin to confirm payment.

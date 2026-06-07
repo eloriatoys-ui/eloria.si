@@ -17,6 +17,11 @@ export async function markShipped(id: string, formData: FormData) {
     })
     .eq("id", id);
   if (error) throw new Error(error.message);
+  // Best-effort timestamp — ignored if the migration hasn't added the column yet.
+  await supabaseAdmin
+    .from("orders")
+    .update({ shipped_at: new Date().toISOString() })
+    .eq("id", id);
   revalidatePath("/admin/orders");
   revalidatePath("/admin/orders/" + id);
   revalidatePath("/admin");
@@ -28,6 +33,11 @@ export async function markDelivered(id: string) {
     .update({ shipping_status: "delivered" })
     .eq("id", id);
   if (error) throw new Error(error.message);
+  // Best-effort timestamp — ignored if the migration hasn't added the column yet.
+  await supabaseAdmin
+    .from("orders")
+    .update({ delivered_at: new Date().toISOString() })
+    .eq("id", id);
   revalidatePath("/admin/orders");
   revalidatePath("/admin/orders/" + id);
 }

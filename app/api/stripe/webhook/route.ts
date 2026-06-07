@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createGlsShipment } from "@/lib/gls";
+import { sendNewOrderEmails } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -165,6 +166,22 @@ async function fulfillSession(sessionId: string) {
     const { error: itemsErr } = await supabaseAdmin.from("order_items").insert(items);
     if (itemsErr) console.error("Order items insert failed:", itemsErr);
   }
+
+  // Notify the shop + confirm to the customer. Best-effort, never throws.
+  await sendNewOrderEmails({
+    order_number: (order as any).order_number ?? "",
+    email,
+    total,
+    currency: (session.currency ?? "eur").toUpperCase(),
+    payment_method: "card",
+    shipping_address: shipping_address as any,
+    items: items.map((it) => ({
+      product_name: it.product_name,
+      quantity: it.quantity,
+      unit_price: it.unit_price,
+      total: it.total,
+    })),
+  });
 
   // Fire-and-forget GLS shipment. We intentionally don't await this inside
   // the webhook response path so a transient GLS failure doesn't make Stripe

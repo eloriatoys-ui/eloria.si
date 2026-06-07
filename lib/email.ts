@@ -1,0 +1,163 @@
+import "server-only";
+import { Resend } from "resend";
+
+// Transactional email via Resend. Sends an admin "new order" alert and a
+// customer order confirmation. Everything is best-effort: if the API key is
+// missing or a send fails, we log and move on — email must never block or
+// crash order creation.
+
+const SITE_URL = (process.env.ELORIA_SITE_URL ?? "https://eloria.si").replace(/\/$/, "");
+const FROM = process.env.EMAIL_FROM ?? "Eloria <hello@amareen.si>";
+const ADMIN_TO = process.env.ADMIN_ORDER_EMAIL ?? "hello@amareen.si";
+
+let _resend: Resend | null = null;
+function client(): Resend | null {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  if (!_resend) _resend = new Resend(key);
+  return _resend;
+}
+
+export type OrderEmailData = {
+  order_number: string;
+  email: string;
+  total: number;
+  currency?: string;
+  payment_method?: "card" | "bank_transfer" | "cod" | string | null;
+  shipping_address?: {
+    name?: string;
+    line1?: string;
+    line2?: string | null;
+    city?: string;
+    postal_code?: string;
+    country?: string;
+  } | null;
+  items: Array<{
+    product_name: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+  }>;
+};
+
+function eur(n: number): string {
+  return `€${Number(n).toFixed(2)}`;
+}
+
+function paymentLabel(method: string | null | undefined): string {
+  if (method === "bank_transfer") return "Bančno nakazilo (UPN)";
+  if (method === "cod") return "Po povzetju (plačilo ob dostavi)";
+  return "Kartica";
+}
+
+function itemsTableHtml(items: OrderEmailData["items"]): string {
+  const rows = items
+    .map(
+      (it) => `
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #eee;">${escapeHtml(it.product_name)}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:center;">${it.quantity}×</td>
+        <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;">${eur(it.total)}</td>
+      </tr>`,
+    )
+    .join("");
+  return `<table style="width:100%;border-collapse:collapse;font-size:14px;">${rows}</table>`;
+}
+
+function addressHtml(a: OrderEmailData["shipping_address"]): string {
+  if (!a) return "—";
+  return [
+    a.name,
+    a.line1,
+    a.line2 || null,
+    [a.postal_code, a.city].filter(Boolean).join(" "),
+    a.country,
+  ]
+    .filter(Boolean)
+    .map((l) => escapeHtml(String(l)))
+    .join("<br>");
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function customerHtml(o: OrderEmailData): string {
+  const trackUrl = `${SITE_URL}/order/${encodeURIComponent(o.order_number)}`;
+  return `
+  <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#2b2b2b;">
+    <h1 style="font-size:22px;">Hvala za vaše naročilo! 🧸</h1>
+    <p style="font-size:15px;line-height:1.5;">
+      Vaše naročilo <strong>${escapeHtml(o.order_number)}</strong> smo prejeli in ga pripravljamo.
+      O vsaki spremembi statusa (oddano, dostavljeno) vas bomo obvestili.
+    </p>
+    <div style="margin:20px 0;padding:16px;background:#faf6ef;border-radius:12px;">
+      ${itemsTableHtml(o.items)}
+      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+      <p style="font-size:13px;color:#777;margin:4px 0 0;">Način plačila: ${paymentLabel(o.payment_method)}</p>
+    </div>
+    <p style="font-size:14px;">
+      Stanje naročila lahko kadar koli spremljate tukaj:<br>
+      <a href="${trackUrl}" style="color:#d2691e;font-weight:bold;">${trackUrl}</a>
+    </p>
+    <p style="font-size:14px;">Lahko pa vnesete številko naročila in svoj e-naslov na strani <a href="${SITE_URL}/sledenje" style="color:#d2691e;">${SITE_URL}/sledenje</a>.</p>
+    <p style="font-size:13px;color:#999;margin-top:28px;">Lep pozdrav,<br>Ekipa Eloria</p>
+  </div>`;
+}
+
+function adminHtml(o: OrderEmailData): string {
+  const adminUrl = `${SITE_URL}/admin/orders`;
+  return `
+  <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#2b2b2b;">
+    <h1 style="font-size:20px;">🛎️ Novo naročilo: ${escapeHtml(o.order_number)}</h1>
+    <p style="font-size:14px;">Način plačila: <strong>${paymentLabel(o.payment_method)}</strong> · Kupec: ${escapeHtml(o.email)}</p>
+    <div style="margin:16px 0;padding:16px;background:#f5f5f5;border-radius:12px;">
+      ${itemsTableHtml(o.items)}
+      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+    </div>
+    <p style="font-size:14px;"><strong>Naslov za dostavo</strong><br>${addressHtml(o.shipping_address)}</p>
+    <p style="font-size:14px;"><a href="${adminUrl}" style="color:#d2691e;font-weight:bold;">Odpri v skrbniški plošči →</a></p>
+  </div>`;
+}
+
+/** Send admin alert + customer confirmation for a newly created order. Never throws. */
+export async function sendNewOrderEmails(order: OrderEmailData): Promise<void> {
+  const resend = client();
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY not set — skipping order emails for", order.order_number);
+    return;
+  }
+  const tasks: Promise<unknown>[] = [];
+
+  // Admin alert
+  tasks.push(
+    resend.emails
+      .send({
+        from: FROM,
+        to: ADMIN_TO,
+        subject: `Novo naročilo ${order.order_number} · ${eur(order.total)}`,
+        html: adminHtml(order),
+      })
+      .catch((err) => console.error("[email] admin alert failed:", err)),
+  );
+
+  // Customer confirmation
+  if (order.email) {
+    tasks.push(
+      resend.emails
+        .send({
+          from: FROM,
+          to: order.email,
+          subject: `Potrditev naročila ${order.order_number} — Eloria`,
+          html: customerHtml(order),
+        })
+        .catch((err) => console.error("[email] customer confirmation failed:", err)),
+    );
+  }
+
+  await Promise.allSettled(tasks);
+}

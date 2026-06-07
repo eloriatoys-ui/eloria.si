@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { generateOrderQr, buildReference } from "@/lib/upn-qr";
 import { getTrackingUrl } from "@/lib/gls";
+import OrderProgress from "@/components/OrderProgress";
 import ClearCartOnMount from "../success/ClearCartOnMount";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +60,10 @@ export default async function PublicOrderPage({
           <p className="mt-2 text-[15px] font-bold text-ink/70">
             {order.order_number} · €{Number(order.total).toFixed(2)}
           </p>
+        </div>
+
+        <div className="mt-10">
+          <OrderProgress order={order as any} />
         </div>
 
         {isBank && !isPaid && qrDataUrl && (
