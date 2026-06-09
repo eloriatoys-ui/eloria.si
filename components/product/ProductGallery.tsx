@@ -65,7 +65,7 @@ export default function ProductGallery({
   const currentMain = gallery[active];
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex min-w-0 flex-col gap-3">
       {/* Main image — square, never cropped */}
       <div
         className="relative aspect-square w-full overflow-hidden rounded-2xl bg-pearl"

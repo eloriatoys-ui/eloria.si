@@ -53,7 +53,7 @@ export default function ProductInfo({ product }: Props) {
     longDesc || productShortDescription(product, locale) || null;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-6">
       {/* Heading */}
       <div>
         <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
