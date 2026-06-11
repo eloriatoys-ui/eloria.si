@@ -81,7 +81,7 @@ export default async function WoodenToysPage() {
           }}
         />
 
-        <div className="relative mx-auto max-w-6xl px-5 md:px-8">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 md:grid-cols-2 md:gap-10 md:px-8">
           <Reveal>
             <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-wood-light">
               <span className="h-1 w-6 rounded-full bg-orange" />
@@ -110,6 +110,23 @@ export default async function WoodenToysPage() {
                 <T id="wt.cta_custom" />
               </a>
             </div>
+          </Reveal>
+
+          {/* Kid — desktop only; mobile keeps the original text-focused hero */}
+          <Reveal delay={120} className="relative hidden md:block">
+            <div
+              className="pointer-events-none absolute inset-x-6 bottom-6 top-10 rounded-full opacity-70 blur-2xl"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(254, 215, 170, 0.45) 0%, transparent 70%)",
+              }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/wooden-kid.webp"
+              alt="Otrok se igra z leseno igračo"
+              className="relative mx-auto w-full max-w-[440px] drop-shadow-2xl lg:max-w-[500px]"
+            />
           </Reveal>
         </div>
       </section>
