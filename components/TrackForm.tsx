@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import OrderProgress from "./OrderProgress";
+import { getTrackingUrl } from "@/lib/courier";
 
 type TrackedOrder = {
   order_number: string;
@@ -53,10 +54,7 @@ export default function TrackForm({ initialOrderNumber = "" }: { initialOrderNum
   }
 
   const o = result?.order;
-  const glsUrl =
-    o?.tracking_number && o.tracking_carrier === "GLS"
-      ? `https://gls-group.eu/SI/sl/sledenje-posiljk?match=${encodeURIComponent(o.tracking_number)}`
-      : null;
+  const trackUrl = getTrackingUrl(o?.tracking_carrier, o?.tracking_number);
 
   return (
     <div>
@@ -115,12 +113,12 @@ export default function TrackForm({ initialOrderNumber = "" }: { initialOrderNum
                 Dostava
               </h3>
               <p className="mt-2 text-[14px] text-ink">
-                {o.tracking_carrier ?? "Kurir"} ·{" "}
+                {o.tracking_carrier ?? "Express One"} ·{" "}
                 <span className="font-bold">{o.tracking_number}</span>
               </p>
-              {glsUrl && (
+              {trackUrl && (
                 <a
-                  href={glsUrl}
+                  href={trackUrl}
                   target="_blank"
                   rel="noopener"
                   className="mt-3 inline-block text-[13px] font-bold text-orange-dark hover:underline"

@@ -86,7 +86,7 @@ const shopMega: MegaColumn[] = [
       { label: "mega.shop.help.track", href: "#", icon: "leaf" },
       { label: "mega.shop.help.shipping", href: "/#faq", icon: "shirt" },
       { label: "mega.shop.help.faq", href: "/#faq", icon: "sun" },
-      { label: "mega.shop.help.contact", href: "mailto:hello@amareen.si", icon: "moon" },
+      { label: "mega.shop.help.contact", href: "mailto:eloriatoys@gmail.com", icon: "moon" },
     ],
   },
 ];

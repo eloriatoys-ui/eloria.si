@@ -7,12 +7,20 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/lib/cart/cart-context";
 
-type Method = "card" | "bank_transfer" | "cod";
+type Method = "card" | "cod";
 
 const COD_SURCHARGE = 2.0;
 
 export default function CheckoutPage() {
-  const { lines, subtotal, clear } = useCart();
+  const {
+    lines,
+    subtotal,
+    discountEligible,
+    discountPercent,
+    discount,
+    discountedSubtotal,
+    clear,
+  } = useCart();
   const router = useRouter();
   const [method, setMethod] = useState<Method>("card");
   const [loading, setLoading] = useState(false);
@@ -30,9 +38,9 @@ export default function CheckoutPage() {
   });
 
   const surcharge = method === "cod" ? COD_SURCHARGE : 0;
-  const total = subtotal + surcharge;
+  const total = discountedSubtotal + surcharge;
 
-  const requiresForm = method === "bank_transfer" || method === "cod";
+  const requiresForm = method === "cod";
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,12 +130,6 @@ export default function CheckoutPage() {
                   subtitle="Visa, Mastercard, Amex prek Stripe — takojšnja potrditev"
                 />
                 <MethodRadio
-                  checked={method === "bank_transfer"}
-                  onChange={() => setMethod("bank_transfer")}
-                  title="Bančno nakazilo (UPN QR)"
-                  subtitle="Skenirajte QR z bančno aplikacijo — naročilo odpošljemo po potrditvi plačila"
-                />
-                <MethodRadio
                   checked={method === "cod"}
                   onChange={() => setMethod("cod")}
                   title="Plačilo po povzetju"
@@ -173,6 +175,12 @@ export default function CheckoutPage() {
                 <dt className="text-ink/70">Vmesni seštevek</dt>
                 <dd className="font-bold text-ink">€{subtotal.toFixed(2)}</dd>
               </div>
+              {discountEligible && (
+                <div className="flex justify-between text-green-700">
+                  <dt className="font-bold">Popust (−{discountPercent}%)</dt>
+                  <dd className="font-bold">−€{discount.toFixed(2)}</dd>
+                </div>
+              )}
               <div className="flex justify-between">
                 <dt className="text-ink/70">Dostava</dt>
                 <dd className="font-bold text-ink">Brezplačno</dd>
@@ -204,8 +212,6 @@ export default function CheckoutPage() {
                   ? "Obdelava…"
                   : method === "card"
                   ? "Plačaj s kartico"
-                  : method === "bank_transfer"
-                  ? "Oddaj naročilo — plačaj z nakazilom"
                   : "Oddaj naročilo — plačilo po povzetju"}
               </span>
             </button>

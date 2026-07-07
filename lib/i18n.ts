@@ -198,15 +198,15 @@ export const dict: Record<Locale, Dict> = {
     "rev.viewall": "Read all reviews on Google",
     "rev.r1.quote":
       "My daughter loves the Garden Queen set! The fabric is so soft and the stitching feels really sturdy. We've washed it a dozen times and it still looks brand new.",
-    "rev.r1.meta": "Dubai · 5 reviews",
+    "rev.r1.meta": "Ljubljana · 5 reviews",
     "rev.r1.date": "2 weeks ago",
     "rev.r2.quote":
       "Finally a kids brand that cares about what materials they use. My son plays with the multifunctional car every day — quality, packaging, everything is on point.",
-    "rev.r2.meta": "Local Guide · Abu Dhabi · 23 reviews",
+    "rev.r2.meta": "Local Guide · Maribor · 23 reviews",
     "rev.r2.date": "1 month ago",
     "rev.r3.quote":
       "The Pop-It game console was a birthday hit! All the kids at the party wanted one. Beautifully boxed and arrived in 2 days. Will definitely order again.",
-    "rev.r3.meta": "Sharjah · 12 reviews",
+    "rev.r3.meta": "Kranj · 12 reviews",
     "rev.r3.date": "3 weeks ago",
 
     // FAQ
@@ -225,7 +225,7 @@ export const dict: Record<Locale, Dict> = {
       "Yes — free standard delivery on every order over 150 €. Below that, it's a small flat rate that's shown at checkout before you pay.",
     "faq.q3": "How do returns work?",
     "faq.a3":
-      "You have 30 days to return anything that isn't a perfect fit. Items must be unworn with tags attached. Start a return from your account or email hello@amareen.si — within Slovenia we provide a prepaid label.",
+      "You have 30 days to return anything that isn't a perfect fit. Items must be unworn with tags attached. Start a return from your account or email eloriatoys@gmail.com — within Slovenia we provide a prepaid label.",
     "faq.q4": "Are the materials safe for babies and toddlers?",
     "faq.a4":
       "Always. Fabrics are OEKO-TEX certified, dyes are non-toxic and water-based, and every toy is tested for choking-size hazards. Suitable age is printed on each product page.",
@@ -595,15 +595,15 @@ export const dict: Record<Locale, Dict> = {
     "rev.viewall": "Preberi vse ocene na Googlu",
     "rev.r1.quote":
       "Moja hči obožuje komplet Garden Queen! Tkanina je zelo mehka, šivi pa zelo trpežni. Oprali smo ga že desetkrat in še vedno izgleda kot nov.",
-    "rev.r1.meta": "Dubaj · 5 ocen",
+    "rev.r1.meta": "Ljubljana · 5 ocen",
     "rev.r1.date": "pred 2 tednoma",
     "rev.r2.quote":
       "Končno otroška znamka, ki jo zanima, kakšne materiale uporablja. Moj sin se vsak dan igra z multifunkcijskim avtom — kakovost in embalaža sta odlični.",
-    "rev.r2.meta": "Lokalni vodnik · Abu Dhabi · 23 ocen",
+    "rev.r2.meta": "Lokalni vodnik · Maribor · 23 ocen",
     "rev.r2.date": "pred mesecem",
     "rev.r3.quote":
       "Pop-It igralna konzola je bila uspešnica na rojstnem dnevu! Vsi otroci na zabavi so jo želeli imeti. Lepo zapakirano in dostavljeno v 2 dneh. Zagotovo bom naročila znova.",
-    "rev.r3.meta": "Sharjah · 12 ocen",
+    "rev.r3.meta": "Kranj · 12 ocen",
     "rev.r3.date": "pred 3 tedni",
 
     // FAQ
@@ -622,7 +622,7 @@ export const dict: Record<Locale, Dict> = {
       "Da — brezplačna standardna dostava pri vsakem naročilu nad 150 €. Pod tem zneskom je majhna pavšalna pristojbina, prikazana ob zaključku nakupa pred plačilom.",
     "faq.q3": "Kako delujejo vračila?",
     "faq.a3":
-      "Imaš 30 dni za vračilo česar koli, kar ti ne ustreza popolnoma. Izdelki morajo biti nenošeni in z etiketami. Vračilo začni iz svojega računa ali nam piši na hello@amareen.si — v Sloveniji ti zagotovimo predplačano nalepko.",
+      "Imaš 30 dni za vračilo česar koli, kar ti ne ustreza popolnoma. Izdelki morajo biti nenošeni in z etiketami. Vračilo začni iz svojega računa ali nam piši na eloriatoys@gmail.com — v Sloveniji ti zagotovimo predplačano nalepko.",
     "faq.q4": "So materiali varni za dojenčke in malčke?",
     "faq.a4":
       "Vedno. Tkanine so OEKO-TEX certificirane, barvila so nestrupena in na vodni osnovi, vsaka igrača pa je preizkušena za nevarnosti zadušitve. Primerna starost je natisnjena na vsaki strani izdelka.",

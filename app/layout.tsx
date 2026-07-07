@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import LangProvider from "@/components/LangProvider";
+import PromoPopup from "@/components/PromoPopup";
 import { CartProvider } from "@/lib/cart/cart-context";
 
 export const metadata: Metadata = {
@@ -22,7 +23,10 @@ export default function RootLayout({
     <html lang="sl">
       <body className="font-body text-text-dark antialiased">
         <LangProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            <PromoPopup />
+          </CartProvider>
         </LangProvider>
       </body>
     </html>

@@ -24,7 +24,7 @@ const linkCols = [
       { label: "footer.col.care.returns", href: "/#faq" },
       { label: "footer.col.care.size", href: "/#faq" },
       { label: "footer.col.care.faq", href: "/#faq" },
-      { label: "footer.col.care.contact", href: "mailto:hello@amareen.si" },
+      { label: "footer.col.care.contact", href: "mailto:eloriatoys@gmail.com" },
     ],
   },
   {
@@ -35,7 +35,7 @@ const linkCols = [
       { label: "footer.col.about.reviews", href: "/#testimonials" },
       { label: "footer.col.about.press", href: "#" },
       { label: "footer.col.about.aff", href: "#" },
-      { label: "footer.col.about.wholesale", href: "mailto:hello@amareen.si" },
+      { label: "footer.col.about.wholesale", href: "mailto:eloriatoys@gmail.com" },
     ],
   },
 ];
@@ -115,8 +115,8 @@ export default function Footer() {
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <polyline points="3 7 12 13 21 7" />
                 </svg>
-                <a href="mailto:hello@amareen.si" className="hover:text-orange-dark">
-                  hello@amareen.si
+                <a href="mailto:eloriatoys@gmail.com" className="hover:text-orange-dark">
+                  eloriatoys@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2.5">

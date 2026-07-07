@@ -145,7 +145,7 @@ export default function ProductInfo({ product }: Props) {
           className="flex-1 rounded-full bg-ink px-6 py-3.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
           style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
         >
-          <span style={{ color: "#FFFFFF" }}>{added ? "Added ✓" : "Add to cart"}</span>
+          <span style={{ color: "#FFFFFF" }}>{added ? "Dodano ✓" : "Dodaj v košarico"}</span>
         </button>
         <BuyNowButton product={cartLine} />
         <button

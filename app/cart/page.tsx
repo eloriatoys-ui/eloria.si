@@ -6,7 +6,17 @@ import Footer from "@/components/Footer";
 import { useCart } from "@/lib/cart/cart-context";
 
 export default function CartPage() {
-  const { lines, subtotal, setQuantity, remove, clear } = useCart();
+  const {
+    lines,
+    subtotal,
+    discountEligible,
+    discountPercent,
+    discount,
+    discountedSubtotal,
+    setQuantity,
+    remove,
+    clear,
+  } = useCart();
 
   return (
     <main className="min-h-screen bg-cream">
@@ -99,6 +109,12 @@ export default function CartPage() {
                   <dt className="text-ink/70">Vmesni seštevek</dt>
                   <dd className="font-bold text-ink">€{subtotal.toFixed(2)}</dd>
                 </div>
+                {discountEligible && (
+                  <div className="flex justify-between text-green-700">
+                    <dt className="font-bold">Popust (−{discountPercent}%)</dt>
+                    <dd className="font-bold">−€{discount.toFixed(2)}</dd>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <dt className="text-ink/70">Dostava</dt>
                   <dd className="font-bold text-ink">Brezplačno</dd>
@@ -106,10 +122,19 @@ export default function CartPage() {
                 <div className="flex justify-between border-t border-orange-dark/10 pt-3 text-[16px]">
                   <dt className="font-extrabold text-ink">Skupaj</dt>
                   <dd className="font-extrabold text-ink">
-                    €{subtotal.toFixed(2)}
+                    €{discountedSubtotal.toFixed(2)}
                   </dd>
                 </div>
               </dl>
+              {discountEligible ? (
+                <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-[12px] font-bold text-green-700">
+                  ✓ Upoštevan <strong>40% popust</strong> + <strong>brezplačna dostava</strong> ob nakupu več izdelkov.
+                </p>
+              ) : (
+                <p className="mt-3 rounded-lg bg-orange/10 px-3 py-2 text-[12px] font-bold text-orange-dark">
+                  🎁 Dodajte še en izdelek in prejmite <strong>40% popust</strong> + brezplačno dostavo na celotno naročilo!
+                </p>
+              )}
               <Link
                 href="/checkout"
                 className="mt-6 block w-full rounded-full bg-orange px-6 py-3.5 text-center text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"

@@ -15,21 +15,21 @@ type Review = {
 const reviews: Review[] = [
   {
     quoteKey: "rev.r1.quote",
-    name: "Sarah M.",
+    name: "Maja Novak",
     metaKey: "rev.r1.meta",
     dateKey: "rev.r1.date",
     bg: "linear-gradient(135deg, #F472B6 0%, #C084FC 100%)",
   },
   {
     quoteKey: "rev.r2.quote",
-    name: "Ahmed K.",
+    name: "Luka Horvat",
     metaKey: "rev.r2.meta",
     dateKey: "rev.r2.date",
     bg: "linear-gradient(135deg, #38BDF8 0%, #6366F1 100%)",
   },
   {
     quoteKey: "rev.r3.quote",
-    name: "Fatima R.",
+    name: "Ana Kovač",
     metaKey: "rev.r3.meta",
     dateKey: "rev.r3.date",
     bg: "linear-gradient(135deg, #34D399 0%, #10B981 100%)",

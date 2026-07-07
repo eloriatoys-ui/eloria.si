@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { createGlsShipment } from "@/lib/gls";
 import { sendNewOrderEmails } from "@/lib/email";
 import { handoffToCourier } from "@/lib/courier-handoff";
 
@@ -85,6 +84,7 @@ async function fulfillSession(sessionId: string) {
   const subtotal = (session.amount_subtotal ?? 0) / 100;
   const shipping = (session.shipping_cost?.amount_total ?? 0) / 100;
   const tax = (session.total_details?.amount_tax ?? 0) / 100;
+  const discount = (session.total_details?.amount_discount ?? 0) / 100;
   const total = (session.amount_total ?? 0) / 100;
 
   // Stripe moved shipping_details into collected_information in newer API versions.
@@ -172,6 +172,8 @@ async function fulfillSession(sessionId: string) {
   const orderEmail = {
     order_number: (order as any).order_number ?? "",
     email,
+    subtotal,
+    discount,
     total,
     currency: (session.currency ?? "eur").toUpperCase(),
     payment_method: "card" as const,
@@ -185,54 +187,6 @@ async function fulfillSession(sessionId: string) {
   };
   await sendNewOrderEmails(orderEmail);
   // Card orders are paid on creation → hand off to courier immediately.
+  // Shipments are created manually in the Express One portal (no auto-GLS API).
   await handoffToCourier(order.id, orderEmail);
-
-  // Fire-and-forget GLS shipment. We intentionally don't await this inside
-  // the webhook response path so a transient GLS failure doesn't make Stripe
-  // retry the whole order-creation flow.
-  fulfillGlsShipment({
-    orderId: order.id,
-    order_number: (order as any).order_number ?? "",
-    email,
-    shipping_address: shipping_address as any,
-    phone,
-  }).catch((err) => {
-    console.error("GLS fulfillment crashed:", err);
-  });
-}
-
-async function fulfillGlsShipment(args: {
-  orderId: string;
-  order_number: string;
-  email: string;
-  shipping_address: Record<string, unknown> | null;
-  phone: string | null;
-}) {
-  if (!args.shipping_address) return;
-  try {
-    const result = await createGlsShipment({
-      order_number: args.order_number,
-      email: args.email,
-      shipping_address: args.shipping_address as any,
-      phone: args.phone,
-    });
-    await supabaseAdmin
-      .from("orders")
-      .update({
-        tracking_carrier: "GLS",
-        tracking_number: result.parcelNumber,
-        gls_parcel_id: result.parcelId,
-        gls_label_pdf: result.labelPdfBase64,
-        gls_error: null,
-        gls_created_at: new Date().toISOString(),
-      })
-      .eq("id", args.orderId);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(`GLS shipment failed for order ${args.order_number}:`, message);
-    await supabaseAdmin
-      .from("orders")
-      .update({ gls_error: message })
-      .eq("id", args.orderId);
-  }
 }

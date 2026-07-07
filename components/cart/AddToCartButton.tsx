@@ -14,7 +14,7 @@ export default function AddToCartButton({
   product,
   variant = "primary",
   className = "",
-  label = "Add to cart",
+  label = "Dodaj v košarico",
 }: Props) {
   const { add } = useCart();
   const [adding, setAdding] = useState(false);
@@ -40,7 +40,7 @@ export default function AddToCartButton({
       style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
     >
       <span style={{ color: "#FFFFFF" }}>
-        {adding ? "Added ✓" : label}
+        {adding ? "Dodano ✓" : label}
       </span>
     </button>
   );

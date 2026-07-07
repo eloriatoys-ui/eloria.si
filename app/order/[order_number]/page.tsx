@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { generateOrderQr, buildReference } from "@/lib/upn-qr";
-import { getTrackingUrl } from "@/lib/gls";
+import { getTrackingUrl } from "@/lib/courier";
 import OrderProgress from "@/components/OrderProgress";
 import ClearCartOnMount from "../success/ClearCartOnMount";
 
@@ -35,8 +35,12 @@ export default async function PublicOrderPage({
     }) : null;
 
   const tracking =
-    order.tracking_number && order.tracking_carrier === "GLS"
-      ? { number: order.tracking_number, url: getTrackingUrl(order.tracking_number) }
+    order.tracking_number
+      ? {
+          carrier: order.tracking_carrier ?? "Express One",
+          number: order.tracking_number,
+          url: getTrackingUrl(order.tracking_carrier, order.tracking_number)!,
+        }
       : null;
 
   const bankIban = (process.env.ELORIA_BANK_IBAN ?? "").replace(/(.{4})/g, "$1 ").trim();
@@ -112,7 +116,7 @@ export default async function PublicOrderPage({
               Dostava
             </h2>
             <p className="mt-2 text-[14px] text-ink">
-              GLS · <span className="font-bold">{tracking.number}</span>
+              {tracking.carrier} · <span className="font-bold">{tracking.number}</span>
             </p>
             <a
               href={tracking.url}

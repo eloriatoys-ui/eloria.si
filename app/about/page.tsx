@@ -76,7 +76,7 @@ export default function AboutPage() {
                   <T id="about.cta_shop" />
                 </a>
                 <a
-                  href="mailto:hello@amareen.si"
+                  href="mailto:eloriatoys@gmail.com"
                   className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
                 >
                   <T id="about.cta_hello" />

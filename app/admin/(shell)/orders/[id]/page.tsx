@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { markShipped, markOnTheWay, markDelivered, createGlsShipmentForOrder, markAwaitingPaymentAsPaid } from "./actions";
-import { getTrackingUrl } from "@/lib/gls";
+import { markShipped, markOnTheWay, markDelivered, markAwaitingPaymentAsPaid } from "./actions";
+import { getTrackingUrl, DEFAULT_CARRIER } from "@/lib/courier";
 
 export const dynamic = "force-dynamic";
 
@@ -23,11 +23,9 @@ export default async function AdminOrderDetail({
   const ship = markShipped.bind(null, params.id);
   const onTheWay = markOnTheWay.bind(null, params.id);
   const deliver = markDelivered.bind(null, params.id);
-  const createGls = createGlsShipmentForOrder.bind(null, params.id);
   const activatePayment = markAwaitingPaymentAsPaid.bind(null, params.id);
   const sa = order.shipping_address as any;
-  const hasGlsParcel = Boolean(order.tracking_number && order.tracking_carrier === "GLS");
-  const glsTrackingUrl = hasGlsParcel ? getTrackingUrl(order.tracking_number) : null;
+  const trackingUrl = getTrackingUrl(order.tracking_carrier, order.tracking_number);
 
   return (
     <div>
@@ -175,64 +173,41 @@ export default async function AdminOrderDetail({
             </form>
           )}
 
-          {order.payment_status === "paid" && (
+          {(order.payment_status === "paid" || order.payment_method === "cod") && (
             <section className="rounded-2xl border border-orange-dark/15 bg-pearl p-5">
               <h2 className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
-                GLS shipment
+                Dostava · Express One
               </h2>
-              {hasGlsParcel ? (
-                <div className="mt-3 space-y-3 text-[13px]">
+              {order.tracking_number ? (
+                <div className="mt-3 space-y-2 text-[13px]">
                   <p>
-                    <span className="text-ink/60">Parcel #</span>{" "}
+                    <span className="text-ink/60">{order.tracking_carrier ?? "Express One"} #</span>{" "}
                     <span className="font-bold text-ink">{order.tracking_number}</span>
                   </p>
-                  {order.gls_created_at && (
-                    <p className="text-[12px] text-ink/60">
-                      Created {new Date(order.gls_created_at).toLocaleString()}
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-2">
+                  {trackingUrl && (
                     <a
-                      href={`/admin/api/orders/${order.id}/label`}
+                      href={trackingUrl}
                       target="_blank"
                       rel="noopener"
-                      className="rounded-full bg-orange px-4 py-2.5 text-center text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
-                      style={{ color: "#FFFFFF" }}
+                      className="inline-block text-[13px] font-bold text-orange-dark hover:underline"
                     >
-                      <span style={{ color: "#FFFFFF" }}>Print label (PDF)</span>
+                      Track parcel →
                     </a>
-                    {glsTrackingUrl && (
-                      <a
-                        href={glsTrackingUrl}
-                        target="_blank"
-                        rel="noopener"
-                        className="rounded-full border border-orange-dark/25 bg-cream px-4 py-2.5 text-center text-[12px] font-extrabold uppercase tracking-wider text-ink hover:bg-orange-dark hover:text-pearl"
-                      >
-                        Track parcel
-                      </a>
-                    )}
-                  </div>
+                  )}
                 </div>
               ) : (
-                <div className="mt-3 space-y-3">
-                  {order.gls_error && (
-                    <p className="rounded-lg bg-red-50 px-3 py-2 text-[12px] text-red-800">
-                      Last error: {order.gls_error}
-                    </p>
-                  )}
-                  <form action={createGls}>
-                    <button
-                      type="submit"
-                      className="w-full rounded-full bg-orange px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
-                      style={{ color: "#FFFFFF" }}
-                    >
-                      <span style={{ color: "#FFFFFF" }}>
-                        {order.gls_error ? "Retry GLS shipment" : "Create GLS shipment"}
-                      </span>
-                    </button>
-                  </form>
-                </div>
+                <p className="mt-2 text-[12px] text-ink/70">
+                  Ustvarite paket v Express One portalu, nato spodaj vnesite sledilno številko.
+                </p>
               )}
+              <a
+                href="https://inet.expressone.si/"
+                target="_blank"
+                rel="noopener"
+                className="mt-3 inline-block text-[12px] font-bold text-ink/60 hover:text-orange-dark hover:underline"
+              >
+                Odpri Express One portal ↗
+              </a>
             </section>
           )}
 
@@ -244,7 +219,8 @@ export default async function AdminOrderDetail({
               <label className="mt-3 block text-[12px] font-bold text-ink/70">Carrier</label>
               <input
                 name="tracking_carrier"
-                placeholder="DHL, GLS, Pošta Slovenije…"
+                defaultValue={DEFAULT_CARRIER}
+                placeholder="Express One, GLS, Pošta Slovenije…"
                 className="mt-1 w-full rounded-lg border border-orange-dark/20 bg-cream px-3 py-2 text-sm focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/30"
               />
               <label className="mt-3 block text-[12px] font-bold text-ink/70">

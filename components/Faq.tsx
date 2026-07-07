@@ -109,7 +109,7 @@ export default function Faq() {
           <p className="text-[13px] text-slate">{t("faq.help")}</p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
-              href="mailto:hello@amareen.si"
+              href="mailto:eloriatoys@gmail.com"
               className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
               style={{ letterSpacing: "0.08em", color: "#FFFFFF" }}
             >

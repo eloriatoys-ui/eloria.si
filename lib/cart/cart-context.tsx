@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { computeDiscount } from "./discount";
 
 export type CartLine = {
   productId: number;
@@ -22,6 +23,14 @@ type CartState = {
   lines: CartLine[];
   itemCount: number;
   subtotal: number;
+  /** True when the multi-item promo applies (more than one item in the cart). */
+  discountEligible: boolean;
+  /** Percentage off for display (0 or 40). */
+  discountPercent: number;
+  /** Amount subtracted from the subtotal, in euros. */
+  discount: number;
+  /** Subtotal after the automatic discount, in euros. */
+  discountedSubtotal: number;
   add: (line: Omit<CartLine, "quantity">, qty?: number) => void;
   setQuantity: (productId: number, qty: number) => void;
   remove: (productId: number) => void;
@@ -79,18 +88,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clear = useCallback(() => setLines([]), []);
 
-  const value = useMemo<CartState>(
-    () => ({
+  const value = useMemo<CartState>(() => {
+    const itemCount = lines.reduce((n, l) => n + l.quantity, 0);
+    const subtotal = lines.reduce((s, l) => s + l.price * l.quantity, 0);
+    const { eligible, percent, discount, discountedSubtotal } = computeDiscount(
+      itemCount,
+      subtotal,
+    );
+    return {
       lines,
-      itemCount: lines.reduce((n, l) => n + l.quantity, 0),
-      subtotal: lines.reduce((s, l) => s + l.price * l.quantity, 0),
+      itemCount,
+      subtotal,
+      discountEligible: eligible,
+      discountPercent: percent,
+      discount,
+      discountedSubtotal,
       add,
       setQuantity,
       remove,
       clear,
-    }),
-    [lines, add, setQuantity, remove, clear],
-  );
+    };
+  }, [lines, add, setQuantity, remove, clear]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

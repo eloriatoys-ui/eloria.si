@@ -7,10 +7,10 @@ import { Resend } from "resend";
 // crash order creation.
 
 const SITE_URL = (process.env.ELORIA_SITE_URL ?? "https://eloria.si").replace(/\/$/, "");
-const FROM = process.env.EMAIL_FROM ?? "Eloria <hello@amareen.si>";
-const ADMIN_TO = process.env.ADMIN_ORDER_EMAIL ?? "hello@amareen.si";
+const FROM = process.env.EMAIL_FROM ?? "Eloria <eloriatoys@gmail.com>";
+const ADMIN_TO = process.env.ADMIN_ORDER_EMAIL ?? "eloriatoys@gmail.com";
 // Replies go to the real shop inbox even when sending from a different verified domain.
-const REPLY_TO = process.env.EMAIL_REPLY_TO ?? "hello@amareen.si";
+const REPLY_TO = process.env.EMAIL_REPLY_TO ?? "eloriatoys@gmail.com";
 
 let _resend: Resend | null = null;
 function client(): Resend | null {
@@ -23,6 +23,10 @@ function client(): Resend | null {
 export type OrderEmailData = {
   order_number: string;
   email: string;
+  /** Gross subtotal before the discount, in euros. Optional. */
+  subtotal?: number;
+  /** Discount amount applied to the order, in euros. Optional. */
+  discount?: number;
   total: number;
   currency?: string;
   payment_method?: "card" | "bank_transfer" | "cod" | string | null;
@@ -66,6 +70,18 @@ function itemsTableHtml(items: OrderEmailData["items"]): string {
   return `<table style="width:100%;border-collapse:collapse;font-size:14px;">${rows}</table>`;
 }
 
+/** Subtotal + discount (when present) + bold grand total. */
+function totalsHtml(o: OrderEmailData): string {
+  const hasDiscount = typeof o.discount === "number" && o.discount > 0;
+  const subtotalRow =
+    hasDiscount && typeof o.subtotal === "number"
+      ? `<p style="text-align:right;font-size:13px;color:#777;margin:12px 0 0;">Vmesni seštevek: ${eur(o.subtotal)}</p>
+         <p style="text-align:right;font-size:13px;color:#2e7d32;font-weight:bold;margin:2px 0 0;">Popust: −${eur(o.discount as number)}</p>`
+      : "";
+  return `${subtotalRow}
+    <p style="text-align:right;font-size:16px;font-weight:bold;margin:${hasDiscount ? "6px" : "12px"} 0 0;">Skupaj: ${eur(o.total)}</p>`;
+}
+
 function addressHtml(a: OrderEmailData["shipping_address"]): string {
   if (!a) return "—";
   return [
@@ -99,7 +115,7 @@ function customerHtml(o: OrderEmailData): string {
     </p>
     <div style="margin:20px 0;padding:16px;background:#faf6ef;border-radius:12px;">
       ${itemsTableHtml(o.items)}
-      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+      ${totalsHtml(o)}
       <p style="font-size:13px;color:#777;margin:4px 0 0;">Način plačila: ${paymentLabel(o.payment_method)}</p>
     </div>
     <p style="font-size:14px;">
@@ -119,7 +135,7 @@ function adminHtml(o: OrderEmailData): string {
     <p style="font-size:14px;">Način plačila: <strong>${paymentLabel(o.payment_method)}</strong> · Kupec: ${escapeHtml(o.email)}</p>
     <div style="margin:16px 0;padding:16px;background:#f5f5f5;border-radius:12px;">
       ${itemsTableHtml(o.items)}
-      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+      ${totalsHtml(o)}
     </div>
     <p style="font-size:14px;"><strong>Naslov za dostavo</strong><br>${addressHtml(o.shipping_address)}</p>
     <p style="font-size:14px;"><a href="${adminUrl}" style="color:#d2691e;font-weight:bold;">Odpri v skrbniški plošči →</a></p>
@@ -176,7 +192,7 @@ function readyToShipHtml(o: OrderEmailData): string {
     <div style="padding:14px;background:#f5f5f5;border-radius:10px;font-size:14px;line-height:1.5;">${addressHtml(o.shipping_address)}</div>
     <div style="margin:16px 0;padding:16px;background:#faf6ef;border-radius:12px;">
       ${itemsTableHtml(o.items)}
-      <p style="text-align:right;font-size:16px;font-weight:bold;margin:12px 0 0;">Skupaj: ${eur(o.total)}</p>
+      ${totalsHtml(o)}
       <p style="font-size:13px;color:#777;margin:4px 0 0;">Plačilo: ${paymentLabel(o.payment_method)} · Kupec: ${escapeHtml(o.email)}</p>
     </div>
     <p style="font-size:14px;"><a href="${adminUrl}" style="color:#d2691e;font-weight:bold;">Odpri naročilo →</a></p>

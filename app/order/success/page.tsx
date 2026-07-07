@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import ClearCartOnMount from "./ClearCartOnMount";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { getTrackingUrl } from "@/lib/gls";
+import { getTrackingUrl } from "@/lib/courier";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +30,10 @@ export default async function OrderSuccessPage({
       .select("tracking_number, tracking_carrier")
       .eq("stripe_session_id", sessionId)
       .maybeSingle();
-    if (orderRow?.tracking_number && orderRow.tracking_carrier === "GLS") {
+    if (orderRow?.tracking_number) {
       tracking = {
         number: orderRow.tracking_number,
-        url: getTrackingUrl(orderRow.tracking_number),
+        url: getTrackingUrl(orderRow.tracking_carrier, orderRow.tracking_number)!,
       };
     }
   }

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { createGlsShipment } from "@/lib/gls";
 import { sendNewOrderEmails } from "@/lib/email";
 import { handoffToCourier } from "@/lib/courier-handoff";
+import { computeDiscount } from "@/lib/cart/discount";
 
 type IncomingLine = {
   productId: number;
@@ -110,14 +110,38 @@ export async function POST(req: Request) {
     }
 
     const subtotal = validated.reduce((s, l) => s + l.line_total, 0);
+    const itemCount = validated.reduce((n, l) => n + l.quantity, 0);
+    // Automatic 40% promo when the cart holds more than one item. Recomputed
+    // here on the server so the charged amount never trusts the client.
+    const { eligible: discountEligible, percent: discountPercent, discount, discountedSubtotal } =
+      computeDiscount(itemCount, subtotal);
     const surcharge = method === "cod" ? codSurcharge() : 0;
-    const total = subtotal + surcharge;
+    const total = discountedSubtotal + surcharge;
 
     // Card flow: hand off to Stripe Checkout (existing behavior).
     if (method === "card") {
       const origin = new URL(req.url).origin;
+      // Apply the promo as a real Stripe coupon so the hosted checkout page
+      // shows the "−40%" discount line explicitly and charges the net amount.
+      const discounts = discountEligible
+        ? [
+            {
+              coupon: (
+                await stripe.coupons.create({
+                  percent_off: discountPercent,
+                  duration: "once",
+                  name: `${discountPercent}% popust (nakup več izdelkov)`,
+                })
+              ).id,
+            },
+          ]
+        : undefined;
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
+        // Force EUR everywhere — disable Stripe Adaptive Pricing so the customer
+        // is never shown a local currency (e.g. AED) with a conversion fee.
+        adaptive_pricing: { enabled: false },
+        discounts,
         line_items: validated.map((v) => ({
           quantity: v.quantity,
           price_data: {
@@ -244,6 +268,8 @@ export async function POST(req: Request) {
     const orderEmail = {
       order_number: order.order_number,
       email: addr.email,
+      subtotal,
+      discount,
       total,
       currency: "EUR",
       payment_method: method,
@@ -259,20 +285,11 @@ export async function POST(req: Request) {
 
     // COD is committed on order (paid on delivery) → hand off to courier now.
     // Bank transfer waits until the admin confirms payment.
+    // COD is committed on order (paid on delivery) → hand off to courier now.
+    // Bank transfer waits until the admin confirms payment. Shipments are
+    // created manually in the Express One portal (no auto-GLS API).
     if (method === "cod") {
       await handoffToCourier(order.id, orderEmail);
-    }
-
-    // COD orders: kick off GLS shipment immediately (with COD service so courier
-    // collects cash). Bank-transfer orders wait for admin to confirm payment.
-    if (method === "cod") {
-      fulfillCodShipment(order.id, {
-        order_number: order.order_number,
-        email: addr.email,
-        shipping_address,
-        phone: addr.phone ?? null,
-        cod_amount_eur: total,
-      }).catch((err) => console.error("COD GLS shipment crashed:", err));
     }
 
     return NextResponse.json({
@@ -285,30 +302,6 @@ export async function POST(req: Request) {
       { error: err?.message ?? "Checkout failed" },
       { status: 500 },
     );
-  }
-}
-
-async function fulfillCodShipment(
-  orderId: string,
-  forShipping: Parameters<typeof createGlsShipment>[0],
-) {
-  try {
-    const result = await createGlsShipment(forShipping);
-    await supabaseAdmin
-      .from("orders")
-      .update({
-        tracking_carrier: "GLS",
-        tracking_number: result.parcelNumber,
-        gls_parcel_id: result.parcelId,
-        gls_label_pdf: result.labelPdfBase64,
-        gls_error: null,
-        gls_created_at: new Date().toISOString(),
-      })
-      .eq("id", orderId);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(`COD GLS shipment failed for ${forShipping.order_number}:`, message);
-    await supabaseAdmin.from("orders").update({ gls_error: message }).eq("id", orderId);
   }
 }
 

@@ -9,7 +9,7 @@ export const company = {
   vatId: process.env.INVOICE_VAT_ID ?? "",
   iban: process.env.ELORIA_BANK_IBAN ?? "",
   bic: process.env.ELORIA_BANK_BIC ?? "",
-  email: process.env.GLS_SENDER_CONTACT_EMAIL ?? "hello@amareen.si",
+  email: process.env.GLS_SENDER_CONTACT_EMAIL ?? "eloriatoys@gmail.com",
   // VAT rate applied to gross prices (Slovenia standard = 22%).
   vatRate: Number(process.env.INVOICE_VAT_RATE ?? "22"),
 };
