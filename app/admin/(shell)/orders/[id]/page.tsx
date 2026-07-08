@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { markShipped, markOnTheWay, markDelivered, markAwaitingPaymentAsPaid } from "./actions";
 import { getTrackingUrl, DEFAULT_CARRIER } from "@/lib/courier";
+import { buildShipmentDraft } from "@/lib/courier/shipment";
 
 export const dynamic = "force-dynamic";
 
@@ -20,12 +21,24 @@ export default async function AdminOrderDetail({
   ]);
   if (!order) notFound();
 
+  // Phone is stored on the customer (Stripe/COD) — pull it so the shipment draft is complete.
+  let customerPhone: string | null = null;
+  if (order.customer_id) {
+    const { data: cust } = await supabaseAdmin
+      .from("customers")
+      .select("phone")
+      .eq("id", order.customer_id)
+      .maybeSingle();
+    customerPhone = cust?.phone ?? null;
+  }
+
   const ship = markShipped.bind(null, params.id);
   const onTheWay = markOnTheWay.bind(null, params.id);
   const deliver = markDelivered.bind(null, params.id);
   const activatePayment = markAwaitingPaymentAsPaid.bind(null, params.id);
   const sa = order.shipping_address as any;
   const trackingUrl = getTrackingUrl(order.tracking_carrier, order.tracking_number);
+  const shipment = buildShipmentDraft(order as any, customerPhone);
 
   return (
     <div>
@@ -96,6 +109,46 @@ export default async function AdminOrderDetail({
               </address>
             </section>
           )}
+
+          {/* Ready-to-file shipment data for the courier (Express One). */}
+          <section className="rounded-2xl border border-blue-200 bg-blue-50/60 p-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[13px] font-bold uppercase tracking-wider text-blue-900">
+                Pošiljka — pripravljeno za oddajo (Express One)
+              </h2>
+              {shipment.missing.length === 0 ? (
+                <span className="rounded-full bg-green-100 px-2.5 py-1 text-[11px] font-bold text-green-800">
+                  Pripravljeno ✓
+                </span>
+              ) : (
+                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold text-amber-800">
+                  Manjka: {shipment.missing.join(", ")}
+                </span>
+              )}
+            </div>
+
+            <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 text-[13px] sm:grid-cols-2">
+              <ShipField label="Referenca" value={shipment.reference} />
+              <ShipField label="Paketov" value={String(shipment.parcel.count)} />
+              <ShipField label="Prejemnik" value={shipment.recipient.name} />
+              <ShipField label="Telefon" value={shipment.recipient.phone ?? "—"} />
+              <ShipField label="Ulica" value={shipment.recipient.street} />
+              <ShipField label="Hišna št." value={[shipment.recipient.houseNumber, shipment.recipient.houseNumberInfo].filter(Boolean).join(" ") || "—"} />
+              <ShipField label="Poštna št." value={shipment.recipient.postalCode} />
+              <ShipField label="Kraj" value={shipment.recipient.city} />
+              <ShipField label="Država" value={shipment.recipient.country} />
+              <ShipField label="E-pošta" value={shipment.recipient.email} />
+              <ShipField
+                label="Odkupnina (COD)"
+                value={shipment.cod ? `€${shipment.cod.amount.toFixed(2)}` : "Ni (plačano vnaprej)"}
+              />
+              <ShipField label="Vsebina" value={shipment.parcel.content} />
+            </dl>
+            <p className="mt-4 text-[11px] text-blue-900/60">
+              Samodejna oddaja se vklopi z <code>COURIER_AUTOFILE_ENABLED=true</code>, ko so
+              nastavljeni Express One API dostopi.
+            </p>
+          </section>
         </div>
 
         <aside className="space-y-6">
@@ -279,6 +332,15 @@ export default async function AdminOrderDetail({
           )}
         </aside>
       </div>
+    </div>
+  );
+}
+
+function ShipField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0">
+      <dt className="text-[11px] font-bold uppercase tracking-wider text-blue-900/60">{label}</dt>
+      <dd className="mt-0.5 break-words font-semibold text-ink">{value}</dd>
     </div>
   );
 }
