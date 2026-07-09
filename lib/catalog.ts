@@ -24,6 +24,7 @@ type Row = {
   badge: string | null;
   emoji: string | null;
   stock_status: string;
+  sizes: string[] | null;
   age_min_months: number | null;
   age_max_months: number | null;
   permalink_en: string | null;
@@ -37,7 +38,7 @@ const SELECT = `
   id, woo_id, slug, name_en, name_sl,
   short_description_en, short_description_sl,
   price, compare_price, image, badge, emoji,
-  stock_status, age_min_months, age_max_months,
+  stock_status, sizes, age_min_months, age_max_months,
   permalink_en, permalink_sl, is_published,
   product_images(url, position),
   product_categories(categories(name_en))
@@ -66,6 +67,7 @@ function mapRow(r: Row): ProductWithGallery {
     image: r.image ?? undefined,
     slug: r.slug,
     stockStatus: r.stock_status,
+    sizes: r.sizes ?? [],
     permalink: r.permalink_en ?? undefined,
     shortDescription: r.short_description_en ?? undefined,
     images: gallery,

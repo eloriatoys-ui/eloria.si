@@ -51,6 +51,21 @@ function parseUrlList(raw: string): string[] {
     .filter(Boolean);
 }
 
+/** Parse the admin "Sizes" field (comma / newline separated) into an ordered,
+ *  de-duplicated list. Empty input → [] (no size picker on the storefront). */
+function parseSizes(raw: FormDataEntryValue | null): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const s of String(raw ?? "").split(/[\n,]+/)) {
+    const v = s.trim();
+    if (v && !seen.has(v)) {
+      seen.add(v);
+      out.push(v);
+    }
+  }
+  return out;
+}
+
 async function syncCategories(productId: number, categoryIds: number[]) {
   await supabaseAdmin.from("product_categories").delete().eq("product_id", productId);
   if (categoryIds.length > 0) {
@@ -78,6 +93,7 @@ function commonProductFields(formData: FormData) {
     price: num(formData.get("price")) ?? 0,
     compare_price: num(formData.get("compare_price")),
     stock_status: text(formData.get("stock_status")) ?? "instock",
+    sizes: parseSizes(formData.get("sizes")),
     age_min_months: int(formData.get("age_min_months")),
     age_max_months: int(formData.get("age_max_months")),
     is_published: formData.get("is_published") === "on",

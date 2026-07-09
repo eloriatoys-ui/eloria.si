@@ -21,6 +21,8 @@ export type Product = {
   slug?: string;
   categories?: string[];
   stockStatus?: string;
+  /** Sizes the product is offered in (empty/undefined = no size picker). */
+  sizes?: string[];
   permalink?: string;
   shortDescription?: string;
   images?: string[]; // full gallery; first entry mirrors `image` unless overridden

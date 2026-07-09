@@ -21,15 +21,25 @@ export default function ProductInfo({ product }: Props) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
 
+  const sizes = product.sizes ?? [];
+  const needsSize = sizes.length > 0;
+  const [size, setSize] = useState<string | undefined>(undefined);
+  const [sizeError, setSizeError] = useState(false);
+
   const cartLine = {
     productId: product.id,
     slug: product.slug ?? String(product.id),
     name,
     image: product.image,
     price: product.price,
+    size,
   };
 
   const onAddToCart = () => {
+    if (needsSize && !size) {
+      setSizeError(true);
+      return;
+    }
     add(cartLine, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
@@ -112,6 +122,48 @@ export default function ProductInfo({ product }: Props) {
         </p>
       </div>
 
+      {/* Size selector */}
+      {needsSize && (
+        <div>
+          <div className="flex items-center justify-between">
+            <p className="text-[12px] font-extrabold uppercase tracking-wider text-ink">
+              {locale === "sl" ? "Velikost" : "Size"}
+              {size && <span className="ml-2 font-bold text-orange-dark">{size}</span>}
+            </p>
+            {sizeError && !size && (
+              <span className="text-[12px] font-bold text-[#E55B47]">
+                {locale === "sl" ? "Izberite velikost" : "Please choose a size"}
+              </span>
+            )}
+          </div>
+          <div className="mt-2.5 flex flex-wrap gap-2">
+            {sizes.map((s) => {
+              const selected = s === size;
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setSize(s);
+                    setSizeError(false);
+                  }}
+                  aria-pressed={selected}
+                  className={[
+                    "min-w-[3rem] rounded-full border px-4 py-2.5 text-[13px] font-bold transition-colors",
+                    selected
+                      ? "border-orange bg-orange text-pearl"
+                      : "border-orange-dark/25 bg-pearl text-ink hover:border-orange-dark/50",
+                  ].join(" ")}
+                  style={selected ? { color: "#FFFFFF" } : undefined}
+                >
+                  {s}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Quantity + CTAs */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="inline-flex items-center rounded-full border border-orange-dark/25 bg-pearl">
@@ -147,7 +199,11 @@ export default function ProductInfo({ product }: Props) {
         >
           <span style={{ color: "#FFFFFF" }}>{added ? "Dodano ✓" : "Dodaj v košarico"}</span>
         </button>
-        <BuyNowButton product={cartLine} />
+        <BuyNowButton
+          product={cartLine}
+          disabled={needsSize && !size}
+          onDisabledClick={() => setSizeError(true)}
+        />
         <button
           type="button"
           aria-label="Add to wishlist"
@@ -174,7 +230,7 @@ export default function ProductInfo({ product }: Props) {
             <path d="M15 9h4l3 4v4h-7V9Z" />
             <circle cx="6" cy="19" r="2" /><circle cx="18" cy="19" r="2" />
           </svg>
-          <span>Free over 150€</span>
+          <span>Free in Slovenia</span>
         </li>
         <li className="flex flex-col items-start gap-1.5 rounded-xl border border-orange-dark/10 bg-pearl p-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -269,7 +325,7 @@ export default function ProductInfo({ product }: Props) {
             <ul className="flex flex-col gap-3 text-[14px] leading-relaxed text-slate md:text-[15px]">
               <li>
                 <strong className="text-ink">Delivery:</strong> 1–2 business days in Slovenia,
-                3–5 days across the EU, 5–10 worldwide. Free over 150 €.
+                3–5 days across the EU, 5–10 worldwide. Free throughout Slovenia.
               </li>
               <li>
                 <strong className="text-ink">Returns:</strong> 30 days, unworn with tags

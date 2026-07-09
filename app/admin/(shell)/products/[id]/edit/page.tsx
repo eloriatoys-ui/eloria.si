@@ -220,6 +220,21 @@ export default async function EditProductPage({
             </label>
           </Card>
 
+          <Card title="Sizes">
+            <Field label="Sizes (comma-separated — leave blank for no size picker)">
+              <input
+                name="sizes"
+                defaultValue={(product.sizes ?? []).join(", ")}
+                placeholder="80, 90, 100, 110, 120"
+                className={inputCls}
+              />
+            </Field>
+            <p className="text-[11px] text-ink/60">
+              Shown as pickable chips on the product page. The customer must
+              choose one before adding to cart; their choice is saved on the order.
+            </p>
+          </Card>
+
           <Card title="Categories">
             <div className="grid max-h-64 grid-cols-1 gap-2 overflow-auto pr-1">
               {(cats ?? []).map((c: any) => (

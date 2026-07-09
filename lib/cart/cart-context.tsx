@@ -16,8 +16,18 @@ export type CartLine = {
   name: string;
   image?: string;
   price: number;
+  /** Chosen size (undefined for products sold without sizes). */
+  size?: string;
   quantity: number;
 };
+
+/**
+ * A cart line is identified by product *and* size, so the same product in
+ * two sizes lives on two separate lines.
+ */
+function lineKey(productId: number, size?: string): string {
+  return `${productId}|${size ?? ""}`;
+}
 
 type CartState = {
   lines: CartLine[];
@@ -32,8 +42,8 @@ type CartState = {
   /** Subtotal after the automatic discount, in euros. */
   discountedSubtotal: number;
   add: (line: Omit<CartLine, "quantity">, qty?: number) => void;
-  setQuantity: (productId: number, qty: number) => void;
-  remove: (productId: number) => void;
+  setQuantity: (productId: number, qty: number, size?: string) => void;
+  remove: (productId: number, size?: string) => void;
   clear: () => void;
 };
 
@@ -61,8 +71,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const add = useCallback(
     (line: Omit<CartLine, "quantity">, qty = 1) => {
+      const key = lineKey(line.productId, line.size);
       setLines((prev) => {
-        const idx = prev.findIndex((l) => l.productId === line.productId);
+        const idx = prev.findIndex(
+          (l) => lineKey(l.productId, l.size) === key,
+        );
         if (idx === -1) return [...prev, { ...line, quantity: qty }];
         const next = [...prev];
         next[idx] = { ...next[idx], quantity: next[idx].quantity + qty };
@@ -72,18 +85,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
-  const setQuantity = useCallback((productId: number, qty: number) => {
-    setLines((prev) =>
-      qty <= 0
-        ? prev.filter((l) => l.productId !== productId)
-        : prev.map((l) =>
-            l.productId === productId ? { ...l, quantity: qty } : l,
-          ),
-    );
-  }, []);
+  const setQuantity = useCallback(
+    (productId: number, qty: number, size?: string) => {
+      const key = lineKey(productId, size);
+      setLines((prev) =>
+        qty <= 0
+          ? prev.filter((l) => lineKey(l.productId, l.size) !== key)
+          : prev.map((l) =>
+              lineKey(l.productId, l.size) === key ? { ...l, quantity: qty } : l,
+            ),
+      );
+    },
+    [],
+  );
 
-  const remove = useCallback((productId: number) => {
-    setLines((prev) => prev.filter((l) => l.productId !== productId));
+  const remove = useCallback((productId: number, size?: string) => {
+    const key = lineKey(productId, size);
+    setLines((prev) => prev.filter((l) => lineKey(l.productId, l.size) !== key));
   }, []);
 
   const clear = useCallback(() => setLines([]), []);

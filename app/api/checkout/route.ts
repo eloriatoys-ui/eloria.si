@@ -11,6 +11,7 @@ type IncomingLine = {
   name: string;
   image?: string;
   price: number;
+  size?: string;
   quantity: number;
 };
 
@@ -54,13 +55,13 @@ export async function POST(req: Request) {
       wooIds.length
         ? supabaseAdmin
             .from("products")
-            .select("id, woo_id, slug, name_en, price, image, stock_status, is_published")
+            .select("id, woo_id, slug, name_en, price, image, stock_status, sizes, is_published")
             .in("woo_id", wooIds)
         : Promise.resolve({ data: [] as any[] }),
       internalIds.length
         ? supabaseAdmin
             .from("products")
-            .select("id, woo_id, slug, name_en, price, image, stock_status, is_published")
+            .select("id, woo_id, slug, name_en, price, image, stock_status, sizes, is_published")
             .in("id", internalIds)
         : Promise.resolve({ data: [] as any[] }),
     ]);
@@ -78,6 +79,7 @@ export async function POST(req: Request) {
       slug: string;
       name: string;
       image: string | null;
+      size: string | null;
       unit_price: number;
       quantity: number;
       line_total: number;
@@ -96,6 +98,20 @@ export async function POST(req: Request) {
           { status: 400 },
         );
       }
+      // When a product is offered in sizes, require a valid one — never trust
+      // an arbitrary client-supplied size.
+      const dbSizes: string[] = Array.isArray(dbp.sizes) ? dbp.sizes : [];
+      let size: string | null = null;
+      if (dbSizes.length > 0) {
+        const chosen = typeof l.size === "string" ? l.size.trim() : "";
+        if (!chosen || !dbSizes.includes(chosen)) {
+          return NextResponse.json(
+            { error: `Please choose a size for ${dbp.name_en}.` },
+            { status: 400 },
+          );
+        }
+        size = chosen;
+      }
       const qty = Math.max(1, Math.min(99, Math.floor(l.quantity)));
       const unit = Number(dbp.price);
       validated.push({
@@ -103,6 +119,7 @@ export async function POST(req: Request) {
         slug: dbp.slug,
         name: dbp.name_en,
         image: dbp.image ?? null,
+        size,
         unit_price: unit,
         quantity: qty,
         line_total: unit * qty,
@@ -149,8 +166,13 @@ export async function POST(req: Request) {
             unit_amount: Math.round(v.unit_price * 100),
             product_data: {
               name: v.name,
+              description: v.size ? `Velikost: ${v.size}` : undefined,
               images: v.image ? [absoluteUrl(req, v.image)] : undefined,
-              metadata: { product_id: String(v.product_id), slug: v.slug },
+              metadata: {
+                product_id: String(v.product_id),
+                slug: v.slug,
+                size: v.size ?? "",
+              },
             },
           },
         })),
@@ -253,6 +275,7 @@ export async function POST(req: Request) {
       product_id: v.product_id,
       product_name: v.name,
       product_slug: v.slug,
+      size: v.size,
       unit_price: v.unit_price,
       quantity: v.quantity,
       total: v.line_total,
@@ -276,6 +299,7 @@ export async function POST(req: Request) {
       shipping_address,
       items: validated.map((v) => ({
         product_name: v.name,
+        size: v.size,
         quantity: v.quantity,
         unit_price: v.unit_price,
         total: v.line_total,

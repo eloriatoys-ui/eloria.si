@@ -51,7 +51,7 @@ export const dict: Record<Locale, Dict> = {
     "nav.track_order": "Track Order",
 
     // Promos
-    "promo.free_delivery": "✦ Free delivery on orders over 150 €",
+    "promo.free_delivery": "✦ Free delivery throughout Slovenia",
     "promo.sustainable": "✦ Sustainably crafted in small batches",
     "promo.discount": "✦ New customers: 15% off with code MAGIC15",
 
@@ -91,7 +91,7 @@ export const dict: Record<Locale, Dict> = {
     "footer.col.stay.body": "Get 15% off + early access to new arrivals.",
     "footer.col.stay.cta": "Subscribe",
     "footer.trust.secure": "Secure checkout",
-    "footer.trust.delivery": "Free delivery over 150 €",
+    "footer.trust.delivery": "Free delivery throughout Slovenia",
     "footer.trust.returns": "30-day returns",
     "footer.copy_rights": "All rights reserved.",
     "footer.legal.privacy": "Privacy policy",
@@ -109,7 +109,7 @@ export const dict: Record<Locale, Dict> = {
     "trust.safe.title": "Child safe",
     "trust.safe.sub": "Non-toxic finishes",
     "trust.delivery.title": "Free delivery",
-    "trust.delivery.sub": "On orders over 150 €",
+    "trust.delivery.sub": "Throughout Slovenia",
     "trust.families.title": "500+ happy families",
     "trust.families.sub": "Loved across the world",
 
@@ -189,7 +189,7 @@ export const dict: Record<Locale, Dict> = {
       "Reinforced seams, durable trims, and timeless designs that survive playgrounds and hand-me-downs.",
     "why.delivery.title": "Free delivery",
     "why.delivery.body":
-      "On orders over 150 €. Quick, tracked shipping with packaging that's kind to the planet.",
+      "Throughout Slovenia. Quick, tracked shipping with packaging that's kind to the planet.",
 
     // Testimonials
     "rev.eyebrow": "What families say",
@@ -222,7 +222,7 @@ export const dict: Record<Locale, Dict> = {
       "Most orders ship within 24 hours. Delivery within Slovenia takes 1–2 business days; the rest of the EU 3–5 business days; worldwide 5–10 business days. You'll get tracking the moment it leaves our warehouse.",
     "faq.q2": "Is delivery really free?",
     "faq.a2":
-      "Yes — free standard delivery on every order over 150 €. Below that, it's a small flat rate that's shown at checkout before you pay.",
+      "Yes — standard delivery is free throughout Slovenia on every order. Your final total is always shown at checkout before you pay.",
     "faq.q3": "How do returns work?",
     "faq.a3":
       "You have 30 days to return anything that isn't a perfect fit. Items must be unworn with tags attached. Start a return from your account or email eloriatoys@gmail.com — within Slovenia we provide a prepaid label.",
@@ -304,7 +304,7 @@ export const dict: Record<Locale, Dict> = {
     "about.cta.eyebrow": "Come say hi",
     "about.cta.title": "Find something worth keeping.",
     "about.cta.body":
-      "Free delivery on orders over 70 €. We ship within one business day, from our family to yours.",
+      "Free delivery throughout Slovenia. We ship within one business day, from our family to yours.",
     "about.cta.shop": "Browse everything →",
     "about.cta.sale": "See sale items",
 
@@ -377,7 +377,7 @@ export const dict: Record<Locale, Dict> = {
     "shop.subtitle_post": " for 15% off your first order.",
     "shop.first": "First-order perk",
     "shop.first.title": "15% off your first order",
-    "shop.first.body": "Free delivery on orders over 150 €.",
+    "shop.first.body": "Free delivery throughout Slovenia.",
     "shop.copied": "Copied",
     "shop.copy": "Copy code",
     "shop.fineprint": "Valid on first order. Cannot be combined with other offers.",
@@ -447,7 +447,7 @@ export const dict: Record<Locale, Dict> = {
     "nav.track_order": "Sledi naročilu",
 
     // Promos
-    "promo.free_delivery": "✦ Brezplačna dostava nad 150 €",
+    "promo.free_delivery": "✦ Brezplačna dostava po celi Sloveniji",
     "promo.sustainable": "✦ Trajnostno izdelano v majhnih serijah",
     "promo.discount": "✦ Novi kupci: 15 % popusta s kodo MAGIC15",
 
@@ -487,7 +487,7 @@ export const dict: Record<Locale, Dict> = {
     "footer.col.stay.body": "Pridobi 15 % popusta in zgodnji dostop do novosti.",
     "footer.col.stay.cta": "Naroči se",
     "footer.trust.secure": "Varno plačilo",
-    "footer.trust.delivery": "Brezplačna dostava nad 150 €",
+    "footer.trust.delivery": "Brezplačna dostava po celi Sloveniji",
     "footer.trust.returns": "30-dnevna vračila",
     "footer.copy_rights": "Vse pravice pridržane.",
     "footer.legal.privacy": "Politika zasebnosti",
@@ -505,7 +505,7 @@ export const dict: Record<Locale, Dict> = {
     "trust.safe.title": "Varno za otroke",
     "trust.safe.sub": "Brez strupenih premazov",
     "trust.delivery.title": "Brezplačna dostava",
-    "trust.delivery.sub": "Pri naročilih nad 150 €",
+    "trust.delivery.sub": "Po celi Sloveniji",
     "trust.families.title": "500+ srečnih družin",
     "trust.families.sub": "Priljubljeno po svetu",
 
@@ -586,7 +586,7 @@ export const dict: Record<Locale, Dict> = {
       "Ojačani šivi, vzdržljivi obrobki in brezčasen dizajn, ki preživi igrišče in podaljša življenje skozi generacije.",
     "why.delivery.title": "Brezplačna dostava",
     "why.delivery.body":
-      "Pri naročilih nad 150 €. Hitra in sledena dostava z embalažo, prijazno planetu.",
+      "Po celi Sloveniji. Hitra in sledena dostava z embalažo, prijazno planetu.",
 
     // Testimonials
     "rev.eyebrow": "Kaj pravijo družine",
@@ -619,7 +619,7 @@ export const dict: Record<Locale, Dict> = {
       "Večina naročil odide v 24 urah. Dostava v Sloveniji traja 1–2 delovna dneva, po EU 3–5 delovnih dni, po svetu 5–10 delovnih dni. Sledilno številko prejmeš takoj, ko paket zapusti naše skladišče.",
     "faq.q2": "Je dostava res brezplačna?",
     "faq.a2":
-      "Da — brezplačna standardna dostava pri vsakem naročilu nad 150 €. Pod tem zneskom je majhna pavšalna pristojbina, prikazana ob zaključku nakupa pred plačilom.",
+      "Da — standardna dostava je brezplačna po celi Sloveniji pri vsakem naročilu. Končni znesek je vedno prikazan ob zaključku nakupa pred plačilom.",
     "faq.q3": "Kako delujejo vračila?",
     "faq.a3":
       "Imaš 30 dni za vračilo česar koli, kar ti ne ustreza popolnoma. Izdelki morajo biti nenošeni in z etiketami. Vračilo začni iz svojega računa ali nam piši na eloriatoys@gmail.com — v Sloveniji ti zagotovimo predplačano nalepko.",
@@ -701,7 +701,7 @@ export const dict: Record<Locale, Dict> = {
     "about.cta.eyebrow": "Pridi nas pozdravit",
     "about.cta.title": "Najdi nekaj, kar je vredno obdržati.",
     "about.cta.body":
-      "Brezplačna dostava pri naročilih nad 70 €. Pošljemo v enem delovnem dnevu, iz naše družine v vašo.",
+      "Brezplačna dostava po celi Sloveniji. Pošljemo v enem delovnem dnevu, iz naše družine v vašo.",
     "about.cta.shop": "Poglej vse →",
     "about.cta.sale": "Poglej akcije",
 
@@ -774,7 +774,7 @@ export const dict: Record<Locale, Dict> = {
     "shop.subtitle_post": " za 15 % popusta pri prvem naročilu.",
     "shop.first": "Bonus za prvo naročilo",
     "shop.first.title": "15 % popusta pri prvem naročilu",
-    "shop.first.body": "Brezplačna dostava pri naročilih nad 150 €.",
+    "shop.first.body": "Brezplačna dostava po celi Sloveniji.",
     "shop.copied": "Kopirano",
     "shop.copy": "Kopiraj kodo",
     "shop.fineprint": "Velja pri prvem naročilu. Ni mogoče kombinirati z drugimi ponudbami.",

@@ -157,6 +157,7 @@ async function fulfillSession(sessionId: string) {
       product_id: Number.isFinite(productId) ? productId : null,
       product_name: li.description ?? "",
       product_slug: meta.slug ?? null,
+      size: meta.size ? String(meta.size) : null,
       unit_price: (li.price?.unit_amount ?? 0) / 100,
       quantity: li.quantity ?? 1,
       total: (li.amount_total ?? 0) / 100,
@@ -180,6 +181,7 @@ async function fulfillSession(sessionId: string) {
     shipping_address: shipping_address as any,
     items: items.map((it) => ({
       product_name: it.product_name,
+      size: it.size,
       quantity: it.quantity,
       unit_price: it.unit_price,
       total: it.total,

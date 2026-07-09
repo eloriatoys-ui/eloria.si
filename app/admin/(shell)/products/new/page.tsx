@@ -113,6 +113,16 @@ export default async function NewProductPage() {
             </label>
           </Card>
 
+          <Card title="Sizes">
+            <Field label="Sizes (comma-separated — leave blank for no size picker)">
+              <input
+                name="sizes"
+                placeholder="80, 90, 100, 110, 120"
+                className={inputCls}
+              />
+            </Field>
+          </Card>
+
           <Card title="Categories">
             <div className="grid max-h-64 grid-cols-1 gap-2 overflow-auto pr-1">
               {(cats ?? []).map((c) => (

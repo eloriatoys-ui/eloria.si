@@ -40,7 +40,7 @@ export default function CartPage() {
             <ul className="divide-y divide-orange-dark/10 rounded-2xl border border-orange-dark/15 bg-pearl">
               {lines.map((l) => (
                 <li
-                  key={l.productId}
+                  key={`${l.productId}-${l.size ?? ""}`}
                   className="flex items-center gap-4 p-4 md:gap-5 md:p-5"
                 >
                   {l.image ? (
@@ -65,10 +65,15 @@ export default function CartPage() {
                     <p className="mt-1 text-[13px] font-bold text-ink/70">
                       €{l.price.toFixed(2)}
                     </p>
+                    {l.size && (
+                      <p className="mt-1 text-[12px] font-bold text-ink/60">
+                        Velikost: <span className="text-ink">{l.size}</span>
+                      </p>
+                    )}
 
                     <div className="mt-3 inline-flex items-center rounded-full border border-orange-dark/25 bg-cream">
                       <button
-                        onClick={() => setQuantity(l.productId, l.quantity - 1)}
+                        onClick={() => setQuantity(l.productId, l.quantity - 1, l.size)}
                         className="grid h-8 w-8 place-items-center text-ink hover:text-orange-dark"
                         aria-label="Decrease"
                       >
@@ -78,7 +83,7 @@ export default function CartPage() {
                         {l.quantity}
                       </span>
                       <button
-                        onClick={() => setQuantity(l.productId, l.quantity + 1)}
+                        onClick={() => setQuantity(l.productId, l.quantity + 1, l.size)}
                         className="grid h-8 w-8 place-items-center text-ink hover:text-orange-dark"
                         aria-label="Increase"
                       >
@@ -92,7 +97,7 @@ export default function CartPage() {
                       €{(l.price * l.quantity).toFixed(2)}
                     </p>
                     <button
-                      onClick={() => remove(l.productId)}
+                      onClick={() => remove(l.productId, l.size)}
                       className="text-[12px] font-bold text-ink/60 hover:text-orange-dark"
                     >
                       Odstrani

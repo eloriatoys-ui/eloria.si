@@ -595,7 +595,7 @@ function MegaMenuPanel({
       <div className="border-t border-orange-dark/10 bg-cream py-3">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-8 text-[12px] text-slate">
           <span className="font-semibold">
-            Free delivery on orders over 150 € · Sustainably crafted
+            Free delivery throughout Slovenia · Sustainably crafted
           </span>
           <a
             href="/shop"

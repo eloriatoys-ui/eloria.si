@@ -160,9 +160,13 @@ export default function CheckoutPage() {
             <h2 className="text-lg font-extrabold text-ink">Povzetek naročila</h2>
             <ul className="mt-4 divide-y divide-orange-dark/10 text-[13px]">
               {lines.map((l) => (
-                <li key={l.productId} className="flex justify-between gap-4 py-2">
+                <li
+                  key={`${l.productId}-${l.size ?? ""}`}
+                  className="flex justify-between gap-4 py-2"
+                >
                   <span className="min-w-0 truncate text-ink">
-                    {l.name} × {l.quantity}
+                    {l.name}
+                    {l.size && ` (${l.size})`} × {l.quantity}
                   </span>
                   <span className="font-bold text-ink whitespace-nowrap">
                     €{(l.price * l.quantity).toFixed(2)}

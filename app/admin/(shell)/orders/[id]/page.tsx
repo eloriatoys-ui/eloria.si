@@ -16,7 +16,7 @@ export default async function AdminOrderDetail({
     supabaseAdmin.from("orders").select("*").eq("id", params.id).maybeSingle(),
     supabaseAdmin
       .from("order_items")
-      .select("id, product_name, product_slug, unit_price, quantity, total")
+      .select("id, product_name, product_slug, size, unit_price, quantity, total")
       .eq("order_id", params.id),
   ]);
   if (!order) notFound();
@@ -60,7 +60,14 @@ export default async function AdminOrderDetail({
               {(items ?? []).map((it: any) => (
                 <li key={it.id} className="flex items-center justify-between gap-4 py-3">
                   <div className="min-w-0">
-                    <p className="font-bold text-ink">{it.product_name}</p>
+                    <p className="font-bold text-ink">
+                      {it.product_name}
+                      {it.size && (
+                        <span className="ml-2 rounded bg-orange/10 px-1.5 py-0.5 text-[12px] font-bold text-orange-dark">
+                          {it.size}
+                        </span>
+                      )}
+                    </p>
                     {it.product_slug && (
                       <p className="text-[12px] text-ink/60">/{it.product_slug}</p>
                     )}

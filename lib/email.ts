@@ -40,6 +40,7 @@ export type OrderEmailData = {
   } | null;
   items: Array<{
     product_name: string;
+    size?: string | null;
     quantity: number;
     unit_price: number;
     total: number;
@@ -61,7 +62,9 @@ function itemsTableHtml(items: OrderEmailData["items"]): string {
     .map(
       (it) => `
       <tr>
-        <td style="padding:8px 0;border-bottom:1px solid #eee;">${escapeHtml(it.product_name)}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #eee;">${escapeHtml(it.product_name)}${
+          it.size ? ` <span style="color:#C2410C;font-weight:bold;">(${escapeHtml(it.size)})</span>` : ""
+        }</td>
         <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:center;">${it.quantity}×</td>
         <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;">${eur(it.total)}</td>
       </tr>`,
