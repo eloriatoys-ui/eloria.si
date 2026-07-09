@@ -11,6 +11,39 @@ type Props = {
   product: Product;
 };
 
+// EU children's clothing sizes are the child's height in cm. Approximate age
+// for each height, used by the on-page size guide. Covers both the round-ten
+// sizes we stock (60/70/80…) and standard EU steps (56/62/68…).
+const SIZE_AGE: Record<number, { en: string; sl: string }> = {
+  50: { en: "newborn", sl: "novorojenček" },
+  56: { en: "0–2 mo", sl: "0–2 mes." },
+  60: { en: "0–3 mo", sl: "0–3 mes." },
+  62: { en: "2–4 mo", sl: "2–4 mes." },
+  68: { en: "4–6 mo", sl: "4–6 mes." },
+  70: { en: "6–9 mo", sl: "6–9 mes." },
+  74: { en: "6–9 mo", sl: "6–9 mes." },
+  80: { en: "9–12 mo", sl: "9–12 mes." },
+  86: { en: "1–1.5 yr", sl: "1–1,5 leta" },
+  90: { en: "1.5–2 yr", sl: "1,5–2 leti" },
+  98: { en: "2–3 yr", sl: "2–3 leta" },
+  100: { en: "2–3 yr", sl: "2–3 leta" },
+  104: { en: "3–4 yr", sl: "3–4 leta" },
+  110: { en: "4–5 yr", sl: "4–5 let" },
+  116: { en: "5–6 yr", sl: "5–6 let" },
+  120: { en: "5–6 yr", sl: "5–6 let" },
+  122: { en: "6–7 yr", sl: "6–7 let" },
+  128: { en: "7–8 yr", sl: "7–8 let" },
+  130: { en: "7–8 yr", sl: "7–8 let" },
+  134: { en: "8–9 yr", sl: "8–9 let" },
+  140: { en: "9–10 yr", sl: "9–10 let" },
+};
+
+function ageForSize(size: string, locale: string): string | null {
+  const n = parseInt(size, 10);
+  const a = SIZE_AGE[n];
+  return a ? (locale === "sl" ? a.sl : a.en) : null;
+}
+
 export default function ProductInfo({ product }: Props) {
   const { locale } = useLang();
   const name = productName(product, locale);
@@ -25,6 +58,17 @@ export default function ProductInfo({ product }: Props) {
   const needsSize = sizes.length > 0;
   const [size, setSize] = useState<string | undefined>(undefined);
   const [sizeError, setSizeError] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
+  // EU shoe sizes come prefixed "EU"; everything else in [50,176] is a
+  // height-in-cm clothing size (hats/slippers/socks fall outside that range).
+  const isShoe = sizes.some((s) => /^eu/i.test(s));
+  const heightCm =
+    !isShoe &&
+    sizes.length > 0 &&
+    sizes.every((s) => {
+      const n = parseInt(s, 10);
+      return Number.isFinite(n) && n >= 50 && n <= 176;
+    });
 
   const cartLine = {
     productId: product.id,
@@ -161,6 +205,43 @@ export default function ProductInfo({ product }: Props) {
               );
             })}
           </div>
+
+          {(heightCm || isShoe) && (
+            <p className="mt-2.5 text-[12px] text-ink/60">
+              {isShoe
+                ? locale === "sl"
+                  ? "EU številke čevljev."
+                  : "EU shoe sizes."
+                : locale === "sl"
+                ? "Velikost pomeni višino otroka v cm."
+                : "Sizes are the child's height in cm."}
+              {heightCm && (
+                <button
+                  type="button"
+                  onClick={() => setShowGuide((v) => !v)}
+                  className="ml-1.5 font-bold text-orange-dark underline underline-offset-2 hover:text-orange"
+                >
+                  {locale === "sl" ? "Vodič velikosti" : "Size guide"}
+                </button>
+              )}
+            </p>
+          )}
+
+          {heightCm && showGuide && (
+            <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 rounded-xl border border-orange-dark/15 bg-cream p-3 text-[12px] sm:grid-cols-3">
+              {sizes.map((s) => {
+                const age = ageForSize(s, locale);
+                return (
+                  <li key={s} className="flex justify-between gap-2">
+                    <span className="font-bold text-ink">
+                      {s.replace("-", "–")} cm
+                    </span>
+                    {age && <span className="text-ink/60">{age}</span>}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       )}
 
