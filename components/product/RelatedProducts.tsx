@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/data";
+import { categoryLabel } from "@/lib/category-i18n";
 
 export default function RelatedProducts({
   products,
@@ -97,7 +98,7 @@ export default function RelatedProducts({
                     {p.name}
                   </h3>
                   <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate">
-                    {p.category}
+                    {categoryLabel(p.category)}
                   </p>
                 </div>
               </a>

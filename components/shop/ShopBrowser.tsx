@@ -6,6 +6,7 @@ import { productName } from "@/lib/product-i18n";
 import { useSearchParams } from "next/navigation";
 import type { Product } from "@/lib/data";
 import { AGE_BUCKETS, ageMatches, type AgeBucketId } from "@/lib/age";
+import { categoryLabel } from "@/lib/category-i18n";
 
 type Props = {
   products: Product[];
@@ -237,7 +238,7 @@ export default function ShopBrowser({ products, categories }: Props) {
             {activeFilterCount > 0 && (
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 {[...selectedCats].map((c) => (
-                  <Chip key={c} label={c} onRemove={() => toggleCat(c)} />
+                  <Chip key={c} label={categoryLabel(c)} onRemove={() => toggleCat(c)} />
                 ))}
                 {[...selectedAges].map((id) => {
                   const b = AGE_BUCKETS.find((x) => x.id === id);
@@ -429,7 +430,7 @@ function FilterSidebar(props: {
                     onChange={() => toggleCat(c)}
                     className="h-4 w-4 rounded border-orange-dark/30 text-orange-dark accent-orange"
                   />
-                  {c}
+                  {categoryLabel(c)}
                 </span>
                 <span className="text-[11px] font-bold text-slate">{count}</span>
               </label>
@@ -874,7 +875,7 @@ function ShopCard({ product }: { product: Product }) {
           {name}
         </a>
         <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate">
-          {product.category}
+          {categoryLabel(product.category)}
         </p>
 
         {/* Footer actions — Add to cart + Wishlist (single line, brand orange) */}

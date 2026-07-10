@@ -6,6 +6,7 @@ import { useLang } from "@/components/LangProvider";
 import { productName, productShortDescription } from "@/lib/product-i18n";
 import { useCart } from "@/lib/cart/cart-context";
 import BuyNowButton from "@/components/cart/BuyNowButton";
+import { categoryLabel } from "@/lib/category-i18n";
 
 type Props = {
   product: Product;
@@ -113,7 +114,7 @@ export default function ProductInfo({ product }: Props) {
       {/* Heading */}
       <div>
         <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-orange-dark">
-          {product.category}
+          {categoryLabel(product.category)}
         </p>
         <h1
           className="mt-2 text-[28px] font-extrabold leading-tight text-ink md:text-[36px]"
@@ -365,7 +366,7 @@ export default function ProductInfo({ product }: Props) {
               />
             ) : (
               <p className="text-[14px] leading-relaxed text-slate">
-                {name} — {product.category.toLowerCase()}.
+                {name} — {categoryLabel(product.category).toLowerCase()}.
               </p>
             )
           )}
@@ -377,7 +378,7 @@ export default function ProductInfo({ product }: Props) {
               </li>
               <li className="grid grid-cols-[120px_1fr] gap-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Kategorija</span>
-                <span className="font-semibold">{product.category}</span>
+                <span className="font-semibold">{categoryLabel(product.category)}</span>
               </li>
               {product.categories && product.categories.length > 0 && (
                 <li className="grid grid-cols-[120px_1fr] gap-4">
@@ -388,7 +389,7 @@ export default function ProductInfo({ product }: Props) {
                         key={c}
                         className="rounded-full bg-cream px-2.5 py-1 text-[11px] font-bold text-ink/75"
                       >
-                        {c}
+                        {categoryLabel(c)}
                       </span>
                     ))}
                   </span>

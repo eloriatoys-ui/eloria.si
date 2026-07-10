@@ -11,6 +11,7 @@ import {
   findProductBySlug,
   getRelatedProducts,
 } from "@/lib/catalog";
+import { categoryLabel } from "@/lib/category-i18n";
 
 export async function generateMetadata(
   { params }: { params: { slug: string } },
@@ -67,7 +68,7 @@ export default async function ProductPage({
                 href="/trgovina"
                 className="hover:text-orange-dark"
               >
-                {product.category}
+                {categoryLabel(product.category)}
               </a>
             </li>
             <li aria-hidden className="text-slate/50">/</li>
