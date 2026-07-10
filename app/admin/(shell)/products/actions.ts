@@ -158,7 +158,7 @@ export async function createProduct(formData: FormData) {
   await syncGallery(inserted.id, finalGallery);
 
   revalidatePath("/admin/products");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   revalidatePath("/");
   redirect(`/admin/products/${inserted.id}/edit`);
 }
@@ -204,7 +204,7 @@ export async function updateProduct(id: number, formData: FormData) {
 
   revalidatePath("/admin/products");
   revalidatePath(`/admin/products/${id}/edit`);
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   revalidatePath("/");
   redirect("/admin/products");
 }
@@ -213,6 +213,6 @@ export async function deleteProduct(id: number) {
   const { error } = await supabaseAdmin.from("products").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/products");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   redirect("/admin/products");
 }

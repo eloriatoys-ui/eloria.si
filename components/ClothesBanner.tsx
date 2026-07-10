@@ -53,7 +53,7 @@ export default function ClothesBanner() {
 
                 <div className="mt-6 flex flex-wrap items-center gap-3">
                   <a
-                    href="/shop?category=Dresses"
+                    href="/trgovina?category=Dresses"
                     className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-transform hover:-translate-y-0.5"
                     style={{
                       backgroundColor: "#1C1917",
@@ -77,7 +77,7 @@ export default function ClothesBanner() {
                     </svg>
                   </a>
                   <a
-                    href="/shop?category=Clothing+sets+AMAREEN"
+                    href="/trgovina?category=Clothing+sets+AMAREEN"
                     className="inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-[13px] font-bold uppercase tracking-wider text-ink transition-colors hover:bg-pearl/40"
                     style={{ letterSpacing: "0.08em" }}
                   >

@@ -28,7 +28,7 @@ export default function CartPage() {
           <div className="mt-8 rounded-2xl border border-orange-dark/15 bg-pearl p-8 text-center">
             <p className="text-base text-ink/80">Vaša košarica je prazna.</p>
             <Link
-              href="/shop"
+              href="/trgovina"
               className="mt-5 inline-flex rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
               style={{ color: "#FFFFFF" }}
             >
@@ -57,7 +57,7 @@ export default function CartPage() {
                   )}
                   <div className="min-w-0 flex-1">
                     <Link
-                      href={`/shop/${l.slug}`}
+                      href={`/trgovina/${l.slug}`}
                       className="line-clamp-2 text-[14px] font-extrabold text-ink hover:text-orange-dark md:text-[15px]"
                     >
                       {l.name}
@@ -75,7 +75,7 @@ export default function CartPage() {
                       <button
                         onClick={() => setQuantity(l.productId, l.quantity - 1, l.size)}
                         className="grid h-8 w-8 place-items-center text-ink hover:text-orange-dark"
-                        aria-label="Decrease"
+                        aria-label="Zmanjšaj"
                       >
                         −
                       </button>
@@ -85,7 +85,7 @@ export default function CartPage() {
                       <button
                         onClick={() => setQuantity(l.productId, l.quantity + 1, l.size)}
                         className="grid h-8 w-8 place-items-center text-ink hover:text-orange-dark"
-                        aria-label="Increase"
+                        aria-label="Povečaj"
                       >
                         +
                       </button>
@@ -141,7 +141,7 @@ export default function CartPage() {
                 </p>
               )}
               <Link
-                href="/checkout"
+                href="/blagajna"
                 className="mt-6 block w-full rounded-full bg-orange px-6 py-3.5 text-center text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"
                 style={{ color: "#FFFFFF", letterSpacing: "0.08em" }}
               >

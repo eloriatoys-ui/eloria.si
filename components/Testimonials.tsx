@@ -38,7 +38,7 @@ const reviews: Review[] = [
 
 function Stars() {
   return (
-    <div className="flex items-center gap-0.5" aria-label="5 out of 5">
+    <div className="flex items-center gap-0.5" aria-label="5 od 5">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}

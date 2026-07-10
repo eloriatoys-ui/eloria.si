@@ -35,7 +35,7 @@ export default function BuyNowButton({
     // /checkout), then send them to the payment-method picker — same flow
     // as clicking Checkout from the basket.
     add(product, 1);
-    router.push("/checkout");
+    router.push("/blagajna");
   };
 
   return (

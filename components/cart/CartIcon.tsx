@@ -7,8 +7,8 @@ export default function CartIcon({ className = "" }: { className?: string }) {
   const { itemCount } = useCart();
   return (
     <Link
-      href="/cart"
-      aria-label={`Cart (${itemCount} items)`}
+      href="/kosarica"
+      aria-label={`Košarica (${itemCount} izdelkov)`}
       className={`relative grid h-10 w-10 place-items-center rounded-full border border-orange-dark/25 bg-pearl text-ink transition-colors hover:bg-orange hover:text-pearl ${className}`}
     >
       <svg

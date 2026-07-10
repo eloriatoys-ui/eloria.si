@@ -82,7 +82,7 @@ export default function PromoPopup() {
           ×
         </button>
 
-        <Link href="/shop" onClick={close} aria-label="Pojdi v trgovino">
+        <Link href="/trgovina" onClick={close} aria-label="Pojdi v trgovino">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/40-off-oglas.jpg"
@@ -92,7 +92,7 @@ export default function PromoPopup() {
         </Link>
 
         <Link
-          href="/shop"
+          href="/trgovina"
           onClick={close}
           style={{
             display: "block",

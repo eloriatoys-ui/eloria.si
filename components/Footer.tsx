@@ -8,12 +8,12 @@ const linkCols = [
   {
     title: "footer.col.shop",
     items: [
-      { label: "footer.col.shop.all", href: "/shop" },
-      { label: "footer.col.shop.sets", href: "/shop?category=Clothing+sets+AMAREEN" },
-      { label: "footer.col.shop.dresses", href: "/shop?category=Dresses" },
-      { label: "footer.col.shop.acc", href: "/shop?category=Accessories" },
-      { label: "footer.col.shop.new", href: "/shop?category=New" },
-      { label: "footer.col.shop.sale", href: "/shop?onSale=1" },
+      { label: "footer.col.shop.all", href: "/trgovina" },
+      { label: "footer.col.shop.sets", href: "/trgovina?category=Clothing+sets+AMAREEN" },
+      { label: "footer.col.shop.dresses", href: "/trgovina?category=Dresses" },
+      { label: "footer.col.shop.acc", href: "/trgovina?category=Accessories" },
+      { label: "footer.col.shop.new", href: "/trgovina?category=New" },
+      { label: "footer.col.shop.sale", href: "/trgovina?onSale=1" },
     ],
   },
   {
@@ -30,7 +30,7 @@ const linkCols = [
   {
     title: "footer.col.about",
     items: [
-      { label: "footer.col.about.story", href: "/about" },
+      { label: "footer.col.about.story", href: "/o-nas" },
       { label: "footer.col.about.sustain", href: "/#why" },
       { label: "footer.col.about.reviews", href: "/#testimonials" },
       { label: "footer.col.about.press", href: "#" },
@@ -127,7 +127,7 @@ export default function Footer() {
                 <span>
                   Dvorje 82A, 4207 Cerklje na Gorenjskem
                   <br />
-                  Slovenia, EU
+                  Slovenija, EU
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
@@ -253,7 +253,7 @@ export default function Footer() {
       <div className="border-t border-orange-dark/10 bg-pearl">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-5 text-[12px] text-slate md:flex-row md:px-8">
           <p>
-            © {new Date().getFullYear()} {STORE_NAME}. {t("footer.copy_rights")} · Site by{" "}
+            © {new Date().getFullYear()} {STORE_NAME}. {t("footer.copy_rights")} · Spletna stran:{" "}
             <a
               href="https://www.dubaiprod.com"
               target="_blank"

@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 import { generateOrderQr, buildReference } from "@/lib/upn-qr";
 import { getTrackingUrl } from "@/lib/courier";
 import OrderProgress from "@/components/OrderProgress";
-import ClearCartOnMount from "../success/ClearCartOnMount";
+import ClearCartOnMount from "../uspeh/ClearCartOnMount";
 
 export const dynamic = "force-dynamic";
 
@@ -131,7 +131,7 @@ export default async function PublicOrderPage({
 
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link
-            href="/shop"
+            href="/trgovina"
             className="rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
             style={{ color: "#FFFFFF" }}
           >

@@ -2,7 +2,7 @@ import type { Product } from "@/lib/data";
 
 export default function RelatedProducts({
   products,
-  heading = "You might also like",
+  heading = "Morda vam bo všeč",
 }: {
   products: Product[];
   heading?: string;
@@ -16,7 +16,7 @@ export default function RelatedProducts({
           <div>
             <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
               <span className="h-1 w-6 rounded-full bg-orange" />
-              Suggested
+              Predlagano
             </p>
             <h2
               className="mt-2 text-[26px] font-extrabold tracking-tight text-ink md:text-[32px]"
@@ -26,17 +26,17 @@ export default function RelatedProducts({
             </h2>
           </div>
           <a
-            href="/shop"
+            href="/trgovina"
             className="hidden rounded-full border border-orange-dark/25 px-4 py-2 text-[12px] font-bold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
           >
-            See all products →
+            Poglej vse izdelke →
           </a>
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
           {products.map((p) => {
             const onSale = p.comparePrice > p.price;
-            const href = p.slug ? `/shop/${p.slug}` : `/shop/${p.id}`;
+            const href = p.slug ? `/trgovina/${p.slug}` : `/trgovina/${p.id}`;
             return (
               <a
                 key={p.id}
@@ -62,7 +62,7 @@ export default function RelatedProducts({
                       className="absolute left-3 top-3 z-10 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
                       style={{ backgroundColor: "#E55B47", color: "#FFFFFF" }}
                     >
-                      Sale
+                      Akcija
                     </span>
                   )}
                   {p.image ? (

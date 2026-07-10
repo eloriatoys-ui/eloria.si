@@ -161,20 +161,20 @@ export default function TopOffers() {
             <div>
               <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                 <span className="h-1 w-6 rounded-full bg-orange" />
-                Top picks
+                Najboljši izbor
               </p>
               <h2
                 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
                 style={{ letterSpacing: "-0.025em" }}
               >
-                From the catalog
+                Iz kataloga
               </h2>
             </div>
             <a
-              href="/shop"
+              href="/trgovina"
               className="hidden items-center gap-1.5 rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
-              Browse all →
+              Prebrskaj vse →
             </a>
           </div>
         </Reveal>

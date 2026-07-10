@@ -44,7 +44,7 @@ export default function ProductScroller({ products }: Props) {
     <div className="relative">
       {/* Prev */}
       <button
-        aria-label="Previous"
+        aria-label="Prejšnje"
         onClick={() => scrollBy(-1)}
         disabled={!canPrev}
         className={`absolute left-0 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full bg-pearl text-ink shadow-lift transition-opacity duration-200 hover:bg-orange hover:text-pearl ${
@@ -68,7 +68,7 @@ export default function ProductScroller({ products }: Props) {
 
       {/* Next */}
       <button
-        aria-label="Next"
+        aria-label="Naslednje"
         onClick={() => scrollBy(1)}
         disabled={!canNext}
         className={`absolute right-0 top-1/2 z-10 translate-x-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full bg-pearl text-ink shadow-lift transition-opacity duration-200 hover:bg-orange hover:text-pearl ${

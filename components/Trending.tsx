@@ -46,7 +46,7 @@ export default function Trending({
               </p>
             </div>
             <a
-              href="/shop?onSale=1"
+              href="/trgovina?onSale=1"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
               {t("trend.viewall")}

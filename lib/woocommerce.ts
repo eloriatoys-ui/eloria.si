@@ -59,13 +59,14 @@ function num(s: string | number | undefined | null): number {
 }
 
 function badgeFromWC(p: WCProduct): string {
-  if (p.featured) return "BESTSELLER";
+  // Slovenian-only storefront: emit localized badge labels.
+  if (p.featured) return "USPEŠNICA";
   const lcTags = p.tags?.map((t) => t.name.toLowerCase()) ?? [];
-  if (lcTags.includes("new")) return "NEW";
-  if (lcTags.includes("hot")) return "HOT";
-  if (lcTags.includes("limited")) return "LIMITED";
-  if (lcTags.includes("organic")) return "ORGANIC";
-  if (p.on_sale) return "SALE";
+  if (lcTags.includes("new")) return "NOVO";
+  if (lcTags.includes("hot")) return "VROČE";
+  if (lcTags.includes("limited")) return "OMEJENO";
+  if (lcTags.includes("organic")) return "NARAVNO";
+  if (p.on_sale) return "AKCIJA";
   return "";
 }
 

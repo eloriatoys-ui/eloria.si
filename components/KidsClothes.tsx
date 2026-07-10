@@ -41,7 +41,7 @@ export default async function KidsClothes() {
         {clothes.length > 0 && (
           <div className="mt-10 flex justify-center">
             <a
-              href="/shop?category=Clothing+sets+AMAREEN,Dresses,Bodysuit,Jackets,Clothes"
+              href="/trgovina?category=Clothing+sets+AMAREEN,Dresses,Bodysuit,Jackets,Clothes"
               className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-6 py-3 text-sm font-bold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
             >
               <T id="kids.viewall" />

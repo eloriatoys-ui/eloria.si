@@ -46,21 +46,21 @@ export default function FeaturedToys({
               <div>
                 <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
                   <span className="h-1 w-6 rounded-full bg-orange" />
-                  Shop the collection
+                  Nakupuj kolekcijo
                 </p>
                 <h2 className="font-display mt-3 text-3xl tracking-tight text-ink sm:text-4xl md:text-5xl">
-                  Bestsellers
+                  Najbolje prodajano
                 </h2>
                 <p className="mt-2 max-w-md text-sm text-slate md:text-base">
-                  Crafted with care — built to last, made to be loved.
+                  Izdelano s skrbnostjo — narejeno, da traja in da ga vzljubite.
                 </p>
               </div>
 
               <a
-                href="/shop"
+                href="/trgovina"
                 className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
               >
-                View all toys
+                Poglej vse igrače
                 <svg
                   width="14"
                   height="14"
@@ -117,15 +117,15 @@ export default function FeaturedToys({
             </div>
 
             <div className="flex items-center gap-2 text-[13px]">
-              <label className="font-semibold text-slate">Sort by:</label>
+              <label className="font-semibold text-slate">Razvrsti po:</label>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as typeof sort)}
                 className="rounded-md border border-orange-dark/20 bg-pearl px-2 py-1.5 font-semibold text-ink outline-none focus:border-orange"
               >
-                <option value="featured">Featured</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
+                <option value="featured">Priporočeno</option>
+                <option value="price-asc">Cena: nizka → visoka</option>
+                <option value="price-desc">Cena: visoka → nizka</option>
               </select>
             </div>
           </div>
@@ -139,16 +139,16 @@ export default function FeaturedToys({
 
         {visible.length === 0 && (
           <p className="mt-12 text-center text-slate">
-            No toys in this category yet — check back soon.
+            V tej kategoriji še ni igrač — vrnite se kmalu.
           </p>
         )}
 
         <div className="mt-10 flex items-center justify-center md:hidden">
           <a
-            href="/shop"
+            href="/trgovina"
             className="inline-flex items-center gap-2 rounded-full border border-orange-dark/20 px-5 py-3 text-sm font-bold text-ink"
           >
-            View all toys
+            Poglej vse igrače
             <svg
               width="14"
               height="14"
@@ -165,7 +165,7 @@ export default function FeaturedToys({
         </div>
 
         <p className="mt-6 text-center text-xs font-semibold text-slate">
-          Showing {visible.length} of {products.length} products
+          Prikazano {visible.length} od {products.length} izdelkov
         </p>
       </div>
     </section>

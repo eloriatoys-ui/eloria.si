@@ -193,9 +193,9 @@ export default function ShopBrowser({ products, categories }: Props) {
             {/* Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-orange-dark/15 pb-4">
               <p className="text-[13px] font-semibold text-slate">
-                Showing{" "}
-                <span className="text-ink">{visible.length}</span> of{" "}
-                <span className="text-ink">{products.length}</span> products
+                Prikazano{" "}
+                <span className="text-ink">{visible.length}</span> od{" "}
+                <span className="text-ink">{products.length}</span> izdelkov
               </p>
               <div className="flex items-center gap-2">
                 {/* Mobile filters toggle */}
@@ -597,7 +597,7 @@ function PriceSlider({
       </div>
       <div className="mt-3 flex items-center justify-between gap-2">
         <NumberInput value={lo} onChange={(v) => onChange([Math.min(v, hi - 1), hi])} />
-        <span className="text-[12px] text-slate">to</span>
+        <span className="text-[12px] text-slate">do</span>
         <NumberInput value={hi} onChange={(v) => onChange([lo, Math.max(v, lo + 1)])} />
       </div>
     </div>
@@ -684,7 +684,7 @@ function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {
       <button
         onClick={onRemove}
         className="grid h-4 w-4 place-items-center rounded-full hover:bg-orange/20"
-        aria-label={`Remove ${label}`}
+        aria-label={`Odstrani ${label}`}
       >
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
           <line x1="6" y1="6" x2="18" y2="18" />
@@ -699,7 +699,7 @@ function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {
 
 function ShopCard({ product }: { product: Product }) {
   const onSale = product.comparePrice > product.price;
-  const href = product.slug ? `/shop/${product.slug}` : `/shop/${product.id}`;
+  const href = product.slug ? `/trgovina/${product.slug}` : `/trgovina/${product.id}`;
   // pulled below `useLang()` so we can read the active locale.
 
   const localImages = (
@@ -773,7 +773,7 @@ function ShopCard({ product }: { product: Product }) {
             className="absolute left-3 top-3 z-10 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
             style={{ backgroundColor: "#E55B47", color: "#FFFFFF" }}
           >
-            Sale
+            Akcija
           </span>
         )}
 
@@ -815,7 +815,7 @@ function ShopCard({ product }: { product: Product }) {
             </button>
             <button
               type="button"
-              aria-label="Next image"
+              aria-label="Naslednja slika"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -834,7 +834,7 @@ function ShopCard({ product }: { product: Product }) {
                 <button
                   key={i}
                   type="button"
-                  aria-label={`Show image ${i + 1}`}
+                  aria-label={`Pokaži sliko ${i + 1}`}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();

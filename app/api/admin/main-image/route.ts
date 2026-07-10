@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   await writeOverrides(overrides);
 
   revalidatePath("/");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   revalidatePath("/admin");
 
   return NextResponse.json({ ok: true, overrides });

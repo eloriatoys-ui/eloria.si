@@ -1,0 +1,517 @@
+[
+ {
+  "source": "/shop/head-bow-white",
+  "destination": "/trgovina/bela-otroska-pentlja",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headband-flowers-pink-peach-and-white",
+  "destination": "/trgovina/cvetlicna-lasnica-za-deklice",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headband-flowers-peach-and-white-2",
+  "destination": "/trgovina/otroski-cvetlicni-trak-marelicni-cvetovi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headband-flowers-pink-peach-and-white-2",
+  "destination": "/trgovina/otroski-trak-za-lase-rozice-roza",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-clip-bow-lilac-mist",
+  "destination": "/trgovina/lasnica-s-pentljo-lila",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-clip-bow-lt-pink",
+  "destination": "/trgovina/otroska-lasnica-s-pentljo-svetlo-roza",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-clip-bow-petal-peach",
+  "destination": "/trgovina/otroska-lasnica-s-pentljo-svetlo-marelicna",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-clip-bow-la-rosa",
+  "destination": "/trgovina/otroska-pentlja-za-lase-roza-in-rdeca",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-clip-bow-lemon",
+  "destination": "/trgovina/naglavni-okrasek-pentlja-lasnica-intenzivno-rumena",
+  "permanent": true
+ },
+ {
+  "source": "/shop/head-bow-petal-peach",
+  "destination": "/trgovina/otroski-naglavni-trak-pentlja-marelicna",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-bow-la-rosa",
+  "destination": "/trgovina/naglavni-trak-s-pentljo-rdec-roza",
+  "permanent": true
+ },
+ {
+  "source": "/shop/hair-bow-lemon",
+  "destination": "/trgovina/naglavni-trak-s-pentljo-rumena",
+  "permanent": true
+ },
+ {
+  "source": "/shop/baby-seat-potty",
+  "destination": "/trgovina/otroski-wc-nastavek",
+  "permanent": true
+ },
+ {
+  "source": "/shop/double-step",
+  "destination": "/trgovina/otroska-dvojna-prucka",
+  "permanent": true
+ },
+ {
+  "source": "/shop/ballerina-shoes-star",
+  "destination": "/trgovina/otroske-balerinke-star",
+  "permanent": true
+ },
+ {
+  "source": "/shop/moccasins-unicorn",
+  "destination": "/trgovina/otroski-copatki-unicorn",
+  "permanent": true
+ },
+ {
+  "source": "/shop/long-sleeve-ruffle-bolero-pearl",
+  "destination": "/trgovina/bolero-z-biseri-pearl",
+  "permanent": true
+ },
+ {
+  "source": "/shop/decorative-diaper-panties-swan",
+  "destination": "/trgovina/elegantne-baby-swan-hlacke",
+  "permanent": true
+ },
+ {
+  "source": "/shop/tights",
+  "destination": "/trgovina/bele-otroske-hlacne-nogavice",
+  "permanent": true
+ },
+ {
+  "source": "/shop/socks",
+  "destination": "/trgovina/otroske-nogavice-z-volanckom",
+  "permanent": true
+ },
+ {
+  "source": "/shop/short-sleeve-shirt",
+  "destination": "/trgovina/otroska-bombazna-majica-kratek-rokav",
+  "permanent": true
+ },
+ {
+  "source": "/shop/long-sleeve-shirt",
+  "destination": "/trgovina/otroska-bombazna-majica-dolg-rokav",
+  "permanent": true
+ },
+ {
+  "source": "/shop/short-sleeve-bodysuit",
+  "destination": "/trgovina/premium-majica-s-kratkimi-rokavi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/long-sleeve-bodysuit",
+  "destination": "/trgovina/otroski-bodi-z-dolgimi-rokavi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headband-flowers-peach-and-white",
+  "destination": "/trgovina/otroski-naglavni-trak-z-rozicami-marelicno-bela",
+  "permanent": true
+ },
+ {
+  "source": "/shop/head-clip-bow-white",
+  "destination": "/trgovina/otroska-lasnica-z-belo-pentljo",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-pure",
+  "destination": "/trgovina/pure-svecana-elegantna-dekliska-obleka-s-tilom",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-sunshine",
+  "destination": "/trgovina/sunshine-svecana-dekliska-obleka-s-tilom",
+  "permanent": true
+ },
+ {
+  "source": "/shop/prom-dress-levander",
+  "destination": "/trgovina/obleka-lavender-bloom",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-garden",
+  "destination": "/trgovina/obleka-garden-blossom",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-country",
+  "destination": "/trgovina/obleka-country-elegantna-dekliska-obleka",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-wind",
+  "destination": "/trgovina/obleka-wind-lahka-roznata-poletna-obleka",
+  "permanent": true
+ },
+ {
+  "source": "/shop/garden-queen-poletje",
+  "destination": "/trgovina/dekliski-komplet-garden-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/country-queen-poletje",
+  "destination": "/trgovina/dekliski-komplet-country-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/wind-queen-poletje",
+  "destination": "/trgovina/dekliski-komplet-wind-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/levander-prom-queen-zima",
+  "destination": "/trgovina/dekliski-zimski-komplet-lavender-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pure-queen-zima",
+  "destination": "/trgovina/dekliski-komplet-pure-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/sunshine-queen-zima",
+  "destination": "/trgovina/dekliski-komplet-sunshine-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/garden-queen-zima",
+  "destination": "/trgovina/garden-queen-komplet",
+  "permanent": true
+ },
+ {
+  "source": "/shop/country-queen-zima",
+  "destination": "/trgovina/dekliski-komplet-country-queen-2",
+  "permanent": true
+ },
+ {
+  "source": "/shop/wind-queen-zima",
+  "destination": "/trgovina/dekliski-komplet-wind",
+  "permanent": true
+ },
+ {
+  "source": "/shop/levander-prom-queen-celoletna",
+  "destination": "/trgovina/lavender-princess-komplet",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pure-queen-celoletna",
+  "destination": "/trgovina/pure-queen-dekliski-komplet",
+  "permanent": true
+ },
+ {
+  "source": "/shop/sunshine-queen-celoletna",
+  "destination": "/trgovina/sunshine-queen-premium-komplet",
+  "permanent": true
+ },
+ {
+  "source": "/shop/garden-queen-celoletna",
+  "destination": "/trgovina/bloom-queen-elegantni-komplet-za-deklice",
+  "permanent": true
+ },
+ {
+  "source": "/shop/country-queen-celoletna",
+  "destination": "/trgovina/dekliska-cvetlicna-obleka-country-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/wind-queen-celoletna",
+  "destination": "/trgovina/dekliska-roza-karo-obleka",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-diaper-covers-swan",
+  "destination": "/trgovina/hlacke-cez-plenicko-3-1-swan",
+  "permanent": true
+ },
+ {
+  "source": "/shop/double-set-for-using-the-toilet-bowl",
+  "destination": "/trgovina/otroski-wc-set-2-1",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-pairs-of-thights",
+  "destination": "/trgovina/otroske-hlacne-nogavice-3-1",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-pairs-of-socks",
+  "destination": "/trgovina/otroske-hlacne-nogavice-3-kosi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-t-shirts-long-sleeve",
+  "destination": "/trgovina/komplet-3-majic-dolg-rokav",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-t-shirts-short-sleeve",
+  "destination": "/trgovina/3-bombazne-majice-s-kratkimi-rokavi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-bodysuits-long",
+  "destination": "/trgovina/3-bombazni-bodiji-z-dolgimi-rokavi",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-of-3-bodysuits-short",
+  "destination": "/trgovina/komplet-3-bombaznih-bodijev",
+  "permanent": true
+ },
+ {
+  "source": "/shop/magic-gift-card-100e",
+  "destination": "/trgovina/magicni-darilni-bon-100eur",
+  "permanent": true
+ },
+ {
+  "source": "/shop/magic-gift-card-50e",
+  "destination": "/trgovina/magicni-darilni-bon-50eur",
+  "permanent": true
+ },
+ {
+  "source": "/shop/magic-gift-card-30e",
+  "destination": "/trgovina/magicni-darilni-bon-30eur",
+  "permanent": true
+ },
+ {
+  "source": "/shop/levander-prom-queen-poletje",
+  "destination": "/trgovina/lavender-queen-poletje",
+  "permanent": true
+ },
+ {
+  "source": "/shop/prom-dress-roses",
+  "destination": "/trgovina/svecana-obleka-roses",
+  "permanent": true
+ },
+ {
+  "source": "/shop/roses-prom-queen-allseason",
+  "destination": "/trgovina/dekliski-komplet-roses-prom-queen",
+  "permanent": true
+ },
+ {
+  "source": "/shop/roses-prom-queen-winter",
+  "destination": "/trgovina/komplet-roses-prom-queen-vse-sezone",
+  "permanent": true
+ },
+ {
+  "source": "/shop/roses-prom-queen-summer",
+  "destination": "/trgovina/komplet-roses-prom-queen-poletje",
+  "permanent": true
+ },
+ {
+  "source": "/shop/russian-faux-fur-hat-foxy",
+  "destination": "/trgovina/sal-iz-umetnega-krzna-foxy",
+  "permanent": true
+ },
+ {
+  "source": "/shop/faux-fur-scarf-foxy",
+  "destination": "/trgovina/sal-iz-umetnega-krzna-foxy-2",
+  "permanent": true
+ },
+ {
+  "source": "/shop/set-foxy-queen",
+  "destination": "/trgovina/otroski-voki-toki",
+  "permanent": true
+ },
+ {
+  "source": "/shop/kids-walkie-talkie",
+  "destination": "/trgovina/otroski-voki-toki-2",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pyjama-bunny",
+  "destination": "/trgovina/pizama-little-bow",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pyjama-little-bow",
+  "destination": "/trgovina/otroski-digitalni-fotoaparat-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pyjamas-bunny-and-little-bow-set",
+  "destination": "/trgovina/set-pizam-bunny-in-little-bow",
+  "permanent": true
+ },
+ {
+  "source": "/shop/tracksuit-love",
+  "destination": "/trgovina/trenirka-love",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headpiece-pom-pom-headband",
+  "destination": "/trgovina/naglavni-okrasek-pom-pom-trak",
+  "permanent": true
+ },
+ {
+  "source": "/shop/headpiece-pom-pom-hair-clip",
+  "destination": "/trgovina/naglavni-okrasek-pom-pom-lasnica",
+  "permanent": true
+ },
+ {
+  "source": "/shop/dress-melody",
+  "destination": "/trgovina/love-queen-zima",
+  "permanent": true
+ },
+ {
+  "source": "/shop/love-queen-winter",
+  "destination": "/trgovina/komplet-melody-queen-zima",
+  "permanent": true
+ },
+ {
+  "source": "/shop/clothing-set-melody-queen-winter",
+  "destination": "/trgovina/komplet-melody-queen-poletje",
+  "permanent": true
+ },
+ {
+  "source": "/shop/clothing-set-melody-queen-summer",
+  "destination": "/trgovina/komplet-melody-queen-vse-sezone",
+  "permanent": true
+ },
+ {
+  "source": "/shop/clothing-set-melody-queen-allseason",
+  "destination": "/trgovina/komplet-melody-queen-vse-sezone-2",
+  "permanent": true
+ },
+ {
+  "source": "/shop/disco-led-light-black",
+  "destination": "/trgovina/led-disko-svetilka",
+  "permanent": true
+ },
+ {
+  "source": "/shop/backpack-unicorn",
+  "destination": "/trgovina/nahrbtnik-unicorn",
+  "permanent": true
+ },
+ {
+  "source": "/shop/swimsuit-bird",
+  "destination": "/trgovina/kopalke-bird",
+  "permanent": true
+ },
+ {
+  "source": "/shop/inflatables-armbands-unicorn",
+  "destination": "/trgovina/rokavcki-unicorn",
+  "permanent": true
+ },
+ {
+  "source": "/shop/childrens-sunglasses",
+  "destination": "/trgovina/otroska-soncna-ocala",
+  "permanent": true
+ },
+ {
+  "source": "/shop/bird-queen-summer",
+  "destination": "/trgovina/bird-queen-poletje",
+  "permanent": true
+ },
+ {
+  "source": "/shop/kids-binoculars",
+  "destination": "/trgovina/otroski-daljnogled-roza-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/kids-karaoke-microphopne",
+  "destination": "/trgovina/otroski-karaoke-mikrofon-roza-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/lcd-writing-tablet",
+  "destination": "/trgovina/lcd-tablica-za-risanje-roza-modra-crna",
+  "permanent": true
+ },
+ {
+  "source": "/shop/audio-english-teacher",
+  "destination": "/trgovina/audio-ucitelj-anglescine-roza-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/kids-digital-camera",
+  "destination": "/trgovina/otroski-digitalni-fotoaparat-roza-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/triple-set-for-using-the-toilet-bowl",
+  "destination": "/trgovina/trojni-set-za-uporabo-straniscne-skoljke",
+  "permanent": true
+ },
+ {
+  "source": "/shop/baby-potty",
+  "destination": "/trgovina/otroska-kahlica",
+  "permanent": true
+ },
+ {
+  "source": "/shop/kids-digital-touch-screen-camera-with-games-pink-blue",
+  "destination": "/trgovina/otroski-digitalni-fotoaparat-na-dotik-z-igro-roza-moder",
+  "permanent": true
+ },
+ {
+  "source": "/shop/audio-math-teacher-pink-white",
+  "destination": "/trgovina/audio-ucitelj-matematike-roza-bel",
+  "permanent": true
+ },
+ {
+  "source": "/shop/led-light-drawing-board-white",
+  "destination": "/trgovina/led-svetilna-risalna-tabla-bela",
+  "permanent": true
+ },
+ {
+  "source": "/shop/magic-3d-board-with-light-effects-white",
+  "destination": "/trgovina/magicna-3d-tabla-s-svetlobnimi-ucinki-bela",
+  "permanent": true
+ },
+ {
+  "source": "/shop/multifunctional-car-for-the-youngest-pink-purple-green-blue",
+  "destination": "/trgovina/multifunkcijski-avtomobilcek",
+  "permanent": true
+ },
+ {
+  "source": "/shop/magnetic-board-for-creation-black",
+  "destination": "/trgovina/ustvarjalna-magnetna-tabla-magic",
+  "permanent": true
+ },
+ {
+  "source": "/shop/pop-it-game-console-pink-white",
+  "destination": "/trgovina/magic-pop-it-igralna-konzola",
+  "permanent": true
+ },
+ {
+  "source": "/shop/ai-mini-thermal-printer",
+  "destination": "/trgovina/magicprint-zepni-ai-tiskalnik",
+  "permanent": true
+ },
+ {
+  "source": "/shop/wooden-magnetic-color-counting-game",
+  "destination": "/trgovina/magnetna-ucna-avantura-razvoj-motorike-in-stetja",
+  "permanent": true
+ },
+ {
+  "source": "/shop/didactic-finger-counting-game",
+  "destination": "/trgovina/prstki-genija-ucenje-stevil-skozi-igro",
+  "permanent": true
+ },
+ {
+  "source": "/shop/wooden-didactic-activity-board",
+  "destination": "/trgovina/mali-raziskovalec-tabla-spretnosti-in-igre",
+  "permanent": true
+ },
+ {
+  "source": "/shop/sensory-travel-book-bag",
+  "destination": "/trgovina/potovalna-cudezna-knjiga-zaposli-otroka-v-1-minuti",
+  "permanent": true
+ }
+]

@@ -278,7 +278,7 @@ export default async function EditProductPage({
           </Link>
           <span className="flex-1" />
           <a
-            href={`/shop/${product.slug}`}
+            href={`/trgovina/${product.slug}`}
             target="_blank"
             rel="noopener"
             className="text-[13px] font-bold text-orange-dark hover:underline"

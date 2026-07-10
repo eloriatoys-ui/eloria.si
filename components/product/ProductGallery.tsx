@@ -115,7 +115,7 @@ export default function ProductGallery({
             <button
               onClick={() => setActive((i) => Math.max(i - 1, 0))}
               disabled={active === 0}
-              aria-label="Previous image"
+              aria-label="Prejšnja slika"
               className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-pearl text-ink shadow-md transition-all hover:bg-orange hover:text-pearl disabled:cursor-not-allowed disabled:opacity-0"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
@@ -125,7 +125,7 @@ export default function ProductGallery({
             <button
               onClick={() => setActive((i) => Math.min(i + 1, gallery.length - 1))}
               disabled={active === gallery.length - 1}
-              aria-label="Next image"
+              aria-label="Naslednja slika"
               className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-pearl text-ink shadow-md transition-all hover:bg-orange hover:text-pearl disabled:cursor-not-allowed disabled:opacity-0"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
@@ -137,7 +137,7 @@ export default function ProductGallery({
 
         {loading && gallery.length === 1 && (
           <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-pearl/95 px-3 py-1 text-[11px] font-bold text-ink shadow-md">
-            Loading gallery…
+            Nalaganje galerije…
           </span>
         )}
       </div>
@@ -154,7 +154,7 @@ export default function ProductGallery({
                 i === active ? "ring-orange" : "ring-transparent hover:ring-orange-dark/40",
               ].join(" ")}
               style={{ border: "1px solid rgba(194, 65, 12, 0.08)" }}
-              aria-label={`View image ${i + 1}`}
+              aria-label={`Poglej sliko ${i + 1}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" className="h-full w-full object-contain p-1.5" />

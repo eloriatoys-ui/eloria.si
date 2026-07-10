@@ -8,8 +8,10 @@ import { productName } from "@/lib/product-i18n";
 const badgeColor = (badge: string) => {
   switch (badge) {
     case "NEW":
+    case "NOVO":
     case "HOT":
     case "SALE":
+    case "AKCIJA":
       return "#E55B47";
     case "BESTSELLER":
     case "ORGANIC":
@@ -25,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
   const { t, locale } = useLang();
   const onSale = product.comparePrice > product.price;
-  const href = product.slug ? `/shop/${product.slug}` : `/shop/${product.id}`;
+  const href = product.slug ? `/trgovina/${product.slug}` : `/trgovina/${product.id}`;
   const name = productName(product, locale);
 
   return (

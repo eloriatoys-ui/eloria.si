@@ -7,8 +7,8 @@ export default function NavbarCart() {
   const { itemCount } = useCart();
   return (
     <Link
-      href="/cart"
-      aria-label={`Cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}
+      href="/kosarica"
+      aria-label={`Košarica, ${itemCount} ${itemCount === 1 ? "izdelek" : "izdelkov"}`}
       className="relative inline-flex h-11 items-center gap-2 rounded-full px-3.5 text-pearl shadow-glow transition-transform hover:scale-105"
       style={{
         background:

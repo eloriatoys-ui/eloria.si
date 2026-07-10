@@ -18,21 +18,21 @@ const videoCards: VideoCard[] = [
     blurbKey: "videos.card1.blurb",
     videoSrc: "/videos/v-clothes.mp4",
     duration: "0:11",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     titleKey: "videos.card2.title",
     blurbKey: "videos.card2.blurb",
     videoSrc: "/videos/v-music.mp4",
     duration: "0:15",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     titleKey: "videos.card3.title",
     blurbKey: "videos.card3.blurb",
     videoSrc: "/videos/v-toy.mp4",
     duration: "0:15",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
 ];
 
@@ -143,7 +143,7 @@ export default function Videos() {
               </h2>
             </div>
             <a
-              href="/shop"
+              href="/trgovina"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
               {t("videos.cta_visit")}

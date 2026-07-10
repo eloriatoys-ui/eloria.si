@@ -4,9 +4,9 @@ import Reveal from "@/components/Reveal";
 import T from "@/components/T";
 
 export const metadata = {
-  title: "Our story · Eloria",
+  title: "Naša zgodba · Eloria",
   description:
-    "We never stopped believing in fairy tales. Eloria was born in 2020 from two new parents who couldn't find toys and clothes worth keeping.",
+    "Nikoli nismo nehali verjeti v pravljice. Eloria se je rodila leta 2020 iz dveh novopečenih staršev, ki nista mogla najti igrač in oblačil, vrednih hrambe.",
 };
 
 const values = [
@@ -70,7 +70,7 @@ export default function AboutPage() {
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
-                  href="/shop"
+                  href="/trgovina"
                   className="inline-flex items-center gap-2 rounded-full bg-wood-dark px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl shadow-lg shadow-wood-dark/30 transition-transform hover:-translate-y-0.5"
                 >
                   <T id="about.cta_shop" />
@@ -95,7 +95,7 @@ export default function AboutPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/about/story-hero.jpg"
-                  alt="Our story"
+                  alt="Naša zgodba"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -118,7 +118,7 @@ export default function AboutPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/about/story-creativity.jpg"
-                  alt="How it began — developing creativity through play"
+                  alt="Kako se je začelo — razvijanje ustvarjalnosti skozi igro"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -338,13 +338,13 @@ export default function AboutPage() {
                   </p>
                   <div className="mt-7 flex flex-wrap items-center gap-3">
                     <a
-                      href="/shop"
+                      href="/trgovina"
                       className="inline-flex items-center gap-2 rounded-full bg-pearl px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-ink shadow-lg transition-transform hover:-translate-y-0.5"
                     >
                       <T id="about.cta.shop" />
                     </a>
                     <a
-                      href="/shop?onSale=1"
+                      href="/trgovina?onSale=1"
                       className="inline-flex items-center gap-2 rounded-full border border-pearl/40 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl transition-colors hover:bg-pearl hover:text-ink"
                     >
                       <T id="about.cta.sale" />

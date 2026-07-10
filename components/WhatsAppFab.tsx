@@ -6,7 +6,7 @@ export default function WhatsAppFab() {
       href={`https://wa.me/${WHATSAPP_NUMBER}`}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="Klepet na WhatsApp"
       className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-toy-lg ring-4 ring-white/40 transition-transform hover:scale-110 md:bottom-7 md:right-7 md:h-16 md:w-16"
     >
       <svg

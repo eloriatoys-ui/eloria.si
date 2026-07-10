@@ -153,7 +153,7 @@ export default function Hero() {
 
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="/shop"
+              href="/trgovina"
               className="wood-dark inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-extrabold transition-transform hover:-translate-y-0.5"
               style={{
                 color: "#FFFFFF",
@@ -178,7 +178,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="/shop?onSale=1"
+              href="/trgovina?onSale=1"
               className="inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-extrabold transition-transform hover:-translate-y-0.5"
               style={{
                 background: "#FFF7ED",

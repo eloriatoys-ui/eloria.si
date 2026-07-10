@@ -110,7 +110,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 59,
     theme: "sky",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-2",
@@ -123,7 +123,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 45,
     theme: "coral",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-3",
@@ -136,7 +136,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 39,
     theme: "leaf",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-4",
@@ -149,7 +149,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 29,
     theme: "sky",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-5",
@@ -162,7 +162,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 35,
     theme: "coral",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-6",
@@ -174,7 +174,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 55,
     theme: "leaf",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-7",
@@ -186,7 +186,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 129,
     theme: "sky",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
   {
     id: "to-8",
@@ -198,7 +198,7 @@ export const topOffers: TopOffer[] = [
     comparePrice: 149,
     theme: "leaf",
     ctaLabel: "Shop Now",
-    ctaHref: "/shop",
+    ctaHref: "/trgovina",
   },
 ];
 

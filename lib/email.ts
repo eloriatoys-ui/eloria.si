@@ -172,7 +172,7 @@ function summaryRows(o: OrderEmailData): string {
 }
 
 function customerHtml(o: OrderEmailData): string {
-  const trackUrl = `${SITE_URL}/order/${encodeURIComponent(o.order_number)}`;
+  const trackUrl = `${SITE_URL}/narocilo/${encodeURIComponent(o.order_number)}`;
   const date = orderDate();
   const preheader = `Potrdilo naročila ${o.order_number} · Skupaj ${eur(o.total)}`;
   return `

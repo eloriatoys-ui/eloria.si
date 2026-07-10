@@ -15,31 +15,31 @@ const ages: AgeBucket[] = [
     labelKey: "age.0_18m",
     image: "/age/1.png",
     bg: "radial-gradient(circle at 30% 30%, #FEF3C7 0%, #FDE68A 100%)",
-    href: "/shop?age=0-18m",
+    href: "/trgovina?age=0-18m",
   },
   {
     labelKey: "age.18_36m",
     image: "/age/2.png",
     bg: "radial-gradient(circle at 30% 30%, #FBCFE8 0%, #F9A8D4 100%)",
-    href: "/shop?age=18-36m",
+    href: "/trgovina?age=18-36m",
   },
   {
     labelKey: "age.3_5y",
     image: "/age/3.png",
     bg: "radial-gradient(circle at 30% 30%, #BBF7D0 0%, #6EE7B7 100%)",
-    href: "/shop?age=3-5y",
+    href: "/trgovina?age=3-5y",
   },
   {
     labelKey: "age.6_8y",
     image: "/age/4.png",
     bg: "radial-gradient(circle at 30% 30%, #DDD6FE 0%, #C4B5FD 100%)",
-    href: "/shop?age=6-8y",
+    href: "/trgovina?age=6-8y",
   },
   {
     labelKey: "age.9_14y",
     image: "/age/5.png",
     bg: "radial-gradient(circle at 30% 30%, #BAE6FD 0%, #93C5FD 100%)",
-    href: "/shop?age=9-14y",
+    href: "/trgovina?age=9-14y",
   },
 ];
 
@@ -100,7 +100,7 @@ export default function ShopByAge() {
               </h2>
             </div>
             <a
-              href="/shop"
+              href="/trgovina"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
               {t("age.viewall")}

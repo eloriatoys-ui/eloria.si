@@ -46,7 +46,7 @@ export default function NewArrivals({
               </p>
             </div>
             <a
-              href="/shop?category=New"
+              href="/trgovina?category=New"
               className="hidden items-center gap-1.5 self-start rounded-full border border-orange-dark/25 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl md:inline-flex"
             >
               {t("new.viewall")}

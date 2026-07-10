@@ -16,14 +16,14 @@ export async function generateMetadata(
   { params }: { params: { slug: string } },
 ): Promise<Metadata> {
   const product = await findProductBySlug(params.slug);
-  if (!product) return { title: "Not found · Eloria" };
+  if (!product) return { title: "Ni najdeno · Eloria" };
   return {
     title: `${product.name} · Eloria`,
     description:
-      (product.shortDescription || "")
+      (product.shortDescription_sl || product.shortDescription || "")
         .replace(/<[^>]+>/g, " ")
         .replace(/\s+/g, " ")
-        .slice(0, 160) || `${product.name} from our ${product.category} collection.`,
+        .slice(0, 160) || `${product.name} iz naše kolekcije ${product.category}.`,
   };
 }
 
@@ -49,22 +49,22 @@ export default async function ProductPage({
 
       {/* Breadcrumbs */}
       <nav
-        aria-label="Breadcrumb"
+        aria-label="Drobtinice"
         className="border-b border-orange-dark/10 bg-pearl"
       >
         <div className="mx-auto max-w-7xl px-5 py-3 md:px-8">
           <ol className="flex flex-wrap items-center gap-1.5 text-[12px] font-semibold text-slate">
             <li>
-              <a href="/" className="hover:text-orange-dark">Home</a>
+              <a href="/" className="hover:text-orange-dark">Domov</a>
             </li>
             <li aria-hidden className="text-slate/50">/</li>
             <li>
-              <a href="/shop" className="hover:text-orange-dark">Shop</a>
+              <a href="/trgovina" className="hover:text-orange-dark">Trgovina</a>
             </li>
             <li aria-hidden className="text-slate/50">/</li>
             <li>
               <a
-                href="/shop"
+                href="/trgovina"
                 className="hover:text-orange-dark"
               >
                 {product.category}

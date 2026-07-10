@@ -57,7 +57,9 @@ function mapRow(r: Row): ProductWithGallery {
   const publicId = r.woo_id ?? 1_000_000 + r.id;
   return {
     id: publicId,
-    name: r.name_en,
+    // Slovenian-only storefront: display the SL name, fall back to EN only
+    // when a product has no Slovenian name yet.
+    name: r.name_sl?.trim() ? r.name_sl : r.name_en,
     price: Number(r.price),
     comparePrice: Number(r.compare_price ?? r.price),
     category: cats[0] ?? "",

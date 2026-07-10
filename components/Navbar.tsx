@@ -55,29 +55,29 @@ const shopMega: MegaColumn[] = [
   {
     heading: "mega.shop.clothing.heading",
     items: [
-      { label: "mega.shop.clothing.sets", href: "/shop?category=Clothing+sets+AMAREEN", icon: "hanger" },
-      { label: "mega.shop.clothing.dresses", href: "/shop?category=Dresses", icon: "dress" },
-      { label: "mega.shop.clothing.bodysuits", href: "/shop?category=Bodysuit", icon: "baby" },
-      { label: "mega.shop.clothing.jackets", href: "/shop?category=Jackets", icon: "jacket" },
+      { label: "mega.shop.clothing.sets", href: "/trgovina?category=Clothing+sets+AMAREEN", icon: "hanger" },
+      { label: "mega.shop.clothing.dresses", href: "/trgovina?category=Dresses", icon: "dress" },
+      { label: "mega.shop.clothing.bodysuits", href: "/trgovina?category=Bodysuit", icon: "baby" },
+      { label: "mega.shop.clothing.jackets", href: "/trgovina?category=Jackets", icon: "jacket" },
     ],
   },
   {
     heading: "mega.shop.acc.heading",
     items: [
-      { label: "mega.shop.acc.all", href: "/shop?category=Accessories", icon: "accessories" },
-      { label: "mega.shop.acc.headpieces", href: "/shop?category=Headpieces", icon: "crown" },
-      { label: "mega.shop.acc.bows", href: "/shop?category=Head+bows%2Fclips", icon: "ribbon" },
-      { label: "mega.shop.acc.hats", href: "/shop?category=Hats+and+scarfs", icon: "scarf" },
-      { label: "mega.shop.acc.footwear", href: "/shop?category=Footwear", icon: "shoe" },
-      { label: "mega.shop.acc.flowers", href: "/shop?category=Flowers", icon: "sparkles" },
+      { label: "mega.shop.acc.all", href: "/trgovina?category=Accessories", icon: "accessories" },
+      { label: "mega.shop.acc.headpieces", href: "/trgovina?category=Headpieces", icon: "crown" },
+      { label: "mega.shop.acc.bows", href: "/trgovina?category=Head+bows%2Fclips", icon: "ribbon" },
+      { label: "mega.shop.acc.hats", href: "/trgovina?category=Hats+and+scarfs", icon: "scarf" },
+      { label: "mega.shop.acc.footwear", href: "/trgovina?category=Footwear", icon: "shoe" },
+      { label: "mega.shop.acc.flowers", href: "/trgovina?category=Flowers", icon: "sparkles" },
     ],
   },
   {
     heading: "mega.shop.highlights.heading",
     items: [
-      { label: "mega.shop.highlights.all", href: "/shop", icon: "toys" },
-      { label: "mega.shop.highlights.new", href: "/shop?category=New", icon: "sprout" },
-      { label: "mega.shop.highlights.sale", href: "/shop?onSale=1", icon: "tag" },
+      { label: "mega.shop.highlights.all", href: "/trgovina", icon: "toys" },
+      { label: "mega.shop.highlights.new", href: "/trgovina?category=New", icon: "sprout" },
+      { label: "mega.shop.highlights.sale", href: "/trgovina?onSale=1", icon: "tag" },
     ],
   },
   {
@@ -256,10 +256,10 @@ function MegaIcon({ name }: { name: MegaIconName }) {
 // label values are i18n keys resolved via t() at render time.
 const links: NavLink[] = [
   { label: "nav.home", href: "/" },
-  { label: "nav.shop", href: "/shop", mega: shopMega },
-  { label: "nav.wooden", href: "/wooden-toys" },
+  { label: "nav.shop", href: "/trgovina", mega: shopMega },
+  { label: "nav.wooden", href: "/lesene-igrace" },
   { label: "nav.clothes", href: "/#clothes" },
-  { label: "nav.about", href: "/about" },
+  { label: "nav.about", href: "/o-nas" },
   { label: "nav.contact", href: "/#newsletter" },
 ];
 
@@ -440,7 +440,7 @@ export default function Navbar() {
 
             {/* Burger */}
             <button
-              aria-label="Toggle menu"
+              aria-label="Preklopi meni"
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
               className="grid h-11 w-11 place-items-center rounded-full bg-pearl/10 text-pearl lg:hidden"
@@ -595,14 +595,14 @@ function MegaMenuPanel({
       <div className="border-t border-orange-dark/10 bg-cream py-3">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-8 text-[12px] text-slate">
           <span className="font-semibold">
-            Free delivery throughout Slovenia · Sustainably crafted
+            Brezplačna dostava po celi Sloveniji · Trajnostno izdelano
           </span>
           <a
-            href="/shop"
+            href="/trgovina"
             onClick={onClose}
             className="font-bold text-orange-dark hover:text-orange"
           >
-            Browse all products →
+            Prebrskaj vse izdelke →
           </a>
         </div>
       </div>
@@ -752,7 +752,7 @@ function SearchPanel({
           className="flex-1 bg-transparent text-[14px] font-semibold text-ink outline-none placeholder:font-medium placeholder:text-slate"
         />
         <button
-          aria-label="Close search"
+          aria-label="Zapri iskanje"
           onClick={() => {
             setOpen(false);
             setQ("");
@@ -785,9 +785,9 @@ function SearchPanel({
         <div className="overflow-hidden rounded-2xl border border-orange-dark/15 bg-pearl shadow-lift">
           {q.trim().length < 2 ? (
             <div className="px-5 py-6 text-[13px] text-slate">
-              <p className="font-semibold text-ink">What are you looking for?</p>
+              <p className="font-semibold text-ink">Kaj iščete?</p>
               <p className="mt-1">
-                Try{" "}
+                Poskusite{" "}
                 {["dress", "pyjamas", "walkie-talkie", "queen", "summer"].map(
                   (s, i) => (
                     <button
@@ -803,13 +803,13 @@ function SearchPanel({
             </div>
           ) : loading ? (
             <div className="px-5 py-6 text-center text-[13px] text-slate">
-              Searching…
+              Iščem…
             </div>
           ) : results.length === 0 ? (
             <div className="px-5 py-6 text-[13px] text-slate">
-              No matches for{" "}
+              Ni zadetkov za{" "}
               <span className="font-bold text-ink">&ldquo;{q}&rdquo;</span>.
-              Try different words.
+              Poskusite z drugimi besedami.
             </div>
           ) : (
             <>
@@ -817,7 +817,7 @@ function SearchPanel({
                 {results.map((r) => (
                   <li key={r.id}>
                     <a
-                      href={r.permalink ?? "/shop"}
+                      href={r.permalink ?? "/trgovina"}
                       onClick={() => {
                         setOpen(false);
                         setQ("");
@@ -853,14 +853,14 @@ function SearchPanel({
               </ul>
               {total > results.length && (
                 <a
-                  href="/shop"
+                  href="/trgovina"
                   onClick={() => {
                     setOpen(false);
                     setQ("");
                   }}
                   className="block border-t border-orange-dark/10 px-4 py-3 text-center text-[12px] font-extrabold uppercase tracking-wider text-orange-dark hover:bg-orange/10"
                 >
-                  See all {total} matches →
+                  Poglej vse zadetke ({total}) →
                 </a>
               )}
             </>

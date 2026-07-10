@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const lines = body.lines ?? [];
     const method = body.method ?? "card";
     if (lines.length === 0) {
-      return NextResponse.json({ error: "Cart is empty." }, { status: 400 });
+      return NextResponse.json({ error: "Košarica je prazna." }, { status: 400 });
     }
 
     // Re-validate prices against the database — never trust client-supplied prices.
@@ -88,13 +88,13 @@ export async function POST(req: Request) {
       const dbp = byPublicId.get(l.productId);
       if (!dbp) {
         return NextResponse.json(
-          { error: `Product ${l.productId} not found` },
+          { error: `Izdelek ${l.productId} ni najden` },
           { status: 400 },
         );
       }
       if (!dbp.is_published || dbp.stock_status !== "instock") {
         return NextResponse.json(
-          { error: `${dbp.name_en} is no longer available.` },
+          { error: `${dbp.name_en} ni več na voljo.` },
           { status: 400 },
         );
       }
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
         const chosen = typeof l.size === "string" ? l.size.trim() : "";
         if (!chosen || !dbSizes.includes(chosen)) {
           return NextResponse.json(
-            { error: `Please choose a size for ${dbp.name_en}.` },
+            { error: `Izberite velikost za ${dbp.name_en}.` },
             { status: 400 },
           );
         }
@@ -192,8 +192,8 @@ export async function POST(req: Request) {
           },
         ],
         automatic_tax: { enabled: false },
-        success_url: `${origin}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/cart?cancelled=1`,
+        success_url: `${origin}/narocilo/uspeh?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/kosarica?cancelled=1`,
       });
       return NextResponse.json({ url: session.url });
     }
@@ -202,7 +202,7 @@ export async function POST(req: Request) {
     const addr = body.address;
     if (!addr?.email || !addr?.name || !addr?.street || !addr?.city || !addr?.postal_code) {
       return NextResponse.json(
-        { error: "Shipping address is required for this payment method." },
+        { error: "Za ta način plačila je obvezen naslov za dostavo." },
         { status: 400 },
       );
     }
@@ -265,7 +265,7 @@ export async function POST(req: Request) {
     if (orderErr || !order) {
       console.error("Order insert failed:", orderErr);
       return NextResponse.json(
-        { error: "Failed to create order" },
+        { error: "Naročila ni bilo mogoče ustvariti" },
         { status: 500 },
       );
     }
@@ -317,7 +317,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      url: `/order/${order.order_number}`,
+      url: `/narocilo/${order.order_number}`,
       order_number: order.order_number,
     });
   } catch (err: any) {

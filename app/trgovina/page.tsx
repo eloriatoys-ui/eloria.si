@@ -8,8 +8,8 @@ import ShopHero from "@/components/shop/ShopHero";
 import { getCatalogProducts } from "@/lib/catalog";
 
 export const metadata = {
-  title: "Shop · Eloria",
-  description: "The full Eloria collection — every toy, dress, and accessory in one place.",
+  title: "Trgovina · Eloria",
+  description: "Celotna kolekcija Eloria — vsaka igrača, obleka in dodatek na enem mestu.",
 };
 
 export default async function ShopPage() {

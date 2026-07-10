@@ -7,9 +7,9 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "Wooden toys · Eloria",
+  title: "Lesene igrače · Eloria",
   description:
-    "Hand-crafted wooden toys made from sustainably sourced natural wood. No plastic, no compromises — just timeless play.",
+    "Ročno izdelane lesene igrače iz trajnostno pridobljenega naravnega lesa. Brez plastike, brez kompromisov — le brezčasna igra.",
 };
 
 const benefits = [
@@ -28,7 +28,7 @@ function ageLabel(min: number | null, max: number | null): string | null {
     m < 24 ? `${m}m` : `${Math.round(m / 12)}y`;
   if (min != null && max != null) return `${fmt(min)}–${fmt(max)}`;
   if (min != null) return `${fmt(min)}+`;
-  return `up to ${fmt(max!)}`;
+  return `do ${fmt(max!)}`;
 }
 
 async function loadWoodenToys() {
@@ -175,19 +175,19 @@ export default async function WoodenToysPage() {
                 </p>
               </div>
               <p className="text-[12px] font-bold text-ink/60">
-                {products.length} {products.length === 1 ? "product" : "products"}
+                {products.length} {products.length === 1 ? "izdelek" : "izdelkov"}
               </p>
             </div>
           </Reveal>
 
           {products.length === 0 ? (
             <div className="mt-10 rounded-3xl border border-orange-dark/15 bg-pearl p-10 text-center text-ink/70">
-              <p className="text-base">No wooden toys in stock right now.</p>
+              <p className="text-base">Trenutno ni lesenih igrač na zalogi.</p>
               <Link
-                href="/shop"
+                href="/trgovina"
                 className="mt-4 inline-block text-[13px] font-bold text-orange-dark hover:underline"
               >
-                Browse the full shop →
+                Prebrskaj celotno trgovino →
               </Link>
             </div>
           ) : (
@@ -207,7 +207,7 @@ export default async function WoodenToysPage() {
                 return (
                   <Reveal key={p.id} delay={(i % 4) * 60}>
                     <Link
-                      href={`/shop/${p.slug}`}
+                      href={`/trgovina/${p.slug}`}
                       className="group flex h-full flex-col overflow-hidden rounded-3xl bg-pearl ring-1 ring-orange-dark/10 transition-all hover:-translate-y-1 hover:shadow-xl"
                     >
                       <div className="relative aspect-square overflow-hidden bg-cream">
@@ -240,7 +240,7 @@ export default async function WoodenToysPage() {
                       <div className="flex flex-1 flex-col gap-3 p-4">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-orange-dark">
-                            Wooden Toys
+                            Lesene igrače
                           </span>
                           {age && (
                             <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
@@ -265,7 +265,7 @@ export default async function WoodenToysPage() {
                             )}
                           </div>
                           <span className="inline-flex items-center gap-1 rounded-full bg-orange px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-pearl">
-                            View
+                            Ogled
                           </span>
                         </div>
                       </div>

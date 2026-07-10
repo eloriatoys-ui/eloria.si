@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   await writeSections(sections);
 
   revalidatePath("/");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   revalidatePath("/admin");
 
   return NextResponse.json({ ok: true, sections });

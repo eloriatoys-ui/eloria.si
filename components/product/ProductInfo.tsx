@@ -103,8 +103,10 @@ export default function ProductInfo({ product }: Props) {
     };
   }, [product.id]);
 
+  // Prefer the Slovenian short description; only fall back to the (English)
+  // WooCommerce long description when no Slovenian copy exists.
   const description =
-    longDesc || productShortDescription(product, locale) || null;
+    productShortDescription(product, locale) || longDesc || null;
 
   return (
     <div className="flex min-w-0 flex-col gap-6">
@@ -122,7 +124,7 @@ export default function ProductInfo({ product }: Props) {
 
         {/* Rating */}
         <div className="mt-3 flex items-center gap-2 text-[13px] text-slate">
-          <span aria-label="5 out of 5" className="flex items-center gap-0.5 text-[#F4B73E]">
+          <span aria-label="5 od 5" className="flex items-center gap-0.5 text-[#F4B73E]">
             {[0, 1, 2, 3, 4].map((i) => (
               <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -131,9 +133,9 @@ export default function ProductInfo({ product }: Props) {
           </span>
           <span className="font-bold text-ink">4.9</span>
           <span>·</span>
-          <a href="#reviews" className="hover:text-orange-dark">128 reviews</a>
+          <a href="#reviews" className="hover:text-orange-dark">128 mnenj</a>
           <span>·</span>
-          <span className="text-[12px]">SKU #{product.id}</span>
+          <span className="text-[12px]">Šifra #{product.id}</span>
         </div>
       </div>
 
@@ -155,14 +157,14 @@ export default function ProductInfo({ product }: Props) {
                 {product.comparePrice}€
               </span>
               <span className="rounded bg-[#E55B47] px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-pearl">
-                Save {Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}%
+                Prihranek {Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}%
               </span>
             </>
           )}
         </div>
         <p className="mt-2 flex items-center gap-1.5 text-[12px] font-semibold text-[#047857]">
           <span className="h-2 w-2 rounded-full bg-[#10b981]" />
-          In stock — ships within 24 hours
+          Na zalogi — odpošljemo v 24 urah
         </p>
       </div>
 
@@ -250,7 +252,7 @@ export default function ProductInfo({ product }: Props) {
         <div className="inline-flex items-center rounded-full border border-orange-dark/25 bg-pearl">
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            aria-label="Decrease quantity"
+            aria-label="Zmanjšaj količino"
             className="grid h-12 w-12 place-items-center rounded-l-full text-ink hover:bg-orange/10"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
@@ -262,7 +264,7 @@ export default function ProductInfo({ product }: Props) {
           </span>
           <button
             onClick={() => setQty((q) => q + 1)}
-            aria-label="Increase quantity"
+            aria-label="Povečaj količino"
             className="grid h-12 w-12 place-items-center rounded-r-full text-ink hover:bg-orange/10"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
@@ -287,7 +289,7 @@ export default function ProductInfo({ product }: Props) {
         />
         <button
           type="button"
-          aria-label="Add to wishlist"
+          aria-label="Dodaj med želje"
           className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-orange-dark/25 bg-pearl text-orange-dark transition-colors hover:bg-orange hover:text-pearl"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -303,7 +305,7 @@ export default function ProductInfo({ product }: Props) {
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
             <path d="m9 12 2 2 4-4" />
           </svg>
-          <span>Child-safe</span>
+          <span>Varno za otroke</span>
         </li>
         <li className="flex flex-col items-start gap-1.5 rounded-xl border border-orange-dark/10 bg-pearl p-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -311,14 +313,14 @@ export default function ProductInfo({ product }: Props) {
             <path d="M15 9h4l3 4v4h-7V9Z" />
             <circle cx="6" cy="19" r="2" /><circle cx="18" cy="19" r="2" />
           </svg>
-          <span>Free in Slovenia</span>
+          <span>Brezplačno v Sloveniji</span>
         </li>
         <li className="flex flex-col items-start gap-1.5 rounded-xl border border-orange-dark/10 bg-pearl p-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 12a9 9 0 0 1 9-9" />
             <path d="m3 12 4-4M3 12l4 4" />
           </svg>
-          <span>30-day returns</span>
+          <span>30 dni za vračilo</span>
         </li>
         <li className="flex flex-col items-start gap-1.5 rounded-xl border border-orange-dark/10 bg-pearl p-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -326,7 +328,7 @@ export default function ProductInfo({ product }: Props) {
             <path d="M16 11h-3v3" />
             <circle cx="9" cy="12" r="2" />
           </svg>
-          <span>Secure checkout</span>
+          <span>Varno plačilo</span>
         </li>
       </ul>
 
@@ -343,10 +345,10 @@ export default function ProductInfo({ product }: Props) {
               ].join(" ")}
             >
               {t === "description"
-                ? "Description"
+                ? "Opis"
                 : t === "details"
-                ? "Details"
-                : "Shipping & returns"}
+                ? "Podrobnosti"
+                : "Dostava in vračila"}
               {tab === t && (
                 <span className="absolute inset-x-3 -bottom-px h-[2px] rounded-full bg-orange" />
               )}
@@ -370,16 +372,16 @@ export default function ProductInfo({ product }: Props) {
           {tab === "details" && (
             <ul className="flex flex-col gap-3 text-[14px] text-ink/85">
               <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">SKU</span>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Šifra</span>
                 <span className="font-semibold">#{product.id}</span>
               </li>
               <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Category</span>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Kategorija</span>
                 <span className="font-semibold">{product.category}</span>
               </li>
               {product.categories && product.categories.length > 0 && (
                 <li className="grid grid-cols-[120px_1fr] gap-4">
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Tags</span>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Oznake</span>
                   <span className="flex flex-wrap gap-1.5">
                     {product.categories.slice(0, 12).map((c) => (
                       <span
@@ -393,28 +395,28 @@ export default function ProductInfo({ product }: Props) {
                 </li>
               )}
               <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Materials</span>
-                <span className="font-semibold">OEKO-TEX certified, non-toxic finishes</span>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Materiali</span>
+                <span className="font-semibold">Certifikat OEKO-TEX, netoksični zaključki</span>
               </li>
               <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Care</span>
-                <span className="font-semibold">Machine-washable at 30°C, do not bleach</span>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Nega</span>
+                <span className="font-semibold">Strojno pranje na 30 °C, ne belite</span>
               </li>
             </ul>
           )}
           {tab === "shipping" && (
             <ul className="flex flex-col gap-3 text-[14px] leading-relaxed text-slate md:text-[15px]">
               <li>
-                <strong className="text-ink">Delivery:</strong> 1–2 business days in Slovenia,
-                3–5 days across the EU, 5–10 worldwide. Free throughout Slovenia.
+                <strong className="text-ink">Dostava:</strong> 1–2 delovna dneva po Sloveniji,
+                3–5 dni po EU, 5–10 po svetu. Brezplačno po celi Sloveniji.
               </li>
               <li>
-                <strong className="text-ink">Returns:</strong> 30 days, unworn with tags
-                attached. Prepaid label provided.
+                <strong className="text-ink">Vračila:</strong> 30 dni, nenošeno s pritrjenimi
+                etiketami. Priložimo predplačano nalepko.
               </li>
               <li>
-                <strong className="text-ink">Packaging:</strong> Reusable cream gift box
-                with hand-tied ribbon — no extra cost.
+                <strong className="text-ink">Embalaža:</strong> Darilna škatla za večkratno uporabo
+                z ročno zavezanim trakom — brez doplačila.
               </li>
             </ul>
           )}

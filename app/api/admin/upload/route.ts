@@ -58,7 +58,7 @@ export async function POST(req: Request) {
   const url = `/uploads/${filename}`;
 
   revalidatePath("/");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
   revalidatePath("/admin");
 
   return NextResponse.json({ ok: true, url, filename });

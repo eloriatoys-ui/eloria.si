@@ -49,7 +49,7 @@ export async function createCategory(formData: FormData) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
 }
 
 export async function updateCategory(id: number, formData: FormData) {
@@ -69,7 +69,7 @@ export async function updateCategory(id: number, formData: FormData) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
 }
 
 export async function deleteCategory(id: number) {
@@ -77,5 +77,5 @@ export async function deleteCategory(id: number) {
   const { error } = await supabaseAdmin.from("categories").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/categories");
-  revalidatePath("/shop");
+  revalidatePath("/trgovina");
 }

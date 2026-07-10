@@ -97,7 +97,7 @@ export default function CheckoutPage() {
           <h1 className="text-3xl font-extrabold text-ink">Vaša košarica je prazna</h1>
           <p className="mt-3 text-ink/70">Pred zaključkom nakupa dodajte izdelek.</p>
           <Link
-            href="/shop"
+            href="/trgovina"
             className="mt-8 inline-flex rounded-full bg-orange px-6 py-3 text-[13px] font-extrabold uppercase tracking-wider text-pearl hover:bg-orange-dark"
             style={{ color: "#FFFFFF" }}
           >
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
               </span>
             </button>
             <Link
-              href="/cart"
+              href="/kosarica"
               className="mt-3 block text-center text-[12px] font-bold text-ink/60 hover:text-orange-dark"
             >
               ← Nazaj v košarico
