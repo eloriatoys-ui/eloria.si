@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Product } from "@/lib/data";
 import { useLang } from "@/components/LangProvider";
 import { productName, productShortDescription } from "@/lib/product-i18n";
 import { useCart } from "@/lib/cart/cart-context";
 import BuyNowButton from "@/components/cart/BuyNowButton";
 import { categoryLabel } from "@/lib/category-i18n";
+import { trackViewContent, trackAddToCart } from "@/lib/meta-pixel";
 
 type Props = {
   product: Product;
@@ -86,9 +87,20 @@ export default function ProductInfo({ product }: Props) {
       return;
     }
     add(cartLine, qty);
+    // Meta Pixel: fire AddToCart only after the item is actually added.
+    trackAddToCart({ id: product.id, name, price: product.price, quantity: qty });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
+
+  // Meta Pixel: ViewContent once per product. The ref guard survives React
+  // Strict Mode's double-invoke of effects in development.
+  const viewedRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (viewedRef.current === product.id) return;
+    viewedRef.current = product.id;
+    trackViewContent({ id: product.id, name, price: product.price });
+  }, [product.id, name, product.price]);
 
   useEffect(() => {
     let alive = true;

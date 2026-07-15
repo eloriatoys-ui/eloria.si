@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCart, type CartLine } from "@/lib/cart/cart-context";
+import { trackAddToCart } from "@/lib/meta-pixel";
 
 type Props = {
   product: Omit<CartLine, "quantity">;
@@ -21,6 +22,7 @@ export default function AddToCartButton({
 
   const onClick = () => {
     add(product, 1);
+    trackAddToCart({ id: product.productId, name: product.name, price: product.price, quantity: 1 });
     setAdding(true);
     setTimeout(() => setAdding(false), 1200);
   };

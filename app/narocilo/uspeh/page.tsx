@@ -1,7 +1,9 @@
 import Link from "next/link";
+import type Stripe from "stripe";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClearCartOnMount from "./ClearCartOnMount";
+import PurchaseTracker from "./PurchaseTracker";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { getTrackingUrl } from "@/lib/courier";
@@ -16,14 +18,45 @@ export default async function OrderSuccessPage({
   const sessionId = searchParams.session_id;
   let summary: { email?: string; total?: number; currency?: string } = {};
   let tracking: { number: string; url: string } | null = null;
+  // Server-verified Purchase data for the Meta Pixel — only set once Stripe
+  // confirms the payment is paid (never merely because this URL was visited).
+  let purchase: {
+    eventId: string;
+    value: number;
+    currency: string;
+    contentIds: string[];
+    numItems: number;
+  } | null = null;
   if (sessionId) {
     try {
-      const s = await stripe.checkout.sessions.retrieve(sessionId);
+      const s = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ["line_items.data.price.product"],
+      });
       summary = {
         email: s.customer_details?.email ?? undefined,
         total: (s.amount_total ?? 0) / 100,
         currency: (s.currency ?? "eur").toUpperCase(),
       };
+      if (s.payment_status === "paid") {
+        const lineItems = s.line_items?.data ?? [];
+        const contentIds = lineItems
+          .map((li) => {
+            const product = li.price?.product;
+            const meta =
+              typeof product === "object" && product && "metadata" in product
+                ? (product as Stripe.Product).metadata
+                : {};
+            return meta.public_id ?? meta.product_id ?? "";
+          })
+          .filter(Boolean);
+        purchase = {
+          eventId: sessionId,
+          value: (s.amount_total ?? 0) / 100,
+          currency: (s.currency ?? "eur").toUpperCase(),
+          contentIds,
+          numItems: lineItems.reduce((n, li) => n + (li.quantity ?? 1), 0),
+        };
+      }
     } catch {}
     const { data: orderRow } = await supabaseAdmin
       .from("orders")
@@ -42,6 +75,7 @@ export default async function OrderSuccessPage({
     <main className="min-h-screen bg-cream">
       <Navbar />
       <ClearCartOnMount />
+      {purchase && <PurchaseTracker {...purchase} />}
       <section className="mx-auto max-w-2xl px-5 py-16 text-center md:px-8 md:py-20">
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-orange text-pearl">
           <svg

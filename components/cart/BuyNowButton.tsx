@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart, type CartLine } from "@/lib/cart/cart-context";
+import { trackAddToCart } from "@/lib/meta-pixel";
 
 type Props = {
   product: Omit<CartLine, "quantity">;
@@ -35,6 +36,7 @@ export default function BuyNowButton({
     // /checkout), then send them to the payment-method picker — same flow
     // as clicking Checkout from the basket.
     add(product, 1);
+    trackAddToCart({ id: product.productId, name: product.name, price: product.price, quantity: 1 });
     router.push("/blagajna");
   };
 

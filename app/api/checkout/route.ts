@@ -76,6 +76,9 @@ export async function POST(req: Request) {
     // Build a normalized list of validated lines with current prices.
     const validated: Array<{
       product_id: number;
+      // Public catalog id (woo_id or 1_000_000+id) — the same id the storefront
+      // and Meta Pixel use, kept consistent across all pixel/CAPI events.
+      public_id: number;
       slug: string;
       name: string;
       image: string | null;
@@ -116,6 +119,7 @@ export async function POST(req: Request) {
       const unit = Number(dbp.price);
       validated.push({
         product_id: dbp.id,
+        public_id: l.productId,
         slug: dbp.slug,
         name: dbp.name_en,
         image: dbp.image ?? null,
@@ -170,6 +174,7 @@ export async function POST(req: Request) {
               images: v.image ? [absoluteUrl(req, v.image)] : undefined,
               metadata: {
                 product_id: String(v.product_id),
+                public_id: String(v.public_id),
                 slug: v.slug,
                 size: v.size ?? "",
               },

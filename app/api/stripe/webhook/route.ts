@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { sendNewOrderEmails } from "@/lib/email";
 import { handoffToCourier } from "@/lib/courier-handoff";
+import { sendPurchaseEvent } from "@/lib/meta-capi";
 
 export const runtime = "nodejs";
 
@@ -188,6 +189,42 @@ async function fulfillSession(sessionId: string) {
     })),
   };
   await sendNewOrderEmails(orderEmail);
+
+  // Meta Conversions API — server-side Purchase, verified by Stripe payment.
+  // Uses event_id = Stripe session id so it deduplicates against the browser
+  // pixel Purchase fired on the success page. Runs only in this new-order
+  // branch (the webhook returns early for an already-fulfilled session), so a
+  // webhook retry cannot send it twice.
+  try {
+    const contentIds = (session.line_items?.data ?? [])
+      .map((li) => {
+        const product = li.price?.product;
+        const meta =
+          typeof product === "object" && product && "metadata" in product
+            ? (product as Stripe.Product).metadata
+            : {};
+        return meta.public_id ?? meta.product_id ?? "";
+      })
+      .filter(Boolean);
+    const numItems = (session.line_items?.data ?? []).reduce(
+      (n, li) => n + (li.quantity ?? 1),
+      0,
+    );
+    const siteUrl = process.env.ELORIA_SITE_URL?.replace(/\/$/, "");
+    await sendPurchaseEvent({
+      eventId: sessionId,
+      value: total,
+      currency: (session.currency ?? "eur").toUpperCase(),
+      contentIds,
+      numItems,
+      email,
+      phone,
+      eventSourceUrl: siteUrl ? `${siteUrl}/narocilo/uspeh` : undefined,
+    });
+  } catch (err) {
+    console.error("[webhook] CAPI Purchase failed:", err);
+  }
+
   // Card orders are paid on creation → hand off to courier immediately.
   // Shipments are created manually in the Express One portal (no auto-GLS API).
   await handoffToCourier(order.id, orderEmail);

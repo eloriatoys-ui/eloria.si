@@ -5,8 +5,8 @@ import LangProvider from "@/components/LangProvider";
 import PromoPopup from "@/components/PromoPopup";
 import { CartProvider } from "@/lib/cart/cart-context";
 
-// Meta (Facebook) Pixel ID.
-const FB_PIXEL_ID = "887907974366896";
+// Meta (Facebook) Pixel ID. Override via NEXT_PUBLIC_META_PIXEL_ID.
+const FB_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.eloria.si"),

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/lib/cart/cart-context";
+import { trackInitiateCheckout } from "@/lib/meta-pixel";
 
 type Method = "card" | "cod";
 
@@ -58,6 +59,12 @@ export default function CheckoutPage() {
     }
     setError(null);
     setLoading(true);
+    // Meta Pixel: InitiateCheckout right before we hand off to Stripe.
+    trackInitiateCheckout({
+      contentIds: lines.map((l) => l.productId),
+      value: total,
+      numItems: lines.reduce((n, l) => n + l.quantity, 0),
+    });
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
