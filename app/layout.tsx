@@ -8,6 +8,10 @@ import { CartProvider } from "@/lib/cart/cart-context";
 // Meta (Facebook) Pixel ID. Override via NEXT_PUBLIC_META_PIXEL_ID.
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896";
 
+// Meta domain verification token — rendered as
+// <meta name="facebook-domain-verification" content="…"> only when set.
+const META_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.eloria.si"),
   title: "Eloria — Kjer domišljija raste naravno",
@@ -16,6 +20,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  ...(META_DOMAIN_VERIFICATION
+    ? {
+        verification: {
+          other: { "facebook-domain-verification": META_DOMAIN_VERIFICATION },
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({

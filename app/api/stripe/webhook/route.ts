@@ -191,41 +191,78 @@ async function fulfillSession(sessionId: string) {
   await sendNewOrderEmails(orderEmail);
 
   // Meta Conversions API — server-side Purchase, verified by Stripe payment.
-  // Uses event_id = Stripe session id so it deduplicates against the browser
-  // pixel Purchase fired on the success page. Runs only in this new-order
-  // branch (the webhook returns early for an already-fulfilled session), so a
-  // webhook retry cannot send it twice.
-  try {
-    const contentIds = (session.line_items?.data ?? [])
-      .map((li) => {
-        const product = li.price?.product;
-        const meta =
-          typeof product === "object" && product && "metadata" in product
-            ? (product as Stripe.Product).metadata
-            : {};
-        return meta.public_id ?? meta.product_id ?? "";
-      })
-      .filter(Boolean);
-    const numItems = (session.line_items?.data ?? []).reduce(
-      (n, li) => n + (li.quantity ?? 1),
-      0,
-    );
-    const siteUrl = process.env.ELORIA_SITE_URL?.replace(/\/$/, "");
-    await sendPurchaseEvent({
-      eventId: sessionId,
-      value: total,
-      currency: (session.currency ?? "eur").toUpperCase(),
-      contentIds,
-      numItems,
-      email,
-      phone,
-      eventSourceUrl: siteUrl ? `${siteUrl}/narocilo/uspeh` : undefined,
-    });
-  } catch (err) {
-    console.error("[webhook] CAPI Purchase failed:", err);
+  // event_id = Stripe session id, so it deduplicates against the browser pixel
+  // Purchase on the success page. `total` is Stripe's amount_total (the actual
+  // final amount charged, after discounts), so the value is always the real
+  // paid amount.
+  //
+  // Idempotency is DB-backed, not in-memory: we atomically claim the order by
+  // flipping meta_purchase_sent_at from NULL → now(), and only the invocation
+  // that wins the claim sends the event. This holds even if two webhook
+  // deliveries for the same session race past the order-existence check.
+  const claimedCapi = await claimCapiPurchase(order.id);
+  if (claimedCapi) {
+    try {
+      const contentIds = (session.line_items?.data ?? [])
+        .map((li) => {
+          const product = li.price?.product;
+          const meta =
+            typeof product === "object" && product && "metadata" in product
+              ? (product as Stripe.Product).metadata
+              : {};
+          return meta.public_id ?? meta.product_id ?? "";
+        })
+        .filter(Boolean);
+      const numItems = (session.line_items?.data ?? []).reduce(
+        (n, li) => n + (li.quantity ?? 1),
+        0,
+      );
+      const siteUrl = process.env.ELORIA_SITE_URL?.replace(/\/$/, "");
+      await sendPurchaseEvent({
+        eventId: sessionId,
+        value: total,
+        currency: (session.currency ?? "eur").toUpperCase(),
+        contentIds,
+        numItems,
+        email,
+        phone,
+        eventSourceUrl: siteUrl ? `${siteUrl}/narocilo/uspeh` : undefined,
+      });
+    } catch (err) {
+      console.error("[webhook] CAPI Purchase failed:", err);
+    }
   }
 
   // Card orders are paid on creation → hand off to courier immediately.
   // Shipments are created manually in the Express One portal (no auto-GLS API).
   await handoffToCourier(order.id, orderEmail);
+}
+
+/**
+ * Atomically claim the server-side CAPI Purchase for an order. Returns true
+ * only for the single caller that flips meta_purchase_sent_at from NULL, so the
+ * event is sent at most once per order regardless of webhook retries or races.
+ * If the column doesn't exist yet (migration pending), we fall back to sending
+ * — Meta still deduplicates by event_id, so no double conversion occurs.
+ */
+async function claimCapiPurchase(orderId: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("orders")
+      .update({ meta_purchase_sent_at: new Date().toISOString() })
+      .eq("id", orderId)
+      .is("meta_purchase_sent_at", null)
+      .select("id");
+    if (error) {
+      console.warn(
+        "[webhook] CAPI idempotency claim unavailable (relying on event_id dedup):",
+        error.message,
+      );
+      return true;
+    }
+    return (data?.length ?? 0) > 0;
+  } catch (err) {
+    console.warn("[webhook] CAPI idempotency claim error:", err);
+    return true;
+  }
 }
