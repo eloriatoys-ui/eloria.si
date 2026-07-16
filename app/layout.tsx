@@ -6,11 +6,14 @@ import PromoPopup from "@/components/PromoPopup";
 import { CartProvider } from "@/lib/cart/cart-context";
 
 // Meta (Facebook) Pixel ID. Override via NEXT_PUBLIC_META_PIXEL_ID.
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896";
+// Trimmed so stray whitespace pasted into an env var can't corrupt the id.
+const FB_PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896").trim();
 
 // Meta domain verification token — rendered as
 // <meta name="facebook-domain-verification" content="…"> only when set.
-const META_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION;
+// Trimmed: Meta matches the content value exactly, so a leading/trailing
+// space or tab from the env var would make verification fail.
+const META_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.eloria.si"),

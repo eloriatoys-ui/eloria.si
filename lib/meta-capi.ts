@@ -10,7 +10,7 @@ import crypto from "crypto";
 
 const GRAPH_VERSION = "v21.0";
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896";
+const PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896").trim();
 
 /** Lower-case, trim, then SHA-256 hex — Meta's required normalization for PII. */
 function hash(value: string | null | undefined): string | undefined {
@@ -45,7 +45,7 @@ export type CapiPurchaseInput = {
 };
 
 export async function sendPurchaseEvent(input: CapiPurchaseInput): Promise<boolean> {
-  const token = process.env.META_CONVERSIONS_API_TOKEN;
+  const token = process.env.META_CONVERSIONS_API_TOKEN?.trim();
   if (!token) {
     console.warn("[meta-capi] META_CONVERSIONS_API_TOKEN not set — skipping CAPI Purchase");
     return false;
@@ -78,7 +78,7 @@ export async function sendPurchaseEvent(input: CapiPurchaseInput): Promise<boole
   if (input.eventSourceUrl) event.event_source_url = input.eventSourceUrl;
 
   const body: Record<string, unknown> = { data: [event] };
-  const testCode = process.env.META_TEST_EVENT_CODE;
+  const testCode = process.env.META_TEST_EVENT_CODE?.trim();
   if (testCode) body.test_event_code = testCode;
 
   try {
