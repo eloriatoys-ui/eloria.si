@@ -87,11 +87,11 @@ export default function RelatedProducts({
                         className="text-[14px] font-extrabold text-ink line-through opacity-55"
                         style={{ textDecorationThickness: "1.5px" }}
                       >
-                        {p.comparePrice}€
+                        {p.comparePrice.toFixed(2)}€
                       </span>
                     )}
                     <span className="text-[16px] font-extrabold text-ink">
-                      {p.price}€
+                      {p.price.toFixed(2)}€
                     </span>
                   </div>
                   <h3 className="mt-2 line-clamp-2 min-h-[2.6em] text-[13px] font-medium leading-snug text-ink">

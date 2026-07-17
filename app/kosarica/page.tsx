@@ -131,15 +131,9 @@ export default function CartPage() {
                   </dd>
                 </div>
               </dl>
-              {discountEligible ? (
-                <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-[12px] font-bold text-green-700">
-                  ✓ Upoštevan <strong>40% popust</strong> + <strong>brezplačna dostava</strong> ob nakupu več izdelkov.
-                </p>
-              ) : (
-                <p className="mt-3 rounded-lg bg-orange/10 px-3 py-2 text-[12px] font-bold text-orange-dark">
-                  🎁 Dodajte še en izdelek in prejmite <strong>40% popust</strong> + brezplačno dostavo na celotno naročilo!
-                </p>
-              )}
+              <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-[12px] font-bold text-green-700">
+                ✓ <strong>40% popust</strong> je že upoštevan v cenah + <strong>brezplačna dostava</strong>.
+              </p>
               <Link
                 href="/blagajna"
                 className="mt-6 block w-full rounded-full bg-orange px-6 py-3.5 text-center text-[13px] font-extrabold uppercase tracking-wider text-pearl transition-colors hover:bg-orange-dark"

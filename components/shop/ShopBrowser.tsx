@@ -860,11 +860,11 @@ function ShopCard({ product }: { product: Product }) {
               className="text-[15px] font-extrabold text-ink line-through opacity-55"
               style={{ textDecorationThickness: "1.5px" }}
             >
-              {product.comparePrice}€
+              {product.comparePrice.toFixed(2)}€
             </span>
           )}
           <span className="text-[17px] font-extrabold text-ink">
-            {product.price}€
+            {product.price.toFixed(2)}€
           </span>
         </div>
 

@@ -8,3 +8,6 @@ out
 .vercel
 tsconfig.tsbuildinfo
 *.log
+
+# Local price backups (contain live pricing snapshots)
+backups/
