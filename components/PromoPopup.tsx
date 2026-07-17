@@ -8,14 +8,30 @@ import Link from "next/link";
 // doesn't nag on every navigation.
 const SEEN_KEY = "eloria.promo.popup.v1";
 
+// Promo creatives in /public/promo — one is picked at random per visit. Add or
+// remove files here to change the rotation.
+const PROMO_IMAGES = [
+  "/promo/promo-1.jpg",
+  "/promo/promo-2.jpg",
+  "/promo/promo-3.jpg",
+  "/promo/promo-4.jpg",
+  "/promo/promo-5.jpg",
+];
+
 export default function PromoPopup() {
   const [open, setOpen] = useState(false);
+  // Chosen inside the effect (client-only) so the random pick can't cause a
+  // server/client hydration mismatch.
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     try {
       if (sessionStorage.getItem(SEEN_KEY)) return;
     } catch {}
-    const timer = setTimeout(() => setOpen(true), 3000);
+    const timer = setTimeout(() => {
+      setImage(PROMO_IMAGES[Math.floor(Math.random() * PROMO_IMAGES.length)]);
+      setOpen(true);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,7 +42,7 @@ export default function PromoPopup() {
     } catch {}
   }
 
-  if (!open) return null;
+  if (!open || !image) return null;
 
   return (
     <div
@@ -85,7 +101,7 @@ export default function PromoPopup() {
         <Link href="/trgovina" onClick={close} aria-label="Pojdi v trgovino">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/40-off-oglas.jpg"
+            src={image}
             alt="40% popust ob nakupu več kot enega izdelka"
             style={{ display: "block", width: "100%", height: "auto" }}
           />

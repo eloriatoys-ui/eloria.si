@@ -8,6 +8,7 @@ import { useCart } from "@/lib/cart/cart-context";
 import BuyNowButton from "@/components/cart/BuyNowButton";
 import { categoryLabel } from "@/lib/category-i18n";
 import { trackViewContent, trackAddToCart } from "@/lib/meta-pixel";
+import { MULTI_ITEM_DISCOUNT_RATE } from "@/lib/cart/discount";
 
 type Props = {
   product: Product;
@@ -50,6 +51,9 @@ export default function ProductInfo({ product }: Props) {
   const { locale } = useLang();
   const name = productName(product, locale);
   const onSale = product.comparePrice > product.price;
+  // Price this product drops to once the cart holds more than one item.
+  const promoPercent = Math.round(MULTI_ITEM_DISCOUNT_RATE * 100);
+  const promoPrice = product.price * (1 - MULTI_ITEM_DISCOUNT_RATE);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<"description" | "details" | "shipping">("description");
   const [longDesc, setLongDesc] = useState<string | null>(null);
@@ -179,6 +183,32 @@ export default function ProductInfo({ product }: Props) {
           <span className="h-2 w-2 rounded-full bg-[#10b981]" />
           Na zalogi — odpošljemo v 24 urah
         </p>
+
+        {/* Multi-item promo: the automatic 40% that checkout applies when the
+            cart holds more than one item. Rate comes from the shared cart
+            constant so this can never drift from the amount actually charged. */}
+        <div className="mt-4 rounded-xl border border-orange-dark/20 bg-pearl p-3.5">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="text-[12px] font-semibold text-slate">Redna cena</span>
+            <span
+              className="text-[15px] font-bold text-slate line-through"
+              style={{ textDecorationThickness: "2px" }}
+            >
+              {product.price.toFixed(2)}€
+            </span>
+          </div>
+          <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="text-[12px] font-semibold text-orange-dark">
+              Z {promoPercent}% popustom
+            </span>
+            <span className="rounded-md bg-orange/15 px-2 py-0.5 text-[26px] font-extrabold leading-tight text-orange-dark">
+              {promoPrice.toFixed(2)}€
+            </span>
+          </div>
+          <p className="mt-2 text-[12px] font-bold text-ink/70">
+            🎁 Ob nakupu več kot enega izdelka — popust se samodejno upošteva na blagajni.
+          </p>
+        </div>
       </div>
 
       {/* Size selector */}
