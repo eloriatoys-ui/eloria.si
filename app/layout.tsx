@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import LangProvider from "@/components/LangProvider";
 import PromoPopup from "@/components/PromoPopup";
@@ -72,6 +74,9 @@ fbq('track', 'PageView');`}
             <PromoPopup />
           </CartProvider>
         </LangProvider>
+        {/* Site analytics: visitors, top pages, referrers, devices + Core Web Vitals */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
