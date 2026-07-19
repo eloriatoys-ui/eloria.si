@@ -7,19 +7,12 @@ export default function SplashScreen() {
   const [removed, setRemoved] = useState(false);
 
   useEffect(() => {
-    const dismiss = () => setHidden(true);
-
-    if (document.readyState === "complete") {
-      requestAnimationFrame(dismiss);
-    } else {
-      window.addEventListener("load", dismiss);
-    }
-    const safety = window.setTimeout(dismiss, 4500);
-
-    return () => {
-      window.removeEventListener("load", dismiss);
-      window.clearTimeout(safety);
-    };
+    // Reveal the (already server-rendered) page on a short fixed timer — just
+    // long enough for a brand flash. Never wait for the full `load` event: the
+    // homepage pulls megabytes of video/images, and gating on that left mobile
+    // visitors staring at a spinner for seconds and bouncing.
+    const t = window.setTimeout(() => setHidden(true), 650);
+    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {

@@ -22,7 +22,7 @@ function CharacterVideo({
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
     >
       <source src={mp4} type='video/mp4; codecs="hvc1"' />
       <source src={webm} type="video/webm" />

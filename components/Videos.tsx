@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
 import { useLang } from "./LangProvider";
 
@@ -38,6 +39,25 @@ const videoCards: VideoCard[] = [
 
 function VideoTile({ card }: { card: VideoCard }) {
   const { t } = useLang();
+  // Only load/play the clip once the card is near the viewport, so visitors who
+  // never scroll here don't download megabytes of video up front.
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || inView) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [inView]);
   return (
     <article
       className="group relative overflow-hidden rounded-2xl bg-pearl transition-all duration-300 hover:-translate-y-1"
@@ -47,7 +67,7 @@ function VideoTile({ card }: { card: VideoCard }) {
           "0 1px 2px rgba(194, 65, 12, 0.06), 0 8px 24px -10px rgba(194, 65, 12, 0.18)",
       }}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-sand">
+      <div ref={wrapRef} className="relative aspect-video w-full overflow-hidden bg-sand">
         {card.videoSrc ? (
           <video
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -55,10 +75,10 @@ function VideoTile({ card }: { card: VideoCard }) {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="none"
             poster={card.poster}
           >
-            <source src={card.videoSrc} />
+            {inView && <source src={card.videoSrc} />}
           </video>
         ) : (
           <div
