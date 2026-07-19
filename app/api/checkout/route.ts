@@ -159,6 +159,9 @@ export async function POST(req: Request) {
         : undefined;
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
+        // Show the hosted payment page in Slovenian — SI shoppers hesitate to
+        // enter card details on an English checkout for an unfamiliar brand.
+        locale: "sl",
         // Force EUR everywhere — disable Stripe Adaptive Pricing so the customer
         // is never shown a local currency (e.g. AED) with a conversion fee.
         adaptive_pricing: { enabled: false },
