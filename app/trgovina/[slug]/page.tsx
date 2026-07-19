@@ -1,4 +1,8 @@
-export const dynamic = "force-dynamic";
+// Cache each product page and regenerate it at most every 5 minutes (ISR)
+// instead of re-querying the database on every request. Ad traffic lands here,
+// so a fast, CDN-cached response matters far more than second-by-second
+// freshness; price/stock edits still propagate within the window.
+export const revalidate = 300;
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";

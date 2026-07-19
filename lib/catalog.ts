@@ -1,5 +1,6 @@
 import "server-only";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { supabaseAdmin } from "./supabase/server";
 import type { Product } from "./data";
 import { readSections } from "./sections-server";
@@ -89,22 +90,31 @@ function isPublishable(name: string): boolean {
   return true;
 }
 
-export const getCatalogProducts = cache(async (): Promise<ProductWithGallery[]> => {
-  const { data, error } = await supabaseAdmin
-    .from("products")
-    .select(SELECT)
-    .eq("is_published", true)
-    .eq("stock_status", "instock")
-    .order("created_at", { ascending: false })
-    .limit(2000);
-  if (error || !data) {
-    console.error("getCatalogProducts:", error);
-    return [];
-  }
-  return (data as unknown as Row[])
-    .filter((r) => isPublishable(r.name_en))
-    .map(mapRow);
-});
+// Persistently cached (ISR-style, 5 min) so storefront pages don't re-query the
+// database on every request. The underlying Supabase client is pinned to
+// no-store, so this unstable_cache layer is what makes catalog reads cacheable.
+// Wrapped again in React cache() for per-request de-duplication.
+const _getCatalogProducts = unstable_cache(
+  async (): Promise<ProductWithGallery[]> => {
+    const { data, error } = await supabaseAdmin
+      .from("products")
+      .select(SELECT)
+      .eq("is_published", true)
+      .eq("stock_status", "instock")
+      .order("created_at", { ascending: false })
+      .limit(2000);
+    if (error || !data) {
+      console.error("getCatalogProducts:", error);
+      return [];
+    }
+    return (data as unknown as Row[])
+      .filter((r) => isPublishable(r.name_en))
+      .map(mapRow);
+  },
+  ["catalog-products"],
+  { revalidate: 300, tags: ["catalog"] },
+);
+export const getCatalogProducts = cache(_getCatalogProducts);
 
 export const getAllCatalogProducts = cache(async (): Promise<ProductWithGallery[]> => {
   const { data, error } = await supabaseAdmin
@@ -119,27 +129,36 @@ export const getAllCatalogProducts = cache(async (): Promise<ProductWithGallery[
   return (data as unknown as Row[]).map(mapRow);
 });
 
+// Cached per slug (5 min) so repeat/ad traffic to a product page is served
+// without a database round-trip.
+const _findProductBySlug = unstable_cache(
+  async (wanted: string): Promise<ProductWithGallery | null> => {
+    const { data: bySlug } = await supabaseAdmin
+      .from("products")
+      .select(SELECT)
+      .eq("slug", wanted)
+      .maybeSingle();
+    if (bySlug) return mapRow(bySlug as unknown as Row);
+
+    const asId = Number(wanted);
+    if (Number.isFinite(asId)) {
+      const { data: byWoo } = await supabaseAdmin
+        .from("products")
+        .select(SELECT)
+        .eq("woo_id", asId)
+        .maybeSingle();
+      if (byWoo) return mapRow(byWoo as unknown as Row);
+    }
+    return null;
+  },
+  ["product-by-slug"],
+  { revalidate: 300, tags: ["catalog"] },
+);
+
 export async function findProductBySlug(
   slug: string,
 ): Promise<ProductWithGallery | null> {
-  const wanted = slug.toLowerCase();
-  const { data: bySlug } = await supabaseAdmin
-    .from("products")
-    .select(SELECT)
-    .eq("slug", wanted)
-    .maybeSingle();
-  if (bySlug) return mapRow(bySlug as unknown as Row);
-
-  const asId = Number(slug);
-  if (Number.isFinite(asId)) {
-    const { data: byWoo } = await supabaseAdmin
-      .from("products")
-      .select(SELECT)
-      .eq("woo_id", asId)
-      .maybeSingle();
-    if (byWoo) return mapRow(byWoo as unknown as Row);
-  }
-  return null;
+  return _findProductBySlug(slug.toLowerCase());
 }
 
 export async function getRelatedProducts(
