@@ -81,9 +81,18 @@ export default function ProductInfo({ product }: Props) {
     size,
   };
 
+  // When a product needs a size and none is chosen, don't fail silently:
+  // flag the error AND scroll/flash the size picker into view so mobile
+  // shoppers see why the buy button "did nothing".
+  const sizeRef = useRef<HTMLDivElement | null>(null);
+  const promptForSize = () => {
+    setSizeError(true);
+    sizeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const onAddToCart = () => {
     if (needsSize && !size) {
-      setSizeError(true);
+      promptForSize();
       return;
     }
     add(cartLine, qty);
@@ -184,15 +193,22 @@ export default function ProductInfo({ product }: Props) {
 
       {/* Size selector */}
       {needsSize && (
-        <div>
+        <div
+          ref={sizeRef}
+          className={
+            sizeError && !size
+              ? "rounded-xl ring-2 ring-[#E55B47] ring-offset-4 ring-offset-cream transition-all"
+              : "transition-all"
+          }
+        >
           <div className="flex items-center justify-between">
             <p className="text-[12px] font-extrabold uppercase tracking-wider text-ink">
-              {locale === "sl" ? "Velikost" : "Size"}
+              {locale === "sl" ? "Izberite velikost" : "Choose a size"}
               {size && <span className="ml-2 font-bold text-orange-dark">{size}</span>}
             </p>
             {sizeError && !size && (
               <span className="text-[12px] font-bold text-[#E55B47]">
-                {locale === "sl" ? "Izberite velikost" : "Please choose a size"}
+                {locale === "sl" ? "← obvezno" : "← required"}
               </span>
             )}
           </div>
@@ -299,7 +315,7 @@ export default function ProductInfo({ product }: Props) {
         <BuyNowButton
           product={cartLine}
           disabled={needsSize && !size}
-          onDisabledClick={() => setSizeError(true)}
+          onDisabledClick={promptForSize}
         />
         <button
           type="button"
@@ -311,6 +327,15 @@ export default function ProductInfo({ product }: Props) {
           </svg>
         </button>
       </div>
+
+      {/* Loud, in-place feedback so a blocked buy tap is never silent. */}
+      {needsSize && !size && sizeError && (
+        <p className="-mt-3 rounded-lg bg-[#E55B47]/10 px-3 py-2.5 text-[13px] font-bold text-[#E55B47]">
+          {locale === "sl"
+            ? "⚠️ Najprej izberite velikost zgoraj, nato dodajte v košarico."
+            : "⚠️ Please choose a size above first, then add to cart."}
+        </p>
+      )}
 
       {/* Trust badges */}
       <ul className="grid grid-cols-2 gap-3 text-[12px] font-semibold text-ink/85 md:grid-cols-4">
