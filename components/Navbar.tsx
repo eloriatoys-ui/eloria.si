@@ -259,6 +259,7 @@ const links: NavLink[] = [
   { label: "nav.shop", href: "/trgovina", mega: shopMega },
   { label: "nav.wooden", href: "/lesene-igrace" },
   { label: "nav.clothes", href: "/#clothes" },
+  { label: "nav.blog", href: "/blog" },
   { label: "nav.about", href: "/o-nas" },
   { label: "nav.contact", href: "/#newsletter" },
 ];
