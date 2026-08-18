@@ -25,13 +25,14 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  ...(META_DOMAIN_VERIFICATION
-    ? {
-        verification: {
-          other: { "facebook-domain-verification": META_DOMAIN_VERIFICATION },
-        },
-      }
-    : {}),
+  verification: {
+    // Google Search Console / Google Business verification.
+    google: "-bYnLCfMrVjPgUzZPBi5IR4gQ29RoqJXf1NqOY4eliI",
+    // Meta domain verification (only when the env var is set).
+    ...(META_DOMAIN_VERIFICATION
+      ? { other: { "facebook-domain-verification": META_DOMAIN_VERIFICATION } }
+      : {}),
+  },
 };
 
 export default function RootLayout({
