@@ -16,19 +16,42 @@ import {
   getRelatedProducts,
 } from "@/lib/catalog";
 import { categoryLabel } from "@/lib/category-i18n";
+import JsonLd from "@/components/JsonLd";
+import { SITE, absoluteUrl, productSchema, breadcrumbSchema } from "@/lib/seo";
 
 export async function generateMetadata(
   { params }: { params: { slug: string } },
 ): Promise<Metadata> {
   const product = await findProductBySlug(params.slug);
-  if (!product) return { title: "Ni najdeno · Eloria" };
+  if (!product) return { title: "Ni najdeno" };
+  const description =
+    (product.shortDescription_sl || product.shortDescription || "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .slice(0, 160) || `${product.name} iz naše kolekcije ${product.category}.`;
+  const url = `/trgovina/${product.slug}`;
+  const image =
+    absoluteUrl(product.image ?? product.images?.[0]) ??
+    absoluteUrl(SITE.ogImage);
   return {
-    title: `${product.name} · Eloria`,
-    description:
-      (product.shortDescription_sl || product.shortDescription || "")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/\s+/g, " ")
-        .slice(0, 160) || `${product.name} iz naše kolekcije ${product.category}.`,
+    title: product.name,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      title: `${product.name} · Eloria`,
+      description,
+      url,
+      siteName: SITE.name,
+      locale: "sl_SI",
+      images: image ? [{ url: image, alt: product.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} · Eloria`,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -48,8 +71,19 @@ export default async function ProductPage({
     ? [product.image]
     : [];
 
+  const pageUrl = `${SITE.url}/trgovina/${product.slug}`;
+
   return (
     <main className="min-h-screen bg-cream">
+      {/* Structured data: product (price, availability) + breadcrumb trail */}
+      <JsonLd data={productSchema(product, pageUrl)} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Domov", url: `${SITE.url}/` },
+          { name: "Trgovina", url: `${SITE.url}/trgovina` },
+          { name: product.name, url: pageUrl },
+        ])}
+      />
       <Navbar />
 
       {/* Breadcrumbs */}

@@ -6,6 +6,8 @@ import "./globals.css";
 import LangProvider from "@/components/LangProvider";
 import PromoPopup from "@/components/PromoPopup";
 import { CartProvider } from "@/lib/cart/cart-context";
+import JsonLd from "@/components/JsonLd";
+import { SITE, organizationSchema, websiteSchema, absoluteUrl } from "@/lib/seo";
 
 // Meta (Facebook) Pixel ID. Override via NEXT_PUBLIC_META_PIXEL_ID.
 // Trimmed so stray whitespace pasted into an env var can't corrupt the id.
@@ -18,12 +20,59 @@ const FB_PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "887907974366896")
 const META_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.eloria.si"),
-  title: "Eloria — Kjer domišljija raste naravno",
-  description:
-    "Ročno izdelane lesene igrače in organska otroška oblačila. 100% naravni materiali, otrokom prijazne obdelave, brezplačna dostava v Sloveniji.",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: "Eloria — lesene igrače in organska otroška oblačila",
+    template: "%s · Eloria",
+  },
+  description: SITE.description,
+  applicationName: SITE.name,
+  keywords: [
+    "lesene igrače",
+    "otroška oblačila",
+    "organska oblačila za otroke",
+    "naravne igrače",
+    "montessori igrače",
+    "darila za otroke",
+    "otroška obleka",
+    "Eloria",
+  ],
+  authors: [{ name: SITE.name }],
+  creator: SITE.name,
+  publisher: SITE.name,
   alternates: {
     canonical: "/",
+    languages: { "sl-SI": "/" },
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: "Eloria — lesene igrače in organska otroška oblačila",
+    description: SITE.description,
+    url: SITE.url,
+    locale: "sl_SI",
+    images: [
+      {
+        url: absoluteUrl(SITE.ogImage) ?? SITE.ogImage,
+        alt: "Eloria — lesene igrače in organska otroška oblačila",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Eloria — lesene igrače in organska otroška oblačila",
+    description: SITE.description,
+    images: [absoluteUrl(SITE.ogImage) ?? SITE.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  // Local / geo signals for Slovenia.
+  other: {
+    "geo.region": "SI",
+    "geo.placename": "Slovenija",
   },
   verification: {
     // Google Search Console / Google Business verification.
@@ -75,6 +124,9 @@ fbq('track', 'PageView');`}
             <PromoPopup />
           </CartProvider>
         </LangProvider>
+        {/* Structured data: brand/store + website (search box) for Google & AI engines */}
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         {/* Site analytics: visitors, top pages, referrers, devices + Core Web Vitals */}
         <Analytics />
         <SpeedInsights />
