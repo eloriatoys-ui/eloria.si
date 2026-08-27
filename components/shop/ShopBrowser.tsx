@@ -883,7 +883,7 @@ function ShopCard({ product }: { product: Product }) {
           <a
             href={href}
             aria-label={`${t("br.add_to_cart")} — ${product.name}`}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-pearl transition-colors"
+            className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-pearl transition-colors"
             style={{
               backgroundColor: "#F4B73E",
               color: "#FFFFFF",
