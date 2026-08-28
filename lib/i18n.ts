@@ -653,8 +653,8 @@ export const dict: Record<Locale, Dict> = {
 
     // Product card
     "card.sale": "Akcija",
-    "card.view": "Poglej izdelek",
-    "card.see": "Poglej izdelek",
+    "card.view": "Oglej si izdelek",
+    "card.see": "Oglej si izdelek",
     "card.wish_add": "Dodaj med priljubljene",
     "card.wish_remove": "Odstrani iz priljubljenih",
 

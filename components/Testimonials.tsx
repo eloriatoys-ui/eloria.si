@@ -138,7 +138,7 @@ export default function Testimonials() {
 
         <div className="mt-10 text-center">
           <a
-            href="https://www.google.com/search?q=eloria+reviews"
+            href="https://g.page/r/CZgtA0299-YJEAI/review"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-5 py-2.5 text-[13px] font-bold text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"

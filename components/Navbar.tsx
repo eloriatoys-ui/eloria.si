@@ -818,7 +818,7 @@ function SearchPanel({
                 {results.map((r) => (
                   <li key={r.id}>
                     <a
-                      href={r.permalink ?? "/trgovina"}
+                      href={r.slug ? `/trgovina/${r.slug}` : "/trgovina"}
                       onClick={() => {
                         setOpen(false);
                         setQ("");

@@ -346,3 +346,37 @@ export async function sendReadyToShipEmail(order: OrderEmailData): Promise<void>
     })
     .catch((err) => console.error("[email] ready-to-ship failed:", err));
 }
+
+/** Contact / collaboration message from the website form → shop inbox. */
+export async function sendContactMessage(msg: {
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+}): Promise<boolean> {
+  const resend = client();
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY not set — contact message not delivered:", msg.email);
+    return false;
+  }
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#2b2b2b;">
+      <h1 style="font-size:19px;">✉️ Novo sporočilo s spletne strani</h1>
+      <p style="font-size:14px;"><strong>Od:</strong> ${escapeHtml(msg.name)} &lt;${escapeHtml(msg.email)}&gt;</p>
+      ${msg.subject ? `<p style="font-size:14px;"><strong>Zadeva:</strong> ${escapeHtml(msg.subject)}</p>` : ""}
+      <div style="margin:14px 0;padding:16px;background:#faf6ef;border-radius:12px;font-size:14px;line-height:1.5;white-space:pre-wrap;">${escapeHtml(msg.message)}</div>
+    </div>`;
+  try {
+    const res = await resend.emails.send({
+      from: FROM,
+      to: ADMIN_TO,
+      replyTo: msg.email,
+      subject: `Sporočilo s strani${msg.subject ? ` — ${msg.subject}` : ""} (${msg.name})`,
+      html,
+    });
+    return !(res as { error?: unknown }).error;
+  } catch (err) {
+    console.error("[email] contact message failed:", err);
+    return false;
+  }
+}
