@@ -630,11 +630,22 @@ function SearchPanel({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
-  // Click-outside to close
+  // Navigate on select. We assign window.location synchronously so the
+  // navigation is committed immediately — closing the overlay (which unmounts
+  // this link) would otherwise cancel a router push / the anchor's default nav.
+  const goTo = (href: string) => {
+    window.location.href = href;
+  };
+
+  // Click-outside to close. There are two overlays (desktop + mobile) that
+  // share this open state, so treat a click inside ANY search overlay as
+  // "inside" — otherwise the other overlay's listener closes us on mousedown
+  // and the clicked result unmounts before it can navigate.
   useEffect(() => {
     if (!open) return;
     function onDown(e: MouseEvent) {
-      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+      const el = e.target as Element | null;
+      if (!el?.closest?.("[data-search-overlay]")) setOpen(false);
     }
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
@@ -722,6 +733,7 @@ function SearchPanel({
   return (
     <div
       ref={wrapRef}
+      data-search-overlay
       className="relative"
       onMouseDown={(e) => e.stopPropagation()}
     >
@@ -789,7 +801,7 @@ function SearchPanel({
               <p className="font-semibold text-ink">Kaj iščete?</p>
               <p className="mt-1">
                 Poskusite{" "}
-                {["dress", "pyjamas", "walkie-talkie", "queen", "summer"].map(
+                {["obleka", "pižama", "komplet", "trak", "fotoaparat"].map(
                   (s, i) => (
                     <button
                       key={s}
@@ -819,9 +831,9 @@ function SearchPanel({
                   <li key={r.id}>
                     <a
                       href={r.slug ? `/trgovina/${r.slug}` : "/trgovina"}
-                      onClick={() => {
-                        setOpen(false);
-                        setQ("");
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goTo(r.slug ? `/trgovina/${r.slug}` : "/trgovina");
                       }}
                       className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange/10"
                     >
@@ -855,9 +867,9 @@ function SearchPanel({
               {total > results.length && (
                 <a
                   href="/trgovina"
-                  onClick={() => {
-                    setOpen(false);
-                    setQ("");
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo("/trgovina");
                   }}
                   className="block border-t border-orange-dark/10 px-4 py-3 text-center text-[12px] font-extrabold uppercase tracking-wider text-orange-dark hover:bg-orange/10"
                 >
