@@ -135,7 +135,7 @@ function customerItemsHtml(items: OrderEmailData["items"]): string {
         <td style="padding:11px 0;border-bottom:1px solid #f0e9dd;font-size:14px;color:#2b2b2b;font-weight:600;">
           ${escapeHtml(it.product_name)}${
             it.size
-              ? `<br><span style="font-size:12px;font-weight:600;color:#c2410c;">Velikost: ${escapeHtml(it.size)}</span>`
+              ? `<br><span style="font-size:12px;font-weight:600;color:#c2410c;">${/^\d/.test(String(it.size)) ? "Velikost" : "Barva"}: ${escapeHtml(it.size)}</span>`
               : ""
           }
         </td>

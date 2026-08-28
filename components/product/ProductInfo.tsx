@@ -46,6 +46,21 @@ function ageForSize(size: string, locale: string): string | null {
   return a ? (locale === "sl" ? a.sl : a.en) : null;
 }
 
+// Map a Slovenian/English colour name to a swatch colour for the picker.
+function colorHex(name: string): string {
+  const n = name.toLowerCase();
+  if (/roza|pink/.test(n)) return "#F7A8C4";
+  if (/moder|modra|blue/.test(n)) return "#5FA8F5";
+  if (/rde|red/.test(n)) return "#EF4444";
+  if (/zelen|green/.test(n)) return "#4CAF7D";
+  if (/rumen|yellow|marelič/.test(n)) return "#F6C445";
+  if (/siv|gray|grey/.test(n)) return "#9AA0A6";
+  if (/črn|crn|black/.test(n)) return "#2B2B2B";
+  if (/bela|bel|white/.test(n)) return "#FFFFFF";
+  if (/vijol|purple|lila/.test(n)) return "#B58BE0";
+  return "#D9CBB8"; // neutral fallback
+}
+
 export default function ProductInfo({ product }: Props) {
   const { locale } = useLang();
   const name = productName(product, locale);
@@ -71,6 +86,24 @@ export default function ProductInfo({ product }: Props) {
       const n = parseInt(s, 10);
       return Number.isFinite(n) && n >= 50 && n <= 176;
     });
+  // Options that aren't numeric sizes or EU shoe sizes are treated as colours
+  // (e.g. "Roza" / "Moder") — same required-selection plumbing, colour UI.
+  const isColorVariant =
+    sizes.length > 0 && !isShoe && sizes.every((s) => !/^\d/.test(s));
+  const optionNoun = isColorVariant
+    ? locale === "sl"
+      ? "barvo"
+      : "colour"
+    : locale === "sl"
+    ? "velikost"
+    : "size";
+  const optionLabel = isColorVariant
+    ? locale === "sl"
+      ? "Izberite barvo"
+      : "Choose a colour"
+    : locale === "sl"
+    ? "Izberite velikost"
+    : "Choose a size";
 
   const cartLine = {
     productId: product.id,
@@ -203,7 +236,7 @@ export default function ProductInfo({ product }: Props) {
         >
           <div className="flex items-center justify-between">
             <p className="text-[12px] font-extrabold uppercase tracking-wider text-ink">
-              {locale === "sl" ? "Izberite velikost" : "Choose a size"}
+              {optionLabel}
               {size && <span className="ml-2 font-bold text-orange-dark">{size}</span>}
             </p>
             {sizeError && !size && (
@@ -225,13 +258,20 @@ export default function ProductInfo({ product }: Props) {
                   }}
                   aria-pressed={selected}
                   className={[
-                    "min-w-[3rem] rounded-full border px-4 py-2.5 text-[13px] font-bold transition-colors",
+                    "inline-flex min-w-[3rem] items-center gap-2 rounded-full border px-4 py-2.5 text-[13px] font-bold transition-colors",
                     selected
                       ? "border-orange bg-orange text-pearl"
                       : "border-orange-dark/25 bg-pearl text-ink hover:border-orange-dark/50",
                   ].join(" ")}
                   style={selected ? { color: "#FFFFFF" } : undefined}
                 >
+                  {isColorVariant && (
+                    <span
+                      aria-hidden
+                      className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/15"
+                      style={{ backgroundColor: colorHex(s) }}
+                    />
+                  )}
                   {s}
                 </button>
               );
@@ -332,8 +372,8 @@ export default function ProductInfo({ product }: Props) {
       {needsSize && !size && sizeError && (
         <p className="-mt-3 rounded-lg bg-[#E55B47]/10 px-3 py-2.5 text-[13px] font-bold text-[#E55B47]">
           {locale === "sl"
-            ? "⚠️ Najprej izberite velikost zgoraj, nato dodajte v košarico."
-            : "⚠️ Please choose a size above first, then add to cart."}
+            ? `⚠️ Najprej izberite ${optionNoun} zgoraj, nato dodajte v košarico.`
+            : `⚠️ Please choose a ${optionNoun} above first, then add to cart.`}
         </p>
       )}
 
