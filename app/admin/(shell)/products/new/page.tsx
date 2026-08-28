@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { createProduct } from "../actions";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import ProductOptionsField from "@/components/admin/ProductOptionsField";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Add product · Eloria Admin" };
@@ -113,14 +114,11 @@ export default async function NewProductPage() {
             </label>
           </Card>
 
-          <Card title="Sizes">
-            <Field label="Sizes (comma-separated — leave blank for no size picker)">
-              <input
-                name="sizes"
-                placeholder="80, 90, 100, 110, 120"
-                className={inputCls}
-              />
-            </Field>
+          <Card title="Velikosti / Barve (izbira izdelka)">
+            <ProductOptionsField initial={[]} />
+            <p className="mt-3 text-[11px] text-ink/60">
+              Številke = velikosti, imena = barve. Pusti prazno, če izdelek nima izbire.
+            </p>
           </Card>
 
           <Card title="Categories">

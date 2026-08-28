@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { updateProduct, deleteProduct } from "../../actions";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import ProductOptionsField from "@/components/admin/ProductOptionsField";
 
 export const dynamic = "force-dynamic";
 
@@ -220,18 +221,12 @@ export default async function EditProductPage({
             </label>
           </Card>
 
-          <Card title="Sizes">
-            <Field label="Sizes (comma-separated — leave blank for no size picker)">
-              <input
-                name="sizes"
-                defaultValue={(product.sizes ?? []).join(", ")}
-                placeholder="80, 90, 100, 110, 120"
-                className={inputCls}
-              />
-            </Field>
-            <p className="text-[11px] text-ink/60">
-              Shown as pickable chips on the product page. The customer must
-              choose one before adding to cart; their choice is saved on the order.
+          <Card title="Velikosti / Barve (izbira izdelka)">
+            <ProductOptionsField initial={product.sizes ?? []} />
+            <p className="mt-3 text-[11px] text-ink/60">
+              Prikazano kot izbirni gumbi na strani izdelka. Kupec mora izbrati
+              eno možnost pred nakupom; izbira se shrani na naročilo. Številke =
+              velikosti, imena = barve (s prikazom barvne pike).
             </p>
           </Card>
 
