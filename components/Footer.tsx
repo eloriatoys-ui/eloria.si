@@ -33,10 +33,9 @@ const linkCols = [
       { label: "footer.col.about.story", href: "/o-nas" },
       { label: "footer.col.about.sustain", href: "/#why" },
       { label: "footer.col.about.reviews", href: "/#testimonials" },
-      // Media & Wholesale → Instagram; Collaboration → contact form.
+      // Media → Instagram; Collaboration → contact form.
       { label: "footer.col.about.press", href: "https://www.instagram.com/eloria.toys/" },
       { label: "footer.col.about.aff", href: "/kontakt" },
-      { label: "footer.col.about.wholesale", href: "https://www.instagram.com/eloria.toys/" },
     ],
   },
 ];
