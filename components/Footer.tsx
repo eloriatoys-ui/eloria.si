@@ -34,9 +34,9 @@ const linkCols = [
       { label: "footer.col.about.sustain", href: "/#why" },
       { label: "footer.col.about.reviews", href: "/#testimonials" },
       // Media & Wholesale → Instagram; Collaboration → contact form.
-      { label: "footer.col.about.press", href: "https://instagram.com/amareen.slovenija/" },
+      { label: "footer.col.about.press", href: "https://www.instagram.com/eloria.toys/" },
       { label: "footer.col.about.aff", href: "/kontakt" },
-      { label: "footer.col.about.wholesale", href: "https://instagram.com/amareen.slovenija/" },
+      { label: "footer.col.about.wholesale", href: "https://www.instagram.com/eloria.toys/" },
     ],
   },
 ];
@@ -80,7 +80,7 @@ function SocialIcon({ name }: { name: "instagram" | "tiktok" | "whatsapp" | "fac
 }
 
 const socials: { name: Parameters<typeof SocialIcon>[0]["name"]; href: string; label: string }[] = [
-  { name: "instagram", href: "https://instagram.com/amareen.slovenija/", label: "Instagram" },
+  { name: "instagram", href: "https://www.instagram.com/eloria.toys/", label: "Instagram" },
   { name: "facebook", href: "https://facebook.com/AMAREEN.Slovenija/", label: "Facebook" },
   { name: "tiktok", href: "https://tiktok.com/@amareen.slovenija", label: "TikTok" },
   { name: "youtube", href: "https://youtube.com/channel/UCBsIONfy3jEdtWNwY-340oA", label: "YouTube" },

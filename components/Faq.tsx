@@ -120,7 +120,7 @@ export default function Faq() {
               <span style={{ color: "#FFFFFF" }}>{t("faq.email")}</span>
             </a>
             <a
-              href="https://instagram.com/amareen.slovenija/"
+              href="https://www.instagram.com/eloria.toys/"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-wider text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
