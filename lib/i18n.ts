@@ -241,7 +241,7 @@ export const dict: Record<Locale, Dict> = {
       "Visa, Mastercard, American Express, Apple Pay, Google Pay, and PayPal. Checkout is fully encrypted; we never store your card details on our servers.",
     "faq.q8": "Do you offer gift wrapping?",
     "faq.a8":
-      "Every order is packed in our reusable cream gift box with a hand-tied ribbon. Add a personal note at checkout — totally free.",
+      "The most beautiful gifts begin with the very first impression. That's why we offer gift packaging in carefully chosen boxes made from quality materials — adding a touch of elegance and creating a special experience the moment it's opened.",
 
     // Newsletter
     "nl.eyebrow": "Insider list",
@@ -269,17 +269,16 @@ export const dict: Record<Locale, Dict> = {
       "The toys that don't flash and beep. The dresses that survive a real childhood. The little things you actually want to keep. We couldn't find them, so we built a place for them.",
     "about.cta_shop": "Visit the shop →",
     "about.cta_hello": "Say hello",
-    "about.began.eyebrow": "How it began",
-    "about.began.title": "Built by parents, for parents.",
+    "about.began.eyebrow": "The Eloria story",
+    "about.began.title": "For small beginnings. And every big story that follows.",
     "about.began.p1":
-      "When we became parents in 2020, the children's aisle felt overwhelming and underwhelming at the same time — too many flashing toys, too few thoughtful ones.",
+      "Eloria was born from a wish to give childhood something more lasting — thoughtful pieces that grow with your little one and stay close to the family for far longer than a single season.",
     "about.began.p2":
-      "We started buying for ourselves the way we wished a shop would buy for us: one piece at a time, tested at home, quietly beautiful, made to last past one birthday.",
+      "We believe real value isn't in quantity, but in things chosen for a reason. In quality you can feel. In timeless design you don't outgrow overnight. And in the details that turn everyday moments into something special.",
     "about.began.p3_pre":
-      "Friends asked where we found things. Then friends of friends. Six years later, our little selection lives in more than ",
-    "about.began.p3_strong": "6,000 homes",
-    "about.began.p3_post":
-      " — and we still open every box ourselves before it ships.",
+      "That's why at Eloria we choose with care: for today's small joys, tomorrow's big steps, and the memories that stay. ",
+    "about.began.p3_strong": "Eloria. Made for childhood. Chosen for longer.",
+    "about.began.p3_post": "",
     "about.values.eyebrow": "What we believe",
     "about.values.title": "Four small promises behind every order.",
     "about.values.v1.title": "Hand-picked, never bulk-bought",
@@ -639,7 +638,7 @@ export const dict: Record<Locale, Dict> = {
       "Visa, Mastercard, American Express, Apple Pay, Google Pay in PayPal. Plačilo je popolnoma šifrirano; podatkov o tvoji kartici ne hranimo na naših strežnikih.",
     "faq.q8": "Ponujate darilno embalažo?",
     "faq.a8":
-      "Vsako naročilo zapakiramo v našo večnamensko kremno darilno škatlo z ročno povezanim trakom. Dodaj osebno sporočilo ob zaključku nakupa — popolnoma brezplačno.",
+      "Najlepša darila se začnejo že pri prvem vtisu. Zato vam ponujamo darilno embalažo v skrbno izbranih škatlah iz kakovostnih materialov, ki vašemu darilu dodajo pridih elegance in ustvarijo posebno doživetje že ob odpiranju.",
 
     // Newsletter
     "nl.eyebrow": "Insider klub",
@@ -667,17 +666,16 @@ export const dict: Record<Locale, Dict> = {
       "Igrače, ki ne utripajo in piskajo. Oblekce, ki preživijo pravo otroštvo. Male stvari, ki si jih dejansko želiš obdržati. Nismo jih našli, zato smo jim ustvarili dom.",
     "about.cta_shop": "Obišči trgovino →",
     "about.cta_hello": "Pozdravi nas",
-    "about.began.eyebrow": "Kako se je začelo",
-    "about.began.title": "Narejeno s strani staršev, za starše.",
+    "about.began.eyebrow": "Zgodba Elorie",
+    "about.began.title": "Za majhne začetke. In vse velike zgodbe, ki sledijo.",
     "about.began.p1":
-      "Ko smo leta 2020 postali starši, je bila otroška ponudba hkrati preobsežna in pomanjkljiva — preveč utripajočih igrač, premalo premišljenih.",
+      "Eloria se je rodila iz želje, da bi otroštvu ponudili nekaj trajnejšega – premišljene rešitve, ki vašega malčka spremljajo med odraščanjem in družini ostanejo blizu dlje kot le eno obdobje.",
     "about.began.p2":
-      "Začeli smo kupovati zase tako, kot smo si želeli, da bi nekdo kupoval za nas: kos po kos, preizkušeno doma, tiho lepo, narejeno, da preživi en rojstni dan.",
+      "Verjamemo, da prava vrednost ni v količini, temveč v stvareh, ki so izbrane z razlogom. V kakovosti, ki jo začutite. V brezčasnem oblikovanju, ki ga ne prerastete čez noč. In v podrobnostih, zaradi katerih vsakdanji trenutki postanejo nekaj posebnega.",
     "about.began.p3_pre":
-      "Prijatelji so spraševali, kje najdemo te stvari. Potem prijatelji prijateljev. Šest let kasneje naša mala izbira živi v več kot ",
-    "about.began.p3_strong": "6.000 domovih",
-    "about.began.p3_post":
-      " — in še vedno odpremo vsako škatlo sami, preden jo odpošljemo.",
+      "Zato pri Elorii izbiramo premišljeno: za današnje male radosti, jutrišnje velike korake in spomine, ki ostanejo. ",
+    "about.began.p3_strong": "Eloria. Ustvarjena za otroštvo. Izbrana za dlje.",
+    "about.began.p3_post": "",
     "about.values.eyebrow": "V kar verjamemo",
     "about.values.title": "Štiri majhne obljube za vsakim naročilom.",
     "about.values.v1.title": "Ročno izbrano, nikoli kupljeno na debelo",
