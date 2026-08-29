@@ -7,7 +7,14 @@ import { Resend } from "resend";
 // crash order creation.
 
 const SITE_URL = (process.env.ELORIA_SITE_URL ?? "https://eloria.si").replace(/\/$/, "");
-const FROM = process.env.EMAIL_FROM ?? "Eloria <eloriatoys@gmail.com>";
+// Repair a truncated "Name <email" (missing closing ">") that can slip in via an
+// env var, and default to the verified sending domain — never gmail, which
+// Resend refuses to send from.
+function normalizeFrom(raw: string): string {
+  const s = raw.trim();
+  return s.includes("<") && !s.includes(">") ? `${s}>` : s;
+}
+const FROM = normalizeFrom(process.env.EMAIL_FROM ?? "Eloria <noreply@eloria.si>");
 const ADMIN_TO = process.env.ADMIN_ORDER_EMAIL ?? "eloriatoys@gmail.com";
 // Replies go to the real shop inbox even when sending from a different verified domain.
 const REPLY_TO = process.env.EMAIL_REPLY_TO ?? "eloriatoys@gmail.com";

@@ -1,20 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendContactMessage } from "@/lib/email";
 
-// TEMPORARY diagnostic — reports masked email env state so we can confirm the
-// live deployment picked up the right Resend key / from-address. Remove after.
-export async function GET() {
-  const key = (process.env.RESEND_API_KEY ?? "").trim();
-  return NextResponse.json({
-    resend_key_set: Boolean(key),
-    resend_key_prefix: key ? key.slice(0, 8) : null,
-    resend_key_len: key.length,
-    email_from: process.env.EMAIL_FROM ?? "(unset → gmail default)",
-    admin_to: process.env.ADMIN_ORDER_EMAIL ?? "(unset → gmail default)",
-    reply_to: process.env.EMAIL_REPLY_TO ?? "(unset)",
-  });
-}
-
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as {
