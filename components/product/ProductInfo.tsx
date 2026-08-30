@@ -473,14 +473,20 @@ export default function ProductInfo({ product }: Props) {
                   </span>
                 </li>
               )}
-              <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Materiali</span>
-                <span className="font-semibold">Certifikat OEKO-TEX, netoksični zaključki</span>
-              </li>
-              <li className="grid grid-cols-[120px_1fr] gap-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Nega</span>
-                <span className="font-semibold">Strojno pranje na 30 °C, ne belite</span>
-              </li>
+              {/* OEKO-TEX + wash care are textile-specific — only for height-sized
+                  clothing, never toys/accessories (e.g. binoculars, cameras). */}
+              {heightCm && (
+                <>
+                  <li className="grid grid-cols-[120px_1fr] gap-4">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Materiali</span>
+                    <span className="font-semibold">Certifikat OEKO-TEX, netoksični zaključki</span>
+                  </li>
+                  <li className="grid grid-cols-[120px_1fr] gap-4">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-orange-dark">Nega</span>
+                    <span className="font-semibold">Strojno pranje na 30 °C, ne belite</span>
+                  </li>
+                </>
+              )}
             </ul>
           )}
           {tab === "shipping" && (

@@ -264,9 +264,9 @@ export const dict: Record<Locale, Dict> = {
     "about.eyebrow": "Our story",
     "about.title": "We never stopped believing in fairy tales.",
     "about.lead":
-      "So in 2020, we started writing our own. Two new parents, a tiny apartment, and the simple question every family eventually asks — where do you find the good stuff?",
+      "We believe childhood needs room to imagine — for small worlds, big adventures, and the stories a child makes entirely their own.",
     "about.lead2":
-      "The toys that don't flash and beep. The dresses that survive a real childhood. The little things you actually want to keep. We couldn't find them, so we built a place for them.",
+      "That's why at Eloria we choose toys that set no limits on imagination. They let the child lead the play — today a farm, tomorrow an enchanted forest, next a world that exists only in their imagination.",
     "about.cta_shop": "Visit the shop →",
     "about.cta_hello": "Say hello",
     "about.began.eyebrow": "The Eloria story",
@@ -661,9 +661,9 @@ export const dict: Record<Locale, Dict> = {
     "about.eyebrow": "Naša zgodba",
     "about.title": "Nikoli nismo nehali verjeti v pravljice.",
     "about.lead":
-      "Tako smo leta 2020 začeli pisati svojo. Dva nova starša, majhno stanovanje in preprosto vprašanje, ki si ga prej ali slej zastavi vsaka družina — kje najdeš dobre stvari?",
+      "Verjamemo, da otroštvo potrebuje prostor za domišljijo. Za majhne svetove, velike dogodivščine in zgodbe, ki jih otrok ustvari čisto po svoje.",
     "about.lead2":
-      "Igrače, ki ne utripajo in piskajo. Oblekce, ki preživijo pravo otroštvo. Male stvari, ki si jih dejansko želiš obdržati. Nismo jih našli, zato smo jim ustvarili dom.",
+      "Zato v Elorii izbiramo igrače, ki domišljiji ne postavljajo meja. Otroku pustijo, da vodi igro — danes zgradi kmetijo, jutri pravljični gozd, naslednjič pa svet, ki obstaja samo v njegovi domišljiji.",
     "about.cta_shop": "Obišči trgovino →",
     "about.cta_hello": "Pozdravi nas",
     "about.began.eyebrow": "Zgodba Elorie",

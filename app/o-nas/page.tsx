@@ -94,8 +94,8 @@ export default function AboutPage() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/about/story-hero.jpg"
-                  alt="Naša zgodba"
+                  src="/about/hero-wooden.jpg"
+                  alt="Ročno izdelane lesene igrače Eloria — družina veveric in želodova hiška"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -117,8 +117,8 @@ export default function AboutPage() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/about/story-creativity.jpg"
-                  alt="Kako se je začelo — razvijanje ustvarjalnosti skozi igro"
+                  src="/about/story-play.jpg"
+                  alt="Otrok se igra z lesenimi igračami Eloria — gozdna vasica"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
