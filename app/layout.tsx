@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import LangProvider from "@/components/LangProvider";
-import PromoPopup from "@/components/PromoPopup";
+// import PromoPopup from "@/components/PromoPopup"; // temporarily disabled
 import { CartProvider } from "@/lib/cart/cart-context";
 import JsonLd from "@/components/JsonLd";
 import { SITE, organizationSchema, websiteSchema, absoluteUrl } from "@/lib/seo";
@@ -121,7 +121,8 @@ fbq('track', 'PageView');`}
         <LangProvider>
           <CartProvider>
             {children}
-            <PromoPopup />
+            {/* Promo popup temporarily disabled — re-enable to bring back the 40% popup */}
+            {/* <PromoPopup /> */}
           </CartProvider>
         </LangProvider>
         {/* Structured data: brand/store + website (search box) for Google & AI engines */}
