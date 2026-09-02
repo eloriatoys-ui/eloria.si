@@ -188,7 +188,7 @@ export default function ProductInfo({ product }: Props) {
           </span>
           <span className="font-bold text-ink">4.9</span>
           <span>·</span>
-          <a href="#reviews" className="hover:text-orange-dark">128 mnenj</a>
+          <span>128 mnenj</span>
           <span>·</span>
           <span className="text-[12px]">Šifra #{product.id}</span>
         </div>

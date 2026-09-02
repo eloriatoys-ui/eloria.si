@@ -6,7 +6,7 @@ export const CATEGORY_SL: Record<string, string> = {
   Accessories: "Dodatki",
   Bodysuit: "Bodiji",
   Clothes: "Oblačila",
-  "Clothing sets AMAREEN": "Kompleti oblačil AMAREEN",
+  "Clothing sets": "Kompleti oblačil",
   "Decorative diaper panties": "Okrasne hlačke",
   Dresses: "Obleke",
   "Fashion accessories": "Modni dodatki",

@@ -77,7 +77,7 @@ export default function ClothesBanner() {
                     </svg>
                   </a>
                   <a
-                    href="/trgovina?category=Clothing+sets+AMAREEN"
+                    href="/trgovina?category=Clothing+sets"
                     className="inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-[13px] font-bold uppercase tracking-wider text-ink transition-colors hover:bg-pearl/40"
                     style={{ letterSpacing: "0.08em" }}
                   >

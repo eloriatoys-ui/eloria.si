@@ -55,7 +55,7 @@ const shopMega: MegaColumn[] = [
   {
     heading: "mega.shop.clothing.heading",
     items: [
-      { label: "mega.shop.clothing.sets", href: "/trgovina?category=Clothing+sets+AMAREEN", icon: "hanger" },
+      { label: "mega.shop.clothing.sets", href: "/trgovina?category=Clothing+sets", icon: "hanger" },
       { label: "mega.shop.clothing.dresses", href: "/trgovina?category=Dresses", icon: "dress" },
       { label: "mega.shop.clothing.bodysuits", href: "/trgovina?category=Bodysuit", icon: "baby" },
       { label: "mega.shop.clothing.jackets", href: "/trgovina?category=Jackets", icon: "jacket" },
@@ -83,7 +83,7 @@ const shopMega: MegaColumn[] = [
   {
     heading: "mega.shop.help.heading",
     items: [
-      { label: "mega.shop.help.track", href: "#", icon: "leaf" },
+      { label: "mega.shop.help.track", href: "/sledenje", icon: "leaf" },
       { label: "mega.shop.help.shipping", href: "/#faq", icon: "shirt" },
       { label: "mega.shop.help.faq", href: "/#faq", icon: "sun" },
       { label: "mega.shop.help.contact", href: "mailto:eloriatoys@gmail.com", icon: "moon" },
@@ -261,7 +261,7 @@ const links: NavLink[] = [
   { label: "nav.clothes", href: "/#clothes" },
   { label: "nav.blog", href: "/blog" },
   { label: "nav.about", href: "/o-nas" },
-  { label: "nav.contact", href: "/#newsletter" },
+  { label: "nav.contact", href: "/kontakt" },
 ];
 
 const promoKeys = ["promo.free_delivery", "promo.sustainable", "promo.discount"];

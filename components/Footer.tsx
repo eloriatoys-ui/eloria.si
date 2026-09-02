@@ -9,7 +9,7 @@ const linkCols = [
     title: "footer.col.shop",
     items: [
       { label: "footer.col.shop.all", href: "/trgovina" },
-      { label: "footer.col.shop.sets", href: "/trgovina?category=Clothing+sets+AMAREEN" },
+      { label: "footer.col.shop.sets", href: "/trgovina?category=Clothing+sets" },
       { label: "footer.col.shop.dresses", href: "/trgovina?category=Dresses" },
       { label: "footer.col.shop.acc", href: "/trgovina?category=Accessories" },
       { label: "footer.col.shop.new", href: "/trgovina?category=New" },
@@ -19,10 +19,10 @@ const linkCols = [
   {
     title: "footer.col.care",
     items: [
-      { label: "footer.col.care.track", href: "#" },
+      { label: "footer.col.care.track", href: "/sledenje" },
       { label: "footer.col.care.shipping", href: "/#faq" },
       { label: "footer.col.care.returns", href: "/#faq" },
-      { label: "footer.col.care.size", href: "/#faq" },
+      { label: "footer.col.care.size", href: "/velikosti" },
       { label: "footer.col.care.faq", href: "/#faq" },
       { label: "footer.col.care.contact", href: "mailto:eloriatoys@gmail.com" },
     ],
@@ -78,11 +78,10 @@ function SocialIcon({ name }: { name: "instagram" | "tiktok" | "whatsapp" | "fac
   }
 }
 
+// Only Eloria's own Instagram for now. Facebook/TikTok/YouTube were left over
+// from Amareen and have been removed — re-add here once Eloria's profiles exist.
 const socials: { name: Parameters<typeof SocialIcon>[0]["name"]; href: string; label: string }[] = [
   { name: "instagram", href: "https://www.instagram.com/eloria.toys/", label: "Instagram" },
-  { name: "facebook", href: "https://facebook.com/AMAREEN.Slovenija/", label: "Facebook" },
-  { name: "tiktok", href: "https://tiktok.com/@amareen.slovenija", label: "TikTok" },
-  { name: "youtube", href: "https://youtube.com/channel/UCBsIONfy3jEdtWNwY-340oA", label: "YouTube" },
 ];
 
 const payments = ["Visa", "Mastercard", "Amex", "Apple Pay", "Google Pay", "PayPal"];
@@ -265,22 +264,22 @@ export default function Footer() {
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
             <li>
-              <a href="#" className="hover:text-orange-dark">
+              <a href="/zasebnost" className="hover:text-orange-dark">
                 {t("footer.legal.privacy")}
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-orange-dark">
+              <a href="/pogoji" className="hover:text-orange-dark">
                 {t("footer.legal.terms")}
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-orange-dark">
+              <a href="/piskotki" className="hover:text-orange-dark">
                 {t("footer.legal.cookies")}
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-orange-dark">
+              <a href="/impresum" className="hover:text-orange-dark">
                 {t("footer.legal.imprint")}
               </a>
             </li>

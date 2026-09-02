@@ -882,7 +882,7 @@ function ShopCard({ product }: { product: Product }) {
         <div className="mt-3 flex items-center gap-2">
           <a
             href={href}
-            aria-label={`${t("br.add_to_cart")} — ${product.name}`}
+            aria-label={`${t("br.details")} — ${product.name}`}
             className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-pearl transition-colors"
             style={{
               backgroundColor: "#F4B73E",
@@ -893,11 +893,10 @@ function ShopCard({ product }: { product: Product }) {
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F4B73E")}
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="9" cy="21" r="1.4" />
-              <circle cx="18" cy="21" r="1.4" />
-              <path d="M3 3h2l2.6 12.6a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" />
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.35-4.35" />
             </svg>
-            <span style={{ color: "#FFFFFF" }}>{t("br.add_to_cart")}</span>
+            <span style={{ color: "#FFFFFF" }}>{t("br.details")}</span>
           </a>
           <WishlistButton />
         </div>

@@ -91,8 +91,14 @@ export default async function ProductPage({
         aria-label="Drobtinice"
         className="border-b border-orange-dark/10 bg-pearl"
       >
-        <div className="mx-auto max-w-7xl px-5 py-3 md:px-8">
-          <ol className="flex flex-wrap items-center gap-1.5 text-[12px] font-semibold text-slate">
+        <div className="mx-auto flex max-w-7xl items-center gap-4 px-5 py-3 md:px-8">
+          <a
+            href="/trgovina"
+            className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[12px] font-extrabold text-orange-dark hover:underline"
+          >
+            <span aria-hidden>←</span> Nazaj v trgovino
+          </a>
+          <ol className="flex min-w-0 flex-wrap items-center gap-1.5 text-[12px] font-semibold text-slate">
             <li>
               <a href="/" className="hover:text-orange-dark">Domov</a>
             </li>
@@ -103,7 +109,7 @@ export default async function ProductPage({
             <li aria-hidden className="text-slate/50">/</li>
             <li>
               <a
-                href="/trgovina"
+                href={`/trgovina?category=${encodeURIComponent(product.category)}`}
                 className="hover:text-orange-dark"
               >
                 {categoryLabel(product.category)}

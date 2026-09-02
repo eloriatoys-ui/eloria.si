@@ -16,13 +16,6 @@ const values = [
   { titleKey: "about.values.v4.title", bodyKey: "about.values.v4.body" },
 ];
 
-const stats = [
-  { value: "2020", labelKey: "about.stats.year" },
-  { value: "6,000+", labelKey: "about.stats.homes" },
-  { value: "100%", labelKey: "about.stats.tested" },
-  { value: "5★", labelKey: "about.stats.rating" },
-];
-
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-cream">
@@ -76,7 +69,7 @@ export default function AboutPage() {
                   <T id="about.cta_shop" />
                 </a>
                 <a
-                  href="mailto:eloriatoys@gmail.com"
+                  href="/kontakt"
                   className="inline-flex items-center gap-2 rounded-full border border-orange-dark/25 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-ink transition-colors hover:border-orange hover:bg-orange hover:text-pearl"
                 >
                   <T id="about.cta_hello" />
@@ -277,34 +270,6 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="bg-cream pb-16 md:pb-24">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <Reveal>
-            <div
-              className="grid grid-cols-2 gap-px overflow-hidden rounded-[28px] bg-orange-dark/15 md:grid-cols-4"
-              style={{ boxShadow: "0 24px 50px -20px rgba(194, 65, 12, 0.25)" }}
-            >
-              {stats.map((s) => (
-                <div
-                  key={s.labelKey}
-                  className="flex flex-col items-center justify-center gap-2 bg-pearl px-4 py-8 md:py-12"
-                >
-                  <span
-                    className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
-                    style={{ letterSpacing: "-0.03em" }}
-                  >
-                    {s.value}
-                  </span>
-                  <span className="text-center text-[11px] font-bold uppercase tracking-[0.18em] text-orange-dark">
-                    <T id={s.labelKey} />
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
         </div>
       </section>
 

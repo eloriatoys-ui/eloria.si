@@ -69,7 +69,7 @@ function GoogleG({ size = 18 }: { size?: number }) {
 export default function Testimonials() {
   const { t } = useLang();
   return (
-    <section className="bg-cream py-16 md:py-24">
+    <section id="testimonials" className="bg-cream py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal>
           <div className="text-center">

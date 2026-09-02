@@ -47,7 +47,7 @@ const cats: Category[] = [
   {
     titleKey: "cats.summer",
     images: summerImages,
-    href: "/trgovina?category=Clothing+sets+AMAREEN",
+    href: "/trgovina?category=Clothing+sets",
     bg: "linear-gradient(135deg, #38BDF8 0%, #FCD34D 60%, #F97316 100%)",
     size: "wide",
   },

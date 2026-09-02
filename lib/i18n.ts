@@ -406,6 +406,7 @@ export const dict: Record<Locale, Dict> = {
     "br.apply": "Apply filters",
     "br.no_age": "products without age info are hidden when an age is selected.",
     "br.add_to_cart": "Add to cart",
+    "br.details": "Product details",
   },
 
   sl: {
@@ -424,7 +425,7 @@ export const dict: Record<Locale, Dict> = {
 
     // Mega menu — Shop
     "mega.shop.clothing.heading": "Oblačila",
-    "mega.shop.clothing.sets": "Kompleti AMAREEN",
+    "mega.shop.clothing.sets": "Kompleti",
     "mega.shop.clothing.dresses": "Oblekce",
     "mega.shop.clothing.bodysuits": "Bodiji",
     "mega.shop.clothing.jackets": "Jakne",
@@ -804,6 +805,7 @@ export const dict: Record<Locale, Dict> = {
     "br.no_age":
       "izdelkov brez podatka o starosti je skritih, ko je izbrana starost.",
     "br.add_to_cart": "Dodaj v košarico",
+    "br.details": "Podrobnosti izdelka",
   },
 };
 
