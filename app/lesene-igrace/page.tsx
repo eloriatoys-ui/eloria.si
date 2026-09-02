@@ -104,7 +104,7 @@ export default async function WoodenToysPage() {
                 <T id="wt.cta_browse" />
               </a>
               <a
-                href="mailto:hello@eloria.si"
+                href="mailto:eloriatoys@gmail.com"
                 className="inline-flex items-center gap-2 rounded-full border border-pearl/30 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-pearl transition-colors hover:bg-pearl hover:text-ink"
               >
                 <T id="wt.cta_custom" />
