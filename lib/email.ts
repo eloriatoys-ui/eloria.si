@@ -387,3 +387,57 @@ export async function sendContactMessage(msg: {
     return false;
   }
 }
+
+/** Eloria Insider signup: branded welcome to the subscriber + admin notice. */
+export async function sendNewsletterWelcome(email: string): Promise<boolean> {
+  const resend = client();
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY not set — insider signup not delivered:", email);
+    return false;
+  }
+  const welcomeHtml = `
+  <div style="background:#f4efe7;margin:0;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(120,80,20,.08);">
+        <tr><td style="background:#c2410c;padding:26px 32px;font-size:24px;font-weight:800;letter-spacing:.14em;color:#ffffff;">ELORIA</td></tr>
+        <tr><td style="padding:32px;">
+          <h1 style="margin:0;font-size:22px;color:#2b2b2b;">Dobrodošli v Eloria Insider! 🧸</h1>
+          <p style="margin:14px 0 0;font-size:15px;line-height:1.6;color:#5a534b;">
+            Hvala, ker ste se pridružili. Odslej boste med prvimi izvedeli za nove igrače,
+            posebne ponudbe in zgodbe iz sveta Elorie.
+          </p>
+          <p style="margin:18px 0 0;font-size:15px;line-height:1.6;color:#5a534b;">
+            Medtem si oglejte našo trgovino:
+          </p>
+          <p style="margin:18px 0 0;">
+            <a href="${SITE_URL}/trgovina" style="display:inline-block;background:#c2410c;color:#ffffff;font-size:14px;font-weight:800;text-decoration:none;padding:13px 28px;border-radius:999px;">Obišči trgovino →</a>
+          </p>
+          <p style="margin:22px 0 0;font-size:12px;color:#a9a196;">Lep pozdrav, ekipa Eloria · ${SITE_URL.replace(/^https?:\/\//, "")}</p>
+        </td></tr>
+      </table>
+    </td></tr></table>
+  </div>`;
+  try {
+    const sub = await resend.emails.send({
+      from: FROM,
+      to: email,
+      replyTo: REPLY_TO,
+      subject: "Dobrodošli v Eloria Insider 🧸",
+      html: welcomeHtml,
+    });
+    // Notify the shop of the new subscriber (best-effort).
+    resend.emails
+      .send({
+        from: FROM,
+        to: ADMIN_TO,
+        replyTo: email,
+        subject: `Nova prijava na Eloria Insider: ${email}`,
+        html: `<p style="font-family:Arial">Nova prijava na e-novice (Eloria Insider):<br><strong>${escapeHtml(email)}</strong></p>`,
+      })
+      .catch((err) => console.error("[email] insider admin notice failed:", err));
+    return !(sub as { error?: unknown }).error;
+  } catch (err) {
+    console.error("[email] newsletter welcome failed:", err);
+    return false;
+  }
+}

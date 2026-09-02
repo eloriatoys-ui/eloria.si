@@ -6,8 +6,33 @@ import { useLang } from "./LangProvider";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
   const { t } = useLang();
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.includes("@")) return;
+    setError(null);
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setStatus("ok");
+      } else {
+        setStatus("error");
+        setError(data?.error ?? "Napaka. Poskusite znova.");
+      }
+    } catch {
+      setStatus("error");
+      setError("Napaka v omrežju. Poskusite znova.");
+    }
+  };
 
   return (
     <section
@@ -60,10 +85,7 @@ export default function Newsletter() {
 
         <Reveal delay={150}>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (email.includes("@")) setSubmitted(true);
-            }}
+            onSubmit={submit}
             className="mx-auto mt-8 flex max-w-xl flex-col gap-3 rounded-3xl glass p-3 sm:flex-row"
           >
             <input
@@ -71,20 +93,32 @@ export default function Newsletter() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "ok"}
               placeholder={t("nl.placeholder")}
-              className="flex-1 rounded-full bg-pearl px-5 py-3.5 text-base font-medium text-ink placeholder:text-slate/70 outline-none ring-2 ring-transparent focus:ring-amber"
+              className="flex-1 rounded-full bg-pearl px-5 py-3.5 text-base font-medium text-ink placeholder:text-slate/70 outline-none ring-2 ring-transparent focus:ring-amber disabled:opacity-70"
             />
             <button
               type="submit"
-              className="btn-magic rounded-full px-7 py-3.5 text-base font-bold"
+              disabled={status === "sending" || status === "ok"}
+              className="btn-magic rounded-full px-7 py-3.5 text-base font-bold disabled:opacity-70"
             >
-              {submitted ? t("nl.cta_done") : t("nl.cta")}
+              {status === "sending"
+                ? "Pošiljanje…"
+                : status === "ok"
+                ? t("nl.cta_done")
+                : t("nl.cta")}
             </button>
           </form>
 
-          <p className="mt-4 text-xs text-pearl/70">
-            {t("nl.privacy")}
-          </p>
+          {status === "ok" ? (
+            <p className="mt-4 text-sm font-semibold text-amber">
+              ✓ Hvala! Potrditveno e-pošto smo poslali na {email}.
+            </p>
+          ) : error ? (
+            <p className="mt-4 text-sm font-semibold text-red-200">{error}</p>
+          ) : (
+            <p className="mt-4 text-xs text-pearl/70">{t("nl.privacy")}</p>
+          )}
         </Reveal>
       </div>
     </section>
