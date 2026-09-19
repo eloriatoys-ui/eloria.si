@@ -582,10 +582,10 @@ export const dict: Record<Locale, Dict> = {
       "Vsak izdelek je izbran ročno, preizkušen in zapakiran s pozornostjo, kakršno bi posvetili lastni družini.",
     "why.safe.title": "Materiali, varni za otroke",
     "why.safe.body":
-      "Nestrupene, hipoalergene tkanine in premazi. Preizkušeno za najmanjše, najbolj radovedne ročice.",
+      "Naravni les, gladko obdelan in premazan z nestrupenimi barvami na vodni osnovi. Preizkušeno za najmanjše, najbolj radovedne ročice.",
     "why.last.title": "Narejeno za dolgoletno uporabo",
     "why.last.body":
-      "Ojačani šivi, vzdržljivi obrobki in brezčasen dizajn, ki preživi igrišče in podaljša življenje skozi generacije.",
+      "Trpežen masiven les in skrbna izdelava. Brezčasen dizajn, ki preživi igro in se prenaša iz roda v rod.",
     "why.delivery.title": "Brezplačna dostava",
     "why.delivery.body":
       "Po celi Sloveniji. Hitra in sledena dostava z embalažo, prijazno planetu.",

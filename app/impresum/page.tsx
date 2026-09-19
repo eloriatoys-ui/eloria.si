@@ -29,8 +29,8 @@ export default function ImpresumPage() {
       </LegalSection>
       <LegalSection heading="Blagovna znamka">
         <p>
-          Eloria je blagovna znamka spletne trgovine z otroškimi lesenimi igračami in
-          oblačili, ki jo upravlja podjetje JENIX GROUP, d.o.o.
+          Eloria je blagovna znamka spletne trgovine z ročno izdelanimi lesenimi
+          igračami, ki jo upravlja podjetje JENIX GROUP, d.o.o.
         </p>
       </LegalSection>
       <LegalSection heading="Odgovornost za vsebino">
