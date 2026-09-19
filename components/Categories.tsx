@@ -65,20 +65,7 @@ const cats: Category[] = [
     bg: "linear-gradient(135deg, #38BDF8 0%, #34D399 100%)",
     size: "wide",
   },
-  {
-    titleKey: "cats.boys",
-    image: "/categories/for-boys.png",
-    href: "/trgovina?category=Accessories",
-    bg: "linear-gradient(135deg, #38BDF8 0%, #6366F1 100%)",
-    size: "tall",
-  },
-  {
-    titleKey: "cats.girls",
-    image: "/categories/for-girls.png",
-    href: "/trgovina?category=Dresses",
-    bg: "linear-gradient(135deg, #F472B6 0%, #C084FC 100%)",
-    size: "tall",
-  },
+  // "Toys for boys" / "Toys for girls" cards removed as requested.
 ];
 
 function CategoryCard({ cat, span }: { cat: Category; span: string }) {
@@ -198,16 +185,6 @@ export default function Categories() {
             ))}
         </div>
 
-        {/* Bottom row — 2 large cards */}
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:gap-6 md:mt-6 md:grid-cols-2">
-          {cats
-            .filter((c) => c.size === "tall")
-            .map((c, i) => (
-              <Reveal key={c.titleKey} delay={i * 100}>
-                <CategoryCard cat={c} span="" />
-              </Reveal>
-            ))}
-        </div>
       </div>
     </section>
   );

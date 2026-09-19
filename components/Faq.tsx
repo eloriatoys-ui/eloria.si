@@ -14,7 +14,6 @@ const items: Item[] = [
   { qKey: "faq.q2", aKey: "faq.a2" },
   { qKey: "faq.q3", aKey: "faq.a3" },
   { qKey: "faq.q4", aKey: "faq.a4" },
-  { qKey: "faq.q5", aKey: "faq.a5" },
   { qKey: "faq.q6", aKey: "faq.a6" },
   { qKey: "faq.q7", aKey: "faq.a7" },
   { qKey: "faq.q8", aKey: "faq.a8" },

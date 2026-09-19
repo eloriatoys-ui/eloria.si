@@ -9,10 +9,12 @@ import Trending from "@/components/Trending";
 import Videos from "@/components/Videos";
 import Categories from "@/components/Categories";
 import ShopByAge from "@/components/ShopByAge";
-import ClothesBanner from "@/components/ClothesBanner";
-import KidsClothes from "@/components/KidsClothes";
+// Clothing sections removed — Eloria is wooden-toys-only:
+// import ClothesBanner from "@/components/ClothesBanner";
+// import KidsClothes from "@/components/KidsClothes";
 import WhyUs from "@/components/WhyUs";
-import Testimonials from "@/components/Testimonials";
+// Testimonials hidden until real client reviews are supplied:
+// import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
@@ -42,10 +44,13 @@ export default async function Home() {
       <Videos />
       <Categories />
       <ShopByAge />
-      <ClothesBanner />
-      <KidsClothes />
+      {/* Clothing sections removed — Eloria is now a wooden-toys-only brand */}
+      {/* <ClothesBanner /> */}
+      {/* <KidsClothes /> */}
       <WhyUs />
-      <Testimonials />
+      {/* Testimonials hidden until the client supplies their real review(s) —
+          the previous placeholder reviews were removed as requested */}
+      {/* <Testimonials /> */}
       <Faq />
       <Newsletter />
       <Footer />

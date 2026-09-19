@@ -70,27 +70,7 @@ const items = [
       </svg>
     ),
   },
-  {
-    titleKey: "trust.families.title",
-    subtitleKey: "trust.families.sub",
-    icon: (
-      <svg
-        className={iconClass}
-        viewBox="0 0 52 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-      >
-        <circle cx="18" cy="15" r="6" />
-        <circle cx="36" cy="17" r="5" />
-        <path d="M6 40c0-7 5-12 12-12s12 5 12 12" />
-        <path d="M28 40c0-6 4-10 8-10s10 4 10 10" />
-      </svg>
-    ),
-  },
+  // "500+ happy families" badge removed — unverified claim.
 ];
 
 export default function TrustBadges() {
@@ -104,7 +84,7 @@ export default function TrustBadges() {
       }}
     >
       <div className="mx-auto max-w-7xl px-5 py-5 md:px-8 md:py-7">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-3">
           {items.map((it, i) => (
             <Reveal key={it.titleKey} delay={i * 90}>
               <div className="group flex items-center gap-3">

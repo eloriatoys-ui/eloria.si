@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "JENIX GROUP d.o.o.",
   tagline: "Kjer domišljija raste naravno",
   description:
-    "Eloria — ročno izdelane lesene igrače in organska otroška oblačila. 100 % naravni materiali, otrokom prijazne obdelave in brezplačna dostava po vsej Sloveniji.",
+    "Eloria — ročno izdelane lesene igrače iz naravnega lesa. Varne, netoksične obdelave, brezčasno oblikovanje in brezplačna dostava po vsej Sloveniji.",
   locale: "sl_SI",
   language: "sl-SI",
   email: "eloriatoys@gmail.com",

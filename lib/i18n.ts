@@ -60,13 +60,13 @@ export const dict: Record<Locale, Dict> = {
     "hero.badge": "Where Imagination Comes Alive",
     "hero.tagline": "Where Imagination Grows Naturally",
     "hero.subtitle":
-      "Magical toys, organic kids' clothes, and timeless play — made for curious little hands.",
+      "Handcrafted wooden toys made from natural wood — for curious little hands and timeless play.",
     "hero.cta.shop": "Shop the collection",
     "hero.cta.sale": "See sale items",
 
     // Footer
     "footer.tagline":
-      "Magical toys & organic kids' clothes — built to be loved, hand-me-downed, and remembered.",
+      "Handcrafted wooden toys — built to be loved, handed down, and remembered.",
     "footer.col.shop": "Shop",
     "footer.col.shop.all": "All products",
     "footer.col.shop.sets": "Clothing sets",
@@ -93,7 +93,7 @@ export const dict: Record<Locale, Dict> = {
     "footer.col.stay.cta": "Subscribe",
     "footer.trust.secure": "Secure checkout",
     "footer.trust.delivery": "Free delivery throughout Slovenia",
-    "footer.trust.returns": "30-day returns",
+    "footer.trust.returns": "14-day returns",
     "footer.copy_rights": "All rights reserved.",
     "footer.legal.privacy": "Privacy policy",
     "footer.legal.terms": "Terms of service",
@@ -226,10 +226,10 @@ export const dict: Record<Locale, Dict> = {
       "Yes — standard delivery is free throughout Slovenia on every order. Your final total is always shown at checkout before you pay.",
     "faq.q3": "How do returns work?",
     "faq.a3":
-      "You have 30 days to return anything that isn't a perfect fit. Items must be unworn with tags attached. Start a return from your account or email eloriatoys@gmail.com — within Slovenia we provide a prepaid label.",
+      "You have 14 days from delivery to withdraw from your purchase, no reason needed. Return the item unused and undamaged, ideally in its original packaging. Start a return by emailing eloriatoys@gmail.com.",
     "faq.q4": "Are the materials safe for babies and toddlers?",
     "faq.a4":
-      "Always. Fabrics are OEKO-TEX certified, dyes are non-toxic and water-based, and every toy is tested for choking-size hazards. Suitable age is printed on each product page.",
+      "Always. Our wooden toys are made from natural wood and finished with non-toxic, water-based paints. Every toy is safety-tested, including for small-part hazards. The recommended age is shown on each product page.",
     "faq.q5": "How do I know what size to order?",
     "faq.a5":
       "Each product has a detailed size chart with chest, waist, and length in centimetres. If you're between sizes for a fast-growing kid, we recommend going up — that's how parents end up getting two seasons out of a single piece.",
@@ -457,13 +457,13 @@ export const dict: Record<Locale, Dict> = {
     "hero.badge": "Kjer domišljija oživi",
     "hero.tagline": "Kjer domišljija raste naravno",
     "hero.subtitle":
-      "Čarobne igrače, ekološka otroška oblačila in brezčasna igra — za radovedne male roke.",
+      "Ročno izdelane lesene igrače iz naravnega lesa — za radovedne male roke in brezčasno igro.",
     "hero.cta.shop": "Oglej si zbirko",
     "hero.cta.sale": "Akcije",
 
     // Footer
     "footer.tagline":
-      "Čarobne igrače in ekološka otroška oblačila — narejena z ljubeznijo, da jih nosi več generacij.",
+      "Ročno izdelane lesene igrače — narejene z ljubeznijo, da se prenašajo iz roda v rod.",
     "footer.col.shop": "Trgovina",
     "footer.col.shop.all": "Vsi izdelki",
     "footer.col.shop.sets": "Kompleti oblačil",
@@ -490,7 +490,7 @@ export const dict: Record<Locale, Dict> = {
     "footer.col.stay.cta": "Naroči se",
     "footer.trust.secure": "Varno plačilo",
     "footer.trust.delivery": "Brezplačna dostava po celi Sloveniji",
-    "footer.trust.returns": "30-dnevna vračila",
+    "footer.trust.returns": "14-dnevna vračila",
     "footer.copy_rights": "Vse pravice pridržane.",
     "footer.legal.privacy": "Politika zasebnosti",
     "footer.legal.terms": "Pogoji poslovanja",
@@ -624,10 +624,10 @@ export const dict: Record<Locale, Dict> = {
       "Da — standardna dostava je brezplačna po celi Sloveniji pri vsakem naročilu. Končni znesek je vedno prikazan ob zaključku nakupa pred plačilom.",
     "faq.q3": "Kako delujejo vračila?",
     "faq.a3":
-      "Imaš 30 dni za vračilo česar koli, kar ti ne ustreza popolnoma. Izdelki morajo biti nenošeni in z etiketami. Vračilo začni iz svojega računa ali nam piši na eloriatoys@gmail.com — v Sloveniji ti zagotovimo predplačano nalepko.",
+      "Imaš 14 dni od prejema, da odstopiš od nakupa brez razloga. Izdelek vrni nerabljen in nepoškodovan, po možnosti v originalni embalaži. Vračilo začni tako, da nam pišeš na eloriatoys@gmail.com.",
     "faq.q4": "So materiali varni za dojenčke in malčke?",
     "faq.a4":
-      "Vedno. Tkanine so OEKO-TEX certificirane, barvila so nestrupena in na vodni osnovi, vsaka igrača pa je preizkušena za nevarnosti zadušitve. Primerna starost je natisnjena na vsaki strani izdelka.",
+      "Vedno. Naše lesene igrače so izdelane iz naravnega lesa in premazane z nestrupenimi barvami na vodni osnovi. Vsaka igrača je preizkušena glede varnosti, tudi glede nevarnosti majhnih delov. Priporočena starost je navedena na vsaki strani izdelka.",
     "faq.q5": "Kako vem, katero velikost naj naročim?",
     "faq.a5":
       "Vsak izdelek ima podrobno tabelo velikosti s prsmi, pasom in dolžino v centimetrih. Če je otrok med velikostmi, priporočamo izbiro višje — tako starši pogosto dobijo dve sezoni iz enega kosa.",

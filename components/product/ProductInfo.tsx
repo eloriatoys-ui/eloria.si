@@ -177,19 +177,8 @@ export default function ProductInfo({ product }: Props) {
           {name}
         </h1>
 
-        {/* Rating */}
+        {/* Product code (fake per-product rating removed — only real reviews shown) */}
         <div className="mt-3 flex items-center gap-2 text-[13px] text-slate">
-          <span aria-label="5 od 5" className="flex items-center gap-0.5 text-[#F4B73E]">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-            ))}
-          </span>
-          <span className="font-bold text-ink">4.9</span>
-          <span>·</span>
-          <span>128 mnenj</span>
-          <span>·</span>
           <span className="text-[12px]">Šifra #{product.id}</span>
         </div>
       </div>
@@ -399,7 +388,7 @@ export default function ProductInfo({ product }: Props) {
             <path d="M3 12a9 9 0 0 1 9-9" />
             <path d="m3 12 4-4M3 12l4 4" />
           </svg>
-          <span>30 dni za vračilo</span>
+          <span>14 dni za vračilo</span>
         </li>
         <li className="flex flex-col items-start gap-1.5 rounded-xl border border-orange-dark/10 bg-pearl p-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -496,8 +485,8 @@ export default function ProductInfo({ product }: Props) {
                 3–5 dni po EU, 5–10 po svetu. Brezplačno po celi Sloveniji.
               </li>
               <li>
-                <strong className="text-ink">Vračila:</strong> 30 dni, nenošeno s pritrjenimi
-                etiketami. Priložimo predplačano nalepko.
+                <strong className="text-ink">Vračila:</strong> 14 dni za odstop od nakupa,
+                izdelek nerabljen. Piši nam na eloriatoys@gmail.com.
               </li>
               <li>
                 <strong className="text-ink">Embalaža:</strong> Darilna škatla za večkratno uporabo

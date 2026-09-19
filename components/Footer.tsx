@@ -22,7 +22,6 @@ const linkCols = [
       { label: "footer.col.care.track", href: "/sledenje" },
       { label: "footer.col.care.shipping", href: "/#faq" },
       { label: "footer.col.care.returns", href: "/#faq" },
-      { label: "footer.col.care.size", href: "/velikosti" },
       { label: "footer.col.care.faq", href: "/#faq" },
       { label: "footer.col.care.contact", href: "mailto:eloriatoys@gmail.com" },
     ],

@@ -22,19 +22,19 @@ const META_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATIO
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Eloria — lesene igrače in organska otroška oblačila",
+    default: "Eloria — ročno izdelane lesene igrače",
     template: "%s · Eloria",
   },
   description: SITE.description,
   applicationName: SITE.name,
   keywords: [
     "lesene igrače",
-    "otroška oblačila",
-    "organska oblačila za otroke",
+    "lesene igrače za otroke",
+    "ročno izdelane igrače",
     "naravne igrače",
     "montessori igrače",
     "darila za otroke",
-    "otroška obleka",
+    "igrače iz lesa",
     "Eloria",
   ],
   authors: [{ name: SITE.name }],
@@ -47,20 +47,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: SITE.name,
-    title: "Eloria — lesene igrače in organska otroška oblačila",
+    title: "Eloria — ročno izdelane lesene igrače",
     description: SITE.description,
     url: SITE.url,
     locale: "sl_SI",
     images: [
       {
         url: absoluteUrl(SITE.ogImage) ?? SITE.ogImage,
-        alt: "Eloria — lesene igrače in organska otroška oblačila",
+        alt: "Eloria — ročno izdelane lesene igrače",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eloria — lesene igrače in organska otroška oblačila",
+    title: "Eloria — ročno izdelane lesene igrače",
     description: SITE.description,
     images: [absoluteUrl(SITE.ogImage) ?? SITE.ogImage],
   },
