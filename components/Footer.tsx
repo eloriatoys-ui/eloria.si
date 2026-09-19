@@ -9,8 +9,7 @@ const linkCols = [
     title: "footer.col.shop",
     items: [
       { label: "footer.col.shop.all", href: "/trgovina" },
-      { label: "footer.col.shop.sets", href: "/trgovina?category=Clothing+sets" },
-      { label: "footer.col.shop.dresses", href: "/trgovina?category=Dresses" },
+      { label: "nav.wooden", href: "/lesene-igrace" },
       { label: "footer.col.shop.acc", href: "/trgovina?category=Accessories" },
       { label: "footer.col.shop.new", href: "/trgovina?category=New" },
       { label: "footer.col.shop.sale", href: "/trgovina?onSale=1" },

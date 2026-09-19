@@ -37,6 +37,46 @@ export default function ContactPage() {
         <div className="mt-9">
           <ContactForm />
         </div>
+
+        {/* Opening hours + socials */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-orange-dark/15 bg-pearl p-6">
+            <h2 className="text-[13px] font-extrabold uppercase tracking-[0.16em] text-orange-dark">
+              Odpiralni čas
+            </h2>
+            <ul className="mt-3 flex flex-col gap-1.5 text-[14px] text-ink/85">
+              <li className="flex justify-between gap-4">
+                <span>Ponedeljek – Sobota</span>
+                <span className="font-semibold text-ink">8.00 – 22.00</span>
+              </li>
+              <li className="flex justify-between gap-4">
+                <span>Nedelja</span>
+                <span className="font-semibold text-ink">9.00 – 17.00</span>
+              </li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-orange-dark/15 bg-pearl p-6">
+            <h2 className="text-[13px] font-extrabold uppercase tracking-[0.16em] text-orange-dark">
+              Sledite nam
+            </h2>
+            <p className="mt-3 text-[14px] text-ink/85">
+              <a
+                href="https://www.instagram.com/eloria.toys/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-orange-dark hover:underline"
+              >
+                Instagram @eloria.toys
+              </a>
+            </p>
+            <p className="mt-2 text-[14px] text-ink/85">
+              E-pošta:{" "}
+              <a href="mailto:eloriatoys@gmail.com" className="font-semibold text-orange-dark hover:underline">
+                eloriatoys@gmail.com
+              </a>
+            </p>
+          </div>
+        </div>
       </section>
       <Footer />
     </main>

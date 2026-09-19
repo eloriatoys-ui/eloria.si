@@ -53,15 +53,6 @@ type NavLink = {
 // label/heading values are i18n keys resolved via t() at render time.
 const shopMega: MegaColumn[] = [
   {
-    heading: "mega.shop.clothing.heading",
-    items: [
-      { label: "mega.shop.clothing.sets", href: "/trgovina?category=Clothing+sets", icon: "hanger" },
-      { label: "mega.shop.clothing.dresses", href: "/trgovina?category=Dresses", icon: "dress" },
-      { label: "mega.shop.clothing.bodysuits", href: "/trgovina?category=Bodysuit", icon: "baby" },
-      { label: "mega.shop.clothing.jackets", href: "/trgovina?category=Jackets", icon: "jacket" },
-    ],
-  },
-  {
     heading: "mega.shop.acc.heading",
     items: [
       { label: "mega.shop.acc.all", href: "/trgovina?category=Accessories", icon: "accessories" },
@@ -258,7 +249,6 @@ const links: NavLink[] = [
   { label: "nav.home", href: "/" },
   { label: "nav.shop", href: "/trgovina", mega: shopMega },
   { label: "nav.wooden", href: "/lesene-igrace" },
-  { label: "nav.clothes", href: "/#clothes" },
   { label: "nav.blog", href: "/blog" },
   { label: "nav.about", href: "/o-nas" },
   { label: "nav.contact", href: "/kontakt" },
