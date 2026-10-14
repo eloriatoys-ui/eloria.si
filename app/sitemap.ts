@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCatalogProducts } from "@/lib/catalog";
 import { SITE } from "@/lib/seo";
+import { TRACKING_ENABLED } from "@/lib/data";
 
 // Build the sitemap at request time so it always lists every live product.
 // The product read underneath is cached (5 min), so this stays cheap — and
@@ -17,7 +18,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/lesene-igrace`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/o-nas`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/kontakt`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${base}/sledenje`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
+    ...(TRACKING_ENABLED
+      ? [{ url: `${base}/sledenje`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.3 }]
+      : []),
   ];
 
   let products: Awaited<ReturnType<typeof getCatalogProducts>> = [];

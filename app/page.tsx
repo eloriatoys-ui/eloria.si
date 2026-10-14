@@ -6,25 +6,28 @@ import SplashScreen from "@/components/SplashScreen";
 import TrustBadges from "@/components/TrustBadges";
 import NewArrivals from "@/components/NewArrivals";
 import Trending from "@/components/Trending";
-import Videos from "@/components/Videos";
-import Categories from "@/components/Categories";
+// "Izdelki v gibanju" video section removed at the client's request:
+// import Videos from "@/components/Videos";
+// "Najdi njihovo naslednjo ljubezen" category tiles removed at the client's request:
+// import Categories from "@/components/Categories";
 import ShopByAge from "@/components/ShopByAge";
 // Clothing sections removed — Eloria is wooden-toys-only:
 // import ClothesBanner from "@/components/ClothesBanner";
 // import KidsClothes from "@/components/KidsClothes";
 import WhyUs from "@/components/WhyUs";
-// Testimonials hidden until real client reviews are supplied:
-// import Testimonials from "@/components/Testimonials";
+import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 import { getCatalogProducts, getSectionProducts } from "@/lib/catalog";
+import { getGoogleReviews, googleWriteReviewUrl } from "@/lib/google-reviews";
 
 export default async function Home() {
-  const [products, newArrivalsManual, trendingManual] = await Promise.all([
+  const [products, newArrivalsManual, trendingManual, googleReviews] = await Promise.all([
     getCatalogProducts(),
     getSectionProducts("newArrivals"),
     getSectionProducts("trending"),
+    getGoogleReviews(),
   ]);
 
   return (
@@ -41,16 +44,13 @@ export default async function Home() {
       <TrustBadges />
       <NewArrivals products={products} manual={newArrivalsManual} />
       <Trending products={products} manual={trendingManual} />
-      <Videos />
-      <Categories />
       <ShopByAge />
       {/* Clothing sections removed — Eloria is now a wooden-toys-only brand */}
       {/* <ClothesBanner /> */}
       {/* <KidsClothes /> */}
       <WhyUs />
-      {/* Testimonials hidden until the client supplies their real review(s) —
-          the previous placeholder reviews were removed as requested */}
-      {/* <Testimonials /> */}
+      {/* Real Google reviews only — see lib/google-reviews.ts */}
+      <Testimonials data={googleReviews} writeUrl={googleWriteReviewUrl()} />
       <Faq />
       <Newsletter />
       <Footer />

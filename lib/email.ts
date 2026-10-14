@@ -1,5 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
+import { TRACKING_ENABLED } from "@/lib/data";
 
 // Transactional email via Resend. Sends an admin "new order" alert and a
 // customer order confirmation. Everything is best-effort: if the API key is
@@ -244,7 +245,7 @@ function customerHtml(o: OrderEmailData): string {
           <!-- CTA -->
           <tr><td align="center" style="padding:28px 32px 8px;">
             <a href="${trackUrl}" style="display:inline-block;background:#c2410c;color:#ffffff;font-size:14px;font-weight:800;text-decoration:none;padding:14px 30px;border-radius:999px;">Spremljaj naročilo →</a>
-            <p style="margin:14px 0 0;font-size:12px;color:#9a9186;">Naročilo lahko spremljate tudi na <a href="${SITE_URL}/sledenje" style="color:#c2410c;">${SITE_URL.replace(/^https?:\/\//, "")}/sledenje</a> z vašo št. naročila in e-naslovom.</p>
+            ${TRACKING_ENABLED ? `<p style="margin:14px 0 0;font-size:12px;color:#9a9186;">Naročilo lahko spremljate tudi na <a href="${SITE_URL}/sledenje" style="color:#c2410c;">${SITE_URL.replace(/^https?:\/\//, "")}/sledenje</a> z vašo št. naročila in e-naslovom.</p>` : ""}
           </td></tr>
 
           <!-- Footer -->

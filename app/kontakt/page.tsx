@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import { SOCIALS } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Kontakt · Sodelovanje",
@@ -47,11 +48,11 @@ export default function ContactPage() {
             <ul className="mt-3 flex flex-col gap-1.5 text-[14px] text-ink/85">
               <li className="flex justify-between gap-4">
                 <span>Ponedeljek – Sobota</span>
-                <span className="font-semibold text-ink">8.00 – 22.00</span>
+                <span className="font-semibold text-ink">8.00 – 20.00</span>
               </li>
               <li className="flex justify-between gap-4">
                 <span>Nedelja</span>
-                <span className="font-semibold text-ink">9.00 – 17.00</span>
+                <span className="font-semibold text-ink">11.00 – 16.00</span>
               </li>
             </ul>
           </div>
@@ -59,16 +60,18 @@ export default function ContactPage() {
             <h2 className="text-[13px] font-extrabold uppercase tracking-[0.16em] text-orange-dark">
               Sledite nam
             </h2>
-            <p className="mt-3 text-[14px] text-ink/85">
-              <a
-                href="https://www.instagram.com/eloria.toys/"
-                target="_blank"
-                rel="noreferrer"
-                className="font-semibold text-orange-dark hover:underline"
-              >
-                Instagram @eloria.toys
-              </a>
-            </p>
+            {SOCIALS.map((s) => (
+              <p key={s.name} className="mt-3 text-[14px] text-ink/85">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-orange-dark hover:underline"
+                >
+                  {s.label} {s.handle}
+                </a>
+              </p>
+            ))}
             <p className="mt-2 text-[14px] text-ink/85">
               E-pošta:{" "}
               <a href="mailto:eloriatoys@gmail.com" className="font-semibold text-orange-dark hover:underline">

@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 import T from "@/components/T";
+import SocialFeeds from "@/components/SocialFeeds";
 
 export const metadata = {
   title: "Naša zgodba · Eloria",
@@ -159,25 +160,14 @@ export default function AboutPage() {
             >
               Naše igrače v igri
             </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink/75 sm:text-lg">
+              Sledite nam za nove kose, utrinke iz delavnice in ideje za igro.
+            </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            {["DZLC4kvKjLk", "DZFuISRqKaQ"].map((id, i) => (
-              <Reveal key={id} delay={i * 120}>
-                <div className="mx-auto w-full max-w-[420px] overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-orange-dark/10">
-                  <iframe
-                    src={`https://www.instagram.com/p/${id}/embed`}
-                    title={`Instagram ${id}`}
-                    className="h-[600px] w-full"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    scrolling="no"
-                    allowFullScreen
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          {/* Whole-profile feeds (not single posts, which broke whenever a
+              post was deleted). Profiles come from lib/data.ts. */}
+          <SocialFeeds />
         </div>
       </section>
 
@@ -320,16 +310,13 @@ export default function AboutPage() {
                 <div className="relative hidden md:block">
                   <div
                     className="relative aspect-square overflow-hidden rounded-[28px]"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FED7AA 100%)",
-                    }}
+                    style={{ background: "#FBF4EA" }}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="/age/3.png"
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover"
+                      src="/about/cta-girl-wooden.webp"
+                      alt="Deklica se igra z lesenimi kockami"
+                      className="absolute inset-0 h-full w-full object-contain"
                     />
                   </div>
                 </div>

@@ -1,3 +1,5 @@
+import { SOCIALS } from "./data";
+
 // Central SEO config + structured-data (JSON-LD) builders.
 // Used by the sitemap, robots, root metadata, and product pages so search
 // engines and AI answer engines understand the store, its products, and its
@@ -19,11 +21,8 @@ export const SITE = {
   // Default share image (branded). Swap for a dedicated 1200×630 file later.
   ogImage: "/brand/eloria.webp",
   logo: "/brand/eloria.webp",
-  // Social profiles help "same entity" recognition — set the real URLs via env.
-  sameAs: [
-    process.env.NEXT_PUBLIC_FACEBOOK_URL,
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL,
-  ].filter(Boolean) as string[],
+  // Social profiles help "same entity" recognition — kept in lib/data.ts.
+  sameAs: SOCIALS.map((s) => s.href),
 } as const;
 
 /** Turn a /public path or already-absolute URL into an absolute URL. */

@@ -3,6 +3,22 @@ export const STORE_NAME = "Eloria";
 export const TAGLINE = "Where Imagination Grows Naturally";
 export const WHATSAPP_NUMBER = "971500000000"; // UAE placeholder
 
+// Order tracking (/sledenje) is hidden from the navigation, footer and emails
+// until the delivery provider's API is connected. Flip to true to bring every
+// link back; the page itself stays reachable so old email links keep working.
+export const TRACKING_ENABLED = false;
+
+// Eloria's social profiles. Leave href empty until the profile exists — empty
+// entries are skipped everywhere (footer, contact page, about page).
+export type SocialName = "instagram" | "facebook" | "tiktok";
+export const SOCIALS: { name: SocialName; label: string; handle: string; href: string }[] = (
+  [
+    { name: "instagram", label: "Instagram", handle: "@eloriatoys", href: "https://www.instagram.com/eloriatoys/" },
+    { name: "facebook", label: "Facebook", handle: "Eloria Slovenija", href: "https://www.facebook.com/profile.php?id=61594210150864" },
+    { name: "tiktok", label: "TikTok", handle: "@eloriatoys", href: "https://www.tiktok.com/@eloriatoys" },
+  ] as const
+).filter((s) => s.href);
+
 // Catalog is baked from WooCommerce via `npm run migrate`.
 // Re-run that script to refresh products.json + categories.json.
 import productsJson from "./products.json";

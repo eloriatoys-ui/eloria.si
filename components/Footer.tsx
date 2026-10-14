@@ -1,6 +1,6 @@
 "use client";
 
-import { STORE_NAME } from "@/lib/data";
+import { SOCIALS, STORE_NAME, TRACKING_ENABLED } from "@/lib/data";
 import { useLang } from "./LangProvider";
 
 // title/label values are i18n keys resolved via t() at render time.
@@ -10,7 +10,6 @@ const linkCols = [
     items: [
       { label: "footer.col.shop.all", href: "/trgovina" },
       { label: "nav.wooden", href: "/lesene-igrace" },
-      { label: "footer.col.shop.acc", href: "/trgovina?category=Accessories" },
       { label: "footer.col.shop.new", href: "/trgovina?category=New" },
       { label: "footer.col.shop.sale", href: "/trgovina?onSale=1" },
     ],
@@ -18,7 +17,7 @@ const linkCols = [
   {
     title: "footer.col.care",
     items: [
-      { label: "footer.col.care.track", href: "/sledenje" },
+      ...(TRACKING_ENABLED ? [{ label: "footer.col.care.track", href: "/sledenje" }] : []),
       { label: "footer.col.care.shipping", href: "/#faq" },
       { label: "footer.col.care.returns", href: "/#faq" },
       { label: "footer.col.care.faq", href: "/#faq" },
@@ -32,13 +31,13 @@ const linkCols = [
       { label: "footer.col.about.sustain", href: "/#why" },
       { label: "footer.col.about.reviews", href: "/#testimonials" },
       // Media → Instagram; Collaboration → contact form.
-      { label: "footer.col.about.press", href: "https://www.instagram.com/eloria.toys/" },
+      { label: "footer.col.about.press", href: "https://www.instagram.com/eloriatoys/" },
       { label: "footer.col.about.aff", href: "/kontakt" },
     ],
   },
 ];
 
-function SocialIcon({ name }: { name: "instagram" | "tiktok" | "whatsapp" | "facebook" | "youtube" }) {
+export function SocialIcon({ name }: { name: "instagram" | "tiktok" | "whatsapp" | "facebook" | "youtube" }) {
   const stroke = "currentColor";
   switch (name) {
     case "instagram":
@@ -76,11 +75,8 @@ function SocialIcon({ name }: { name: "instagram" | "tiktok" | "whatsapp" | "fac
   }
 }
 
-// Only Eloria's own Instagram for now. Facebook/TikTok/YouTube were left over
-// from Amareen and have been removed — re-add here once Eloria's profiles exist.
-const socials: { name: Parameters<typeof SocialIcon>[0]["name"]; href: string; label: string }[] = [
-  { name: "instagram", href: "https://www.instagram.com/eloria.toys/", label: "Instagram" },
-];
+// Profiles live in lib/data.ts (SOCIALS) — add Facebook/TikTok URLs there.
+const socials = SOCIALS;
 
 const payments = ["Visa", "Mastercard", "Amex", "Apple Pay", "Google Pay", "PayPal"];
 
@@ -141,6 +137,8 @@ export default function Footer() {
                 <a
                   key={s.name}
                   href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label={s.label}
                   className="grid h-10 w-10 place-items-center rounded-full text-ink ring-1 ring-orange-dark/20 transition-colors hover:bg-orange hover:text-pearl hover:ring-orange"
                 >
@@ -161,6 +159,7 @@ export default function Footer() {
                   <li key={it.label}>
                     <a
                       href={it.href}
+                      {...(it.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
                       className="text-[13px] font-medium text-ink/80 transition-colors hover:text-orange-dark"
                     >
                       {t(it.label)}

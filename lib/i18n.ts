@@ -194,21 +194,12 @@ export const dict: Record<Locale, Dict> = {
 
     // Testimonials
     "rev.eyebrow": "What families say",
-    "rev.title": "Real reviews, real families",
-    "rev.aggregate": "240+ reviews",
+    "rev.title": "Reviews of our customers",
     "rev.viewall": "Read all reviews on Google",
-    "rev.r1.quote":
-      "My daughter loves the Garden Queen set! The fabric is so soft and the stitching feels really sturdy. We've washed it a dozen times and it still looks brand new.",
-    "rev.r1.meta": "Ljubljana · 5 reviews",
-    "rev.r1.date": "2 weeks ago",
-    "rev.r2.quote":
-      "Finally a kids brand that cares about what materials they use. My son plays with the multifunctional car every day — quality, packaging, everything is on point.",
-    "rev.r2.meta": "Local Guide · Maribor · 23 reviews",
-    "rev.r2.date": "1 month ago",
-    "rev.r3.quote":
-      "The Pop-It game console was a birthday hit! All the kids at the party wanted one. Beautifully boxed and arrived in 2 days. Will definitely order again.",
-    "rev.r3.meta": "Kranj · 12 reviews",
-    "rev.r3.date": "3 weeks ago",
+    "rev.write": "Write a review on Google",
+    "rev.write_contact": "Share your experience",
+    "rev.empty":
+      "Have our toys found a home with you? Share your experience — your review helps other families choose.",
 
     // FAQ
     "faq.eyebrow": "Got questions?",
@@ -281,22 +272,22 @@ export const dict: Record<Locale, Dict> = {
     "about.began.p3_post": "",
     "about.values.eyebrow": "What we believe",
     "about.values.title": "Four small promises behind every order.",
-    "about.values.v1.title": "Hand-picked, never bulk-bought",
+    "about.values.v1.title": "Handmade, unique by nature",
     "about.values.v1.body":
-      "Every product on our site is chosen one by one. If we wouldn't give it to our own children, it doesn't make the cut.",
+      "Every piece is made with a feel for natural material, considered form and small details. These give our wooden toys a unique character that mass production cannot replace.",
     "about.values.v2.title": "Tested before it ships",
     "about.values.v2.body":
-      "Toys, dresses, shoes — we open the box, check the stitching, press every button. You get what we already approved at home.",
+      "Every one of our wooden toys is carefully inspected before it ships. That way the product that reaches your hands reflects our commitment to quality and high standards of craftsmanship.",
     "about.values.v3.title": "Less screen, more imagination",
     "about.values.v3.body":
-      "We pick toys that pull kids back into the real world: drawing tablets, building sets, role-play — not noisy, flashing distractions.",
-    "about.values.v4.title": "One outfit, no scrolling",
+      "We believe in a childhood full of exploration, creativity and genuine moments. Our wooden toys spark curiosity and invite free play, where a child's imagination knows no limits.",
+    "about.values.v4.title": "Made to last generations",
     "about.values.v4.body":
-      "Our clothing sets are pre-coordinated head-to-toe. One click, one parcel, the look is done — across every season.",
+      "More than just toys. Timeless pieces of natural wood, created with durability and lasting beauty in mind — so that today's moments of play one day become treasured memories for future generations.",
     "about.ages.eyebrow": "Right toy, right age",
     "about.ages.title": "We grow up with your little one.",
     "about.ages.subtitle":
-      "From the first soft rattle to the first real backpack, every age has its own little world at Eloria.",
+      "From first touches and curious glances to independent exploration and creative play. Eloria's wooden toys accompany a child's first steps into the world of imagination, encourage the development of skills and enrich the precious moments of growing up.",
     "about.stats.year": "the year we began",
     "about.stats.homes": "happy homes",
     "about.stats.tested": "personally tested",
@@ -592,21 +583,12 @@ export const dict: Record<Locale, Dict> = {
 
     // Testimonials
     "rev.eyebrow": "Kaj pravijo družine",
-    "rev.title": "Resnične ocene, resnične družine",
-    "rev.aggregate": "240+ ocen",
+    "rev.title": "Mnenja naših kupcev",
     "rev.viewall": "Preberi vse ocene na Googlu",
-    "rev.r1.quote":
-      "Moja hči obožuje komplet Garden Queen! Tkanina je zelo mehka, šivi pa zelo trpežni. Oprali smo ga že desetkrat in še vedno izgleda kot nov.",
-    "rev.r1.meta": "Ljubljana · 5 ocen",
-    "rev.r1.date": "pred 2 tednoma",
-    "rev.r2.quote":
-      "Končno otroška znamka, ki jo zanima, kakšne materiale uporablja. Moj sin se vsak dan igra z multifunkcijskim avtom — kakovost in embalaža sta odlični.",
-    "rev.r2.meta": "Lokalni vodnik · Maribor · 23 ocen",
-    "rev.r2.date": "pred mesecem",
-    "rev.r3.quote":
-      "Pop-It igralna konzola je bila uspešnica na rojstnem dnevu! Vsi otroci na zabavi so jo želeli imeti. Lepo zapakirano in dostavljeno v 2 dneh. Zagotovo bom naročila znova.",
-    "rev.r3.meta": "Kranj · 12 ocen",
-    "rev.r3.date": "pred 3 tedni",
+    "rev.write": "Napiši oceno na Googlu",
+    "rev.write_contact": "Deli svojo izkušnjo",
+    "rev.empty":
+      "So naše igrače že našle dom pri vas? Delite svojo izkušnjo — vaše mnenje pomaga drugim družinam pri izbiri.",
 
     // FAQ
     "faq.eyebrow": "Imaš vprašanja?",
@@ -679,22 +661,22 @@ export const dict: Record<Locale, Dict> = {
     "about.began.p3_post": "",
     "about.values.eyebrow": "V kar verjamemo",
     "about.values.title": "Štiri majhne obljube za vsakim naročilom.",
-    "about.values.v1.title": "Ročno izbrano, nikoli kupljeno na debelo",
+    "about.values.v1.title": "Ročno izdelano, edinstveno po naravi",
     "about.values.v1.body":
-      "Vsak izdelek na naši strani je izbran posamično. Če ga ne bi dali svojim otrokom, ne pride v ponudbo.",
+      "Vsak kos nastaja z občutkom za naravni material, premišljeno obliko in drobne podrobnosti. Prav te dajejo našim lesenim igračam edinstven značaj, ki ga množična proizvodnja ne more nadomestiti.",
     "about.values.v2.title": "Preizkušeno pred odpremo",
     "about.values.v2.body":
-      "Igrače, oblekce, čevlji — odpremo škatlo, preverimo šive, pritisnemo vsak gumb. Dobiš tisto, kar smo že odobrili doma.",
+      "Vsaka naša lesena igrača je pred odpremo skrbno pregledana. Tako poskrbimo, da v vaše roke prispe izdelek, ki odraža našo predanost kakovosti in visokim standardom izdelave.",
     "about.values.v3.title": "Manj zaslona, več domišljije",
     "about.values.v3.body":
-      "Izbiramo igrače, ki vrnejo otroke v resnični svet: risarske tablice, gradbene komplete, igro vlog — ne hrupne in utripajoče motnje.",
-    "about.values.v4.title": "En kos, brez iskanja",
+      "Verjamemo v otroštvo, polno raziskovanja, ustvarjalnosti in pristnih trenutkov. Naše lesene igrače spodbujajo radovednost in vabijo k svobodni igri, kjer otroška domišljija ne pozna meja.",
+    "about.values.v4.title": "Ustvarjeno, da traja generacije",
     "about.values.v4.body":
-      "Naši kompleti oblačil so usklajeni od glave do peta. En klik, en paket, videz je popoln — v vsaki sezoni.",
+      "Več kot le igrače. Brezčasni izdelki iz naravnega lesa, ustvarjeni z mislijo na trajnost in lepoto, ki ne zbledi. Da bi današnji trenutki igre nekoč postali dragoceni spomini prihodnjih generacij.",
     "about.ages.eyebrow": "Prava igrača za pravo starost",
     "about.ages.title": "Z vašim malim odraščamo skupaj.",
     "about.ages.subtitle":
-      "Od prve mehke ropotuljice do prvega pravega nahrbtnika — vsaka starost ima svoj mali svet pri Elorii.",
+      "Od prvih dotikov in radovednih pogledov do samostojnega raziskovanja in ustvarjalne igre. Elorijine lesene igrače spremljajo otrokove prve korake v svet domišljije, spodbujajo razvoj spretnosti in bogatijo dragocene trenutke odraščanja.",
     "about.stats.year": "leto, ko smo začeli",
     "about.stats.homes": "srečnih domov",
     "about.stats.tested": "osebno preizkušeno",
