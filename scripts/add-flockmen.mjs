@@ -83,7 +83,9 @@ ${why}`,
     name_en: "Colored Flockmen – 27 Wooden Figures",
     name_sl: "Barvni Flockmen – 27 lesenih figuric",
     price: 61.9,
-    images: gallery("flockmen-colored", 5),
+    images: gallery("flockmen-colored", 5).map((u) =>
+      u.endsWith("-4.webp") ? "/catalog/eloria/flockmen-colored-box.webp" : u,
+    ),
     published: true,
     description_sl: `<p><strong>Mavrica, ki jo zgradiš sam.</strong> 27 figuric Flockmen v toplih, naravnih barvah odpre še več možnosti: razvrščanje po barvah, vzorci, barvni stolpi in igra vlog.</p>
 ${common}
