@@ -22,7 +22,7 @@ export const dict: Record<Locale, Dict> = {
     "nav.blog": "Blog",
     "nav.contact": "Contact",
     "nav.search": "Search",
-    "nav.search.placeholder": "Search for toys, clothes, accessories…",
+    "nav.search.placeholder": "Search wooden toys…",
     "nav.cart": "Cart",
     "nav.wishlist": "Wishlist",
 
@@ -410,7 +410,7 @@ export const dict: Record<Locale, Dict> = {
     "nav.blog": "Blog",
     "nav.contact": "Kontakt",
     "nav.search": "Iskanje",
-    "nav.search.placeholder": "Išči igrače, oblačila, dodatke…",
+    "nav.search.placeholder": "Išči lesene igrače…",
     "nav.cart": "Košarica",
     "nav.wishlist": "Priljubljeni",
 

@@ -7,7 +7,7 @@ import SocialFeeds from "@/components/SocialFeeds";
 export const metadata = {
   title: "Naša zgodba · Eloria",
   description:
-    "Nikoli nismo nehali verjeti v pravljice. Eloria se je rodila leta 2020 iz dveh novopečenih staršev, ki nista mogla najti igrač in oblačil, vrednih hrambe.",
+    "Nikoli nismo nehali verjeti v pravljice. Eloria se je rodila leta 2020 iz dveh novopečenih staršev, ki nista mogla najti igrač, vrednih hrambe.",
 };
 
 const values = [

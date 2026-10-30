@@ -255,7 +255,7 @@ function customerHtml(o: OrderEmailData): string {
               <a href="mailto:${REPLY_TO}" style="color:#c2410c;font-weight:700;">${REPLY_TO}</a>.
             </p>
             <p style="margin:14px 0 0;font-size:12px;color:#a9a196;">Lep pozdrav, <strong style="color:#6b645b;">ekipa Eloria</strong><br>
-              <a href="${SITE_URL}" style="color:#a9a196;">${SITE_URL.replace(/^https?:\/\//, "")}</a> · Otroška oblačila in igrače
+              <a href="${SITE_URL}" style="color:#a9a196;">${SITE_URL.replace(/^https?:\/\//, "")}</a> · Ročno izdelane lesene igrače
             </p>
           </td></tr>
 

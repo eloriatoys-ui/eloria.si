@@ -141,7 +141,7 @@ export function buildShipmentDraft(order: OrderRow, phone?: string | null): Ship
     reference: order.order_number,
     sender: senderFromEnv(),
     recipient,
-    parcel: { count: 1, content: "Igrače / otroška oblačila" },
+    parcel: { count: 1, content: "Lesene igrače" },
     cod,
     missing,
   };

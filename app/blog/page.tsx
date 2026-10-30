@@ -6,7 +6,7 @@ import { getAllPosts, formatSlDate } from "@/lib/blog";
 export const metadata = {
   title: "Blog · Eloria",
   description:
-    "Nasveti, navdih in zgodbe o naravni igri, lesenih igračah in organskih otroških oblačilih — z ljubeznijo zbrani pri Eloriji.",
+    "Nasveti, navdih in zgodbe o naravni igri in lesenih igračah — z ljubeznijo zbrani pri Eloriji.",
   alternates: { canonical: "/blog" },
 };
 
