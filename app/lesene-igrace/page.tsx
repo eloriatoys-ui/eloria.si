@@ -22,6 +22,12 @@ function formatPrice(n: number) {
   return `${n.toFixed(n % 1 === 0 ? 0 : 2)} €`;
 }
 
+// "1 izdelek", "2 izdelka", "3 izdelki", "5 izdelkov"
+function productWord(n: number) {
+  const m = n % 100;
+  return m === 1 ? "izdelek" : m === 2 ? "izdelka" : m === 3 || m === 4 ? "izdelki" : "izdelkov";
+}
+
 function ageLabel(min: number | null, max: number | null): string | null {
   if (min == null && max == null) return null;
   const fmt = (m: number) =>
@@ -160,22 +166,15 @@ export default async function WoodenToysPage() {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-dark">
-                  <span className="h-1 w-6 rounded-full bg-orange" />
-                  <T id="wt.coll.eyebrow" />
-                </p>
                 <h2
-                  className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
+                  className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl"
                   style={{ letterSpacing: "-0.025em" }}
                 >
                   <T id="wt.coll.title" />
                 </h2>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70 sm:text-base">
-                  <T id="wt.coll.subtitle" />
-                </p>
               </div>
               <p className="text-[12px] font-bold text-ink/60">
-                {products.length} {products.length === 1 ? "izdelek" : "izdelkov"}
+                {products.length} {productWord(products.length)}
               </p>
             </div>
           </Reveal>

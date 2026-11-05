@@ -315,10 +315,7 @@ export const dict: Record<Locale, Dict> = {
     "wt.benefits.b3.title": "Made to outlast",
     "wt.benefits.b3.body":
       "Built to be passed from sibling to sibling — and one day, to the next generation.",
-    "wt.coll.eyebrow": "Coming soon · preview",
     "wt.coll.title": "The collection",
-    "wt.coll.subtitle":
-      "These are the pieces we're hand-finishing right now. Real photos and stock are landing soon — leave us your email and we'll let you know the moment a piece goes live.",
     "wt.coming": "Coming soon",
     "wt.notify": "Notify me",
     "wt.notify_first": "Be the first",
@@ -704,10 +701,7 @@ export const dict: Record<Locale, Dict> = {
     "wt.benefits.b3.title": "Narejeno za dolgo",
     "wt.benefits.b3.body":
       "Narejeno, da se prenaša od sorojenca do sorojenca — in nekoč na naslednjo generacijo.",
-    "wt.coll.eyebrow": "Kmalu na voljo · predogled",
     "wt.coll.title": "Zbirka",
-    "wt.coll.subtitle":
-      "To so kosi, ki jih ravnokar ročno dodelamo. Prave fotografije in zaloge bodo na voljo kmalu — pusti nam svoj e-naslov in obvestili te bomo, ko bo posamezen kos na voljo.",
     "wt.coming": "Kmalu",
     "wt.notify": "Obvesti me",
     "wt.notify_first": "Bodi prvi",
